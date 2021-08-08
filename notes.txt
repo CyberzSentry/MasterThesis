@@ -11,3 +11,16 @@ Opis:
 Host based anomaly detection with use of machine learning is a previously researched topic.
 This approach will be based on the data obtained from the Event Trace for Windows framework.
 Additionally research will go into testing how the algorithms behave when trained on data from multiple hosts.
+
+Hastie T., Tibshirani R., Friedman J. - The elements of statistical learning, Springer, 2009
+
+Mark Russinovich, David A. Solomon, Alex Ionescu - Windows Internals, Microsoft Press, 2009
+
+#TODO 
+Dodać wpa w experymentach i analizie danych
+Dodać dll analysis
+
+
+#Terminy:
+18.08 (obrona 1-8.09)
+10.09 (obrona 24-30.09)
