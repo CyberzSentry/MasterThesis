@@ -19,7 +19,7 @@ Mark Russinovich, David A. Solomon, Alex Ionescu - Windows Internals, Microsoft 
 #TODO 
 Dodać wpa w experymentach i analizie danych
 Dodać dll analysis
-
+ROC curves
 
 #Terminy:
 18.08 (obrona 1-8.09)

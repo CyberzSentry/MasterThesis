@@ -306,13 +306,15 @@ malitious values. Those approaches can be very effective but failures are inevit
 To mitigate this problem multiple studies has been done that attempt to utilise the methods of
 anomaly detection known from the data science fields in order to identify the misbehaviours of 
 the monitored IT systems which could allow for an early detection of novel 0-day based intrusions.
-The past investigations of the problem has focused on analysis of the infromation contained in 
-the system commands %cite
+The past investigations of the problem has focused on analysis of the infromation obtained from 
+multiple sources like system commands sequences \cite{bib:lane1997application} or system calls 
+\cite{bib:rsvm}. There are however still manny mechanisms present in modern operating systems 
+that gather sygnificant quantities of information about inner workings of the processes executed
+on them. 
 
-% jak przebiega atak
-% różne techniki obrony
-% ich słabe strony
-% posukać co było w pozostałych pracach anomaly detection i przenieść do wprowadzenia.
+The objective of this thesis is to utilise the Event Trace for Windows (ETW) mechanism and it's 
+capability to access low level debugging data on the Microsoft operating systems to attempt
+security anomaly detection. 
 
 % \begin{itemize}
 % \item introduction into the problem domain
@@ -323,13 +325,35 @@ the system commands %cite
 % \item clear description of contribution of the thesis's author
 % \end{itemize}
 
-
+%TODO scope
 
 %TODO description of the chapters
 
-%TODO author contribution
+Author of the thesis has simulated a 0-day exploitation attack on a web browser and gathered 
+the data generated in the process via the Event Trace for Windows mechanism. The acquired 
+information was processed to extract features that could be utilised in an anomaly detection
+methods. This procedure included developing some novel data encoding approaches. Gathered data
+was tested in known classification algorithms and the results of the experiments were analysed.
+Based on the performed actions a conclusion was formed about the usefulness of the ETW data
+in potential anomaly detection based security system. Additionally further research directions
+has been established.
 
 \chapter{[Problem analysis]}
+
+There are multiple problems that need to be solved to form conclusions to the stated questions.
+There are no commonly avaible security focused datasets sourced from the Event Trace for 
+Windows mechanism. The data used in the thests has to be generated and gathered as part of the
+performed work. The information processed by the ETW is very broad and can be additionally extended.
+A analysis has to be done in order to identify the features that can prove useful in the security
+anomaly detection scenarios. 
+
+Gathered data might require preprocessing that will adjust it's form to the formats accepted in the
+current classification methods and algorithms. Some types of information present in the computer 
+generated data set might require utilisation of novel processing and encoding frameworks or 
+development of new approaches to them.  
+
+
+%TODO znane metody wykrywania anomaliów
 
 % \begin{itemize}
 % \item problem analysis, problem statement
@@ -338,8 +362,6 @@ the system commands %cite
 % \item location of the thesis in scientific domain
 % \item The title of this chapter is similar to the title of the thesis.
 % \end{itemize}
-
-% opisać brak zbiorów danych
 
 
 
@@ -483,8 +505,8 @@ usually to one of multiple root programs in the operating system.
 
 Additionally a process of OneHot encoding was performed on the loaded DLL's. The data from 
 the "processSummary" and "processModules" files was correlated by the order in which it was 
-stored. Two of the stored processes never in testing had any corresponding modules - 
-"Registry" and "MemCompression". %TODO dodać brakujący
+stored. Three of the stored processes never in testing had any corresponding modules - 
+"Registry", "MemCompression" and the process marked with -1 ProcessId.
 
 The final product of the data processing is a dataset containing information about all the 
 executed processes. Each row represents an individual process and following information is 
@@ -506,11 +528,26 @@ provided in the columns:
 \chapter{Experiments}
 
 % This chapter presents the experiments. It is a crucial part of the thesis and has to dominate in the thesis. 
-% The experiments and their analysis should be done in the way commonly accepted in the scientific community (eg. benchmark datasets, cross validation of elaborated results, reproducibility and replicability of tests etc).
+% The experiments and their analysis should be done in the way commonly accepted in the scientific community (eg. 
+% benchmark datasets, cross validation of elaborated results, reproducibility and replicability of tests etc).
 
 
 \section{Methodology}
 
+Experiments performed to achieve the goals of the thesis were executed with the use of 
+the Python 3.8.3rc1 programing language. It was executed via the Jupyter framework which is
+a is "an open-source web application that allows you to create and share documents that 
+contain live code, equations, visualizations and narrative text. Uses include: data cleaning 
+and transformation, numerical simulation, statistical modeling, data visualization, machine 
+learning, and much more" \cite{bib:jupyter}. Each experiment was performed in a separate
+Jupyter notebook and obtained results were analysed in the same framework. 
+
+Gathered data was also analysed in the Windows Performance Analyzer (WPA) which "is a tool that 
+creates graphs and data tables of Event Tracing for Windows (ETW) events that are recorded 
+by Windows Performance Recorder (WPR) or Xperf. WPA can open any event trace log (ETL) file 
+for analysis" \cite{bib:wpa}. This software was used to perform initial analysis of the 0-day 
+exploitation of the chromium based browsers and to formulate areas of focus in the gathered data. 
+The tool can be easily installed on Microsoft Windows operating systems from the Microsoft Store.
 
 
 % \begin{itemize}
@@ -648,6 +685,7 @@ Patterns like this might be possible to learn and detect.
 \begin{itemize}
 \item[IT] information technology
 \item[WPA] Windows Performance Analyzer 
+\item[ETW] Event Trace for Windows 
 % \item[DNA] deoxyribonucleic acid
 % \item[MVC] model--view--controller 
 % \item[$N$] cardinality of data set
