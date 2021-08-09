@@ -329,6 +329,8 @@ security anomaly detection.
 
 %TODO description of the chapters
 
+\section{Authors contribution}
+
 Author of the thesis has simulated a 0-day exploitation attack on a web browser and gathered 
 the data generated in the process via the Event Trace for Windows mechanism. The acquired 
 information was processed to extract features that could be utilised in an anomaly detection
@@ -338,7 +340,21 @@ Based on the performed actions a conclusion was formed about the usefulness of t
 in potential anomaly detection based security system. Additionally further research directions
 has been established.
 
+\section{Chapters description}
+
+This section contains following chapters.
+\begin{itemize}
+	\item Introduction -
+	\item Problem analysis -
+	\item Security anomaly detection based on Windows Event Trace -
+	\item Data gathering -
+	\item Experiments -
+	\item Summary -
+\end{itemize}
+
 \chapter{[Problem analysis]}
+
+% TODO chapter description
 
 There are multiple problems that need to be solved to form conclusions to the stated questions.
 There are no commonly avaible security focused datasets sourced from the Event Trace for 
@@ -355,6 +371,18 @@ development of new approaches to them.
 
 %TODO znane metody wykrywania anomaliów
 
+The previous attempts of implementing a security anomaly detection frameworks depicted in the 
+literature take manny different approaches. Some of those include analysis of specific sequences
+present in terminal commands \cite{bib:lane1997application} or system calls \cite{bib:forest}. 
+Other classify aviable data with well known algorithms like Support Vector Machines (SVM) and K-means 
+\cite{bib:rsvm}. %TODO opisać działanie i dalsze przykłady
+Based on the studied literature one of the well-suited result presentation methods is the Receiver 
+Operating Characteristic (ROC) curve which is a plot of the detection accuracy against the false 
+positive ratio. The proboability of false anomaly detection is crucial because it may cause overlaod
+on of the response teams and mechanisms which in turn may result in delayed response or omission
+of actual exploitation. 
+
+
 % \begin{itemize}
 % \item problem analysis, problem statement
 % \item state of the art, literature research (all sources in the thesis have to be referenced \cite{bib:article,bib:book,bib:conference})
@@ -367,9 +395,14 @@ development of new approaches to them.
 
 
 
-\chapter{[Subject of the thesis]}
+\chapter{Security anomaly detection based on Windows Event Trace}
 
+To achieve the goal of the thesis a dataset based of the Windows Event Trace has to 
+be created. 
 
+In the thesis the main anomaly detection algorithm utilised is the One Class Support 
+Vector Machine which is a variation on support vector machine. It attempts to minimise 
+the radius of the multidimensional hypersphere with the use of Kernel Method \cite{bib:ocsvm}. 
 
 % \begin{itemize}
 % \item solution to the problem proposed by the author of the thesis
@@ -467,7 +500,9 @@ about the processes which include following columns:
 	\item Parent\_ID - Parent Process Id - The Process Id of the process that spawned the 
 	correlating one.
 	\item Bitness - Whether the process executable is created in 32 or 64 bit architecture.
-	\item AveProcsUsed - 
+	\item CPUMsec - Ammount of milliseconds in which the process has ocupied the processor. 
+	\item AveProcsUsed - Average processor utilisation calculated by dividing the amount
+	of time when process has ocupied the processor by the total process lifespan. 
 	\item DurationMSec - The duration of the process life stored in milliseconds.
 	\item StartMSec - The start time of the process stored in milliseconds.
 	\item ExitCode - Integer value returned after the process execution. Commonly known as 
@@ -476,8 +511,8 @@ about the processes which include following columns:
 \end{itemize}
 
 Second output file commonly contains the string "processesModule" in its name. Its contents
- are the modules (DLL's) loaded by a specific process and information about them. Example 
- output file contains following data columns:
+are the modules (DLL's) loaded by a specific process and information about them. Example 
+output file contains following data columns:
 \begin{itemize}
 	\item ProcessName - Name of the process which loaded the corresponding DLL
 	\item ProcessID - Id of the process which loaded the corresponding DLL
@@ -527,6 +562,10 @@ provided in the columns:
 
 \chapter{Experiments}
 
+
+This chapter describes the experiments performed to achieve the purpose of the thesis
+and the underlying methodology. This includes the utilised tools, information about used datasets,
+description of the taken actions and presentation as well as analysis of the obtained results.
 % This chapter presents the experiments. It is a crucial part of the thesis and has to dominate in the thesis. 
 % The experiments and their analysis should be done in the way commonly accepted in the scientific community (eg. 
 % benchmark datasets, cross validation of elaborated results, reproducibility and replicability of tests etc).
@@ -552,7 +591,8 @@ The tool can be easily installed on Microsoft Windows operating systems from the
 
 % \begin{itemize}
 % \item description of methodology of experiments
-% \item description of experimental framework (description of user interface of research applications – move to an appendix)
+% \item description of experimental framework (description of user interface of research applications 
+% – move to an appendix)
 % \end{itemize}
 
 \section{Data sets}
@@ -653,12 +693,12 @@ Patterns like this might be possible to learn and detect.
 
 
 \chapter{Summary}
-\begin{itemize}
-\item synthetic description of performed work
-\item conclusions
-\item  future development, potential future research
-\item Has the objective been reached?
-\end{itemize}
+% \begin{itemize}
+% \item synthetic description of performed work
+% \item conclusions
+% \item  future development, potential future research
+% \item Has the objective been reached?
+% \end{itemize}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -686,6 +726,8 @@ Patterns like this might be possible to learn and detect.
 \item[IT] information technology
 \item[WPA] Windows Performance Analyzer 
 \item[ETW] Event Trace for Windows 
+\item[ROC] Receiver Operating Characteristic
+\item[SVM] Support Vector Machine 
 % \item[DNA] deoxyribonucleic acid
 % \item[MVC] model--view--controller 
 % \item[$N$] cardinality of data set
