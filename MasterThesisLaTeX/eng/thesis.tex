@@ -344,12 +344,22 @@ has been established.
 
 This section contains following chapters.
 \begin{itemize}
-	\item Introduction -
-	\item Problem analysis -
-	\item Security anomaly detection based on Windows Event Trace -
-	\item Data gathering -
-	\item Experiments -
-	\item Summary -
+	\item Introduction - Describes the domain of the researched problem and the basis for the 
+	topic of the thesis. Highlights the the contributions of the author. Provides overview of the 
+	chapters present in this document.
+	\item Problem analysis - Theoretical indepth study of the work required to achive the thesis
+	goal. Investigation of known literature related to the researched topic. Description of the 
+	previous known solutions of the problem. 
+	\item Security anomaly detection based on Windows Event Trace - Full description of the proposed
+	solutions and their theoretical analysis. Rationalization of the employed algorithms, methods 
+	and tools.
+	\item Data gathering - Thorough explanation of the performed data gathering process and of 
+	the obtained results.
+ 	\item Experiments - Full description of all experiments performed in the process of thesis 
+ 	research. Analysis of the outcomes.
+	\item Summary - Synopsis of the performed work. Summary of all the resulting conclusions and 
+	possible future research directions. Analysis of the thesis goal in light of the obtained
+	results. 
 \end{itemize}
 
 \chapter{[Problem analysis]}
@@ -398,11 +408,30 @@ of actual exploitation.
 \chapter{Security anomaly detection based on Windows Event Trace}
 
 To achieve the goal of the thesis a dataset based of the Windows Event Trace has to 
-be created. 
+be created. The ETW framework can be accessed and utilised via API aviable in multiple
+programing languages like C/C++\cite{bib:etwcpp} or C\#\cite{bib:etwcsharp}. The 
+data gathering process should however be performed with known and tested solutions to
+minimise the chance of data corruption. The default file format used by ETW for storing 
+information is a Event Trace Log (ETL). This archive type is not very well documented in 
+the resources aviable on the internet. A additional tool might be required in order to 
+transform gathered information to commonly known data storing formats.
+
 
 In the thesis the main anomaly detection algorithm utilised is the One Class Support 
 Vector Machine which is a variation on support vector machine. It attempts to minimise 
 the radius of the multidimensional hypersphere with the use of Kernel Method \cite{bib:ocsvm}. 
+This algorithm is the main annomaly detection utilised in the thesis due to it's ease of
+usage. It is also known to be efective in high dimentional spaces and when 
+the number of features is greater then the number of samples \cite{bib:svms}. The training process 
+does not require significant computational and memory resources when compared to the latest
+approaches based on neural networks.
+
+The 
+% Analysis of the data in ETW 
+% DLL's
+% Paths
+% 
+
 
 % \begin{itemize}
 % \item solution to the problem proposed by the author of the thesis
@@ -728,6 +757,7 @@ Patterns like this might be possible to learn and detect.
 \item[ETW] Event Trace for Windows 
 \item[ROC] Receiver Operating Characteristic
 \item[SVM] Support Vector Machine 
+\item[ETL] Event Trace Log 
 % \item[DNA] deoxyribonucleic acid
 % \item[MVC] model--view--controller 
 % \item[$N$] cardinality of data set
