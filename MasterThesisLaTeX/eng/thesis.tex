@@ -362,12 +362,15 @@ This section contains following chapters.
 	results. 
 \end{itemize}
 
-\chapter{[Problem analysis]}
+\chapter{Problem analysis}
 
-% TODO chapter description
+This chapter is a indepth overview of the problem related infrormation aviable in the public 
+litelature and resources. Additionally it contains analysis of complications possibly encountered
+durring the realisation the required work.  
 
+\section(Known problems)
 There are multiple problems that need to be solved to form conclusions to the stated questions.
-There are no commonly avaible security focused datasets sourced from the Event Trace for 
+There are no commonly available security focused datasets sourced from the Event Trace for 
 Windows mechanism. The data used in the thests has to be generated and gathered as part of the
 performed work. The information processed by the ETW is very broad and can be additionally extended.
 A analysis has to be done in order to identify the features that can prove useful in the security
@@ -384,7 +387,7 @@ development of new approaches to them.
 The previous attempts of implementing a security anomaly detection frameworks depicted in the 
 literature take manny different approaches. Some of those include analysis of specific sequences
 present in terminal commands \cite{bib:lane1997application} or system calls \cite{bib:forest}. 
-Other classify aviable data with well known algorithms like Support Vector Machines (SVM) and K-means 
+Other classify available data with well known algorithms like Support Vector Machines (SVM) and K-means 
 \cite{bib:rsvm}. %TODO opisać działanie i dalsze przykłady
 Based on the studied literature one of the well-suited result presentation methods is the Receiver 
 Operating Characteristic (ROC) curve which is a plot of the detection accuracy against the false 
@@ -401,22 +404,83 @@ of actual exploitation.
 % \item The title of this chapter is similar to the title of the thesis.
 % \end{itemize}
 
-
-
-
-
 \chapter{Security anomaly detection based on Windows Event Trace}
 
+This chapter contains indepth description of the solutions proposed for the thesis problems. 
+
+\section{Data gathering}
 To achieve the goal of the thesis a dataset based of the Windows Event Trace has to 
-be created. The ETW framework can be accessed and utilised via API aviable in multiple
+be created. The ETW framework can be accessed and utilised via API available in multiple
 programing languages like C/C++\cite{bib:etwcpp} or C\#\cite{bib:etwcsharp}. The 
 data gathering process should however be performed with known and tested solutions to
 minimise the chance of data corruption. The default file format used by ETW for storing 
 information is a Event Trace Log (ETL). This archive type is not very well documented in 
-the resources aviable on the internet. A additional tool might be required in order to 
+the resources available on the internet. A additional tool might be required in order to 
 transform gathered information to commonly known data storing formats.
 
+Event Trace for Windows handles very granular process and operating system events.
+Because of that when configured to gather all possible types of information ETW can generate
+large quantities of information. Additionally known tools gather data in rotating memory buffer 
+before saving it to hard drive. Those two factors combined with limited memory resources 
+available while performing the data gathering process limit the types of information analysed 
+in the thesis. 
 
+\section{Analysed data}
+Available information has been narrowed down to following features analysed to achieve the thesis
+goal.
+
+\subsection{Dynamic link libraries}
+
+When attempting to detect misbehaviour of a specific program or its subprocesses a possibility to 
+classify binaries by their general purposes could prove very useful. Most methodologies used to 
+compare executable files focus on their binary structures and attempt to find similarities to 
+existing malware samples \cite{bib:malwclass}. This approach, while very useful in detection of 
+iterations of malicious software, is useless when it comes to creating multidimensional spaces 
+based on their functionality. In this thesis an attempt is made to utilise a novel approach of 
+analysing the processes by their imported Dynamically Linked Libraries. A DLL is a library that 
+contains code and data that can be used by more than one program at the same time. For example, 
+in Windows operating systems, the Comdlg32 DLL performs common dialog box related functions. Each 
+program can use the functionality that is contained in this DLL to implement an Open dialog box. 
+It helps promote code reuse and efficient memory usage \cite{bib:dll}. Those code bundles provide 
+specific sets of functionality and are commonly used in all programming languages. Possibly 
+overlapping sets of loaded modules from two given processes can indicate their similar purpose. 
+
+\subsection{Subprocess paths}
+
+Initial empirical analysis of the impact of the exploit on the behavior of the targeted browser was 
+performed with the use of Windows Performance Analyzer (WPA).  Most browsers give a 
+possibility of spawning a new process for example by opening of a downloaded file in 
+adequate software. This makes it harder to detect when it is exploited. However upon 
+closer look on the way that action is performed we can see that proper child process is 
+spawned from the main browser process.
+
+\begin{figure}
+	\centering
+	\includegraphics{images/wpa_normal}
+	\caption{Example process tree of Microsoft Edge}
+	\label{fig:WPAnormal}
+ \end{figure}
+
+The exploit however generates a new child from the one corresponding to the browser tab 
+in which the exploit was executed. 
+
+\begin{figure}
+	\centering
+	\includegraphics{images/wpa_exploit}
+	\caption{Process tree of exploited Microsoft Edge}
+	\label{fig:WPAexploit}
+ \end{figure}
+
+Patterns like this might be possible to learn and detect. The obtained data can be transformed
+to create a new feature called "Process Path". It is a string based variable containing names 
+of the consecutive child processeses starting from the root of the system process tree leading to the 
+process for which the feature is constructed. All names are divided by any arbitrary separator. 
+
+% \subsection{Process lifespan}
+% \subsection{Average processor utilisation}
+% \subsection{Exit code}
+
+\section{Anomaly detection algorithms}
 In the thesis the main anomaly detection algorithm utilised is the One Class Support 
 Vector Machine which is a variation on support vector machine. It attempts to minimise 
 the radius of the multidimensional hypersphere with the use of Kernel Method \cite{bib:ocsvm}. 
@@ -424,13 +488,11 @@ This algorithm is the main annomaly detection utilised in the thesis due to it's
 usage. It is also known to be efective in high dimentional spaces and when 
 the number of features is greater then the number of samples \cite{bib:svms}. The training process 
 does not require significant computational and memory resources when compared to the latest
-approaches based on neural networks.
-
-The 
-% Analysis of the data in ETW 
-% DLL's
-% Paths
-% 
+approaches based on artificial neural networks like autoencoders \cite{bib:autoencoder}. There are
+some approaches to training the can be less demanding in example the distributed architecture
+\cite{bib:autoencoderDist}. Their complexity might however shift the focus from the core idea 
+of the thesis which is to prove that Windows Event Trace can be utilised to detect security
+anomalies.
 
 
 % \begin{itemize}
@@ -442,7 +504,7 @@ The
 \chapter{Data gathering}
 
 This chapter describes the process of gathering data utilised in the experiments and 
-analysed in this thesis. This procedure is necessary due to the lack of commonly aviable 
+analysed in this thesis. This procedure is necessary due to the lack of commonly available 
 datasets that would fit the neads of work performed. 
 
 \section{Exploit emulation}
@@ -630,40 +692,19 @@ The tool can be easily installed on Microsoft Windows operating systems from the
 % \item description of data sets
 % \end{itemize}
 
-\section{Initial data analysis}
-
-The analysis of the impact of the exploit on the behavior of the targeted browser was 
-performed with the use of Windows Performance Analyzer (WPA).  Most browsers give a 
-possibility of spawning a new process for example by opening of a downloaded file in 
-adequate software. This makes it harder to detect when it is exploited. However upon 
-closer look on the way that action is performed we can see that proper child process is 
-spawned from the main browser process.
-
-\begin{figure}
-	\centering
-	\includegraphics{images/wpa_normal}
-	\caption{Example process tree of Microsoft Edge}
-	\label{fig:WPAnormal}
- \end{figure}
-
-The exploit however generates a new child from the one corresponding to the browser tab 
-in which the exploit was executed. 
-
-\begin{figure}
-	\centering
-	\includegraphics{images/wpa_exploit}
-	\caption{Process tree of exploited Microsoft Edge}
-	\label{fig:WPAexploit}
- \end{figure}
-
-Patterns like this might be possible to learn and detect.
-
-
 \section{Results}
 
-% \begin{itemize}
-% \item presentation of results, analysis and wide discussion of elaborated results, conclusions
-% \end{itemize}
+\subsection{Dynamic link libraries}
+%TODO przerobić na narrację eksperymentu
+There are over 1500 different DLL's gathered in the data set created. A single process loads 
+even upto 300 modules. This extremely high dimensionality of the information might be too complex 
+to analyse efficiently. To better understand the gathered information a multiple component 
+analysis (MCA) was performed. This extension of correspondence analysis allows us to analyze the 
+pattern of relationships of multiple categorical dependent variables \cite{bib:mca}. This was performed 
+with a python mca 1.0.3 library \cite{bib:pymca}. The result of this process is a set of points in a 
+low-dimensional map corresponding either to columns or rows of the input data frame. Their 
+distance in the obtained space can be used to classify how strongly they are correlated with 
+each other. 
 
 
 \begin{figure}
@@ -729,6 +770,12 @@ Patterns like this might be possible to learn and detect.
 % \item Has the objective been reached?
 % \end{itemize}
 
+% Emulacja danych jest subpar sposobem ich zbiórki
+% Chrome jako process jest bardzo elastyczny ponieważ może uruchamiać szeroką gamme podprocessów. Techniki mogą być skuteczniejsze na programach z mniejszą interakcją użytkownika, które również często są ofiarami exploitów 0-day.
+% W moim mniemaniu najskuteczniejszym zastosowaniem techniki obecnie może być jej użycie do bronienia głównie usług wychodzących na świat.
+% Użycie wersji i czasu buildu do wykrywania DLL hijackingu. 
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \backmatter
@@ -758,6 +805,7 @@ Patterns like this might be possible to learn and detect.
 \item[ROC] Receiver Operating Characteristic
 \item[SVM] Support Vector Machine 
 \item[ETL] Event Trace Log 
+\item[DLL] Dynamic link library 
 % \item[DNA] deoxyribonucleic acid
 % \item[MVC] model--view--controller 
 % \item[$N$] cardinality of data set

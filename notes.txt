@@ -20,6 +20,8 @@ Mark Russinovich, David A. Solomon, Alex Ionescu - Windows Internals, Microsoft 
 Dodać wpa w experymentach i analizie danych
 Dodać dll analysis
 ROC curves
+W podsumowaniu możliwość użycia autoencoderów
+Poszukać monitorowania podprocessów
 
 #Terminy:
 18.08 (obrona 1-8.09)
