@@ -319,34 +319,21 @@ exploitation leading dirrectly to arbitrary code execution. While taken under co
 light of gathered information, other attack types like for example DLL hijacking are not in 
 scope of this work.
 
-
-% \begin{itemize}
-% \item introduction into the problem domain
-% \item settling of the problem in the domain
-% \item objective of the thesis
-% \item scope of the thesis
-% \item short description of chapters
-% \item clear description of contribution of the thesis's author
-% \end{itemize}
-
-%TODO scope
-
-%TODO description of the chapters
-
 \section{Authors contribution}
 
 Author of the thesis has simulated a 0-day exploitation attack on a web browser and gathered 
-the data generated in the process via the Event Trace for Windows mechanism. The acquired 
-information was processed to extract features that could be utilised in an anomaly detection
+the data generated in the process via the Event Trace for Windows mechanism. This process 
+required establishing of the information gathering framework. The acquired 
+information was processed to identify and extract features that could be utilised in an anomaly detection
 methods. This procedure included developing some novel data encoding approaches. Gathered data
-was tested in known classification algorithms and the results of the experiments were analysed.
+was tested with known classification algorithms and the results of the experiments were analysed.
 Based on the performed actions a conclusion was formed about the usefulness of the ETW data
 in potential anomaly detection based security system. Additionally further research directions
 has been established.
 
 \section{Chapters description}
 
-This section contains following chapters.
+This thesis is constructed with following chapters.
 \begin{itemize}
 	\item Introduction - Describes the domain of the researched problem and the basis for the 
 	topic of the thesis. Highlights the the contributions of the author. Provides overview of the 
@@ -368,7 +355,7 @@ This section contains following chapters.
 
 \chapter{Problem analysis}
 
-This chapter is a indepth overview of the problem related infrormation aviable in the public 
+This chapter is a indepth overview of the problem related infrormation available in the public 
 litelature and resources. Additionally it contains analysis of complications possibly encountered
 durring the realisation the required work.  
 
@@ -388,16 +375,32 @@ development of new approaches to them.
 
 %TODO znane metody wykrywania anomaliów
 
+\section{Literature research}
+
 The previous attempts of implementing a security anomaly detection frameworks depicted in the 
 literature take manny different approaches. Some of those include analysis of specific sequences
 present in terminal commands \cite{bib:lane1997application} or system calls \cite{bib:forest}. 
-Other classify available data with well known algorithms like Support Vector Machines (SVM) and K-means 
-\cite{bib:rsvm}. %TODO opisać działanie i dalsze przykłady
-Based on the studied literature one of the well-suited result presentation methods is the Receiver 
-Operating Characteristic (ROC) curve which is a plot of the detection accuracy against the false 
-positive ratio. The proboability of false anomaly detection is crucial because it may cause overlaod
-on of the response teams and mechanisms which in turn may result in delayed response or omission
-of actual exploitation. 
+
+Some researchers attempt to implement novel custom classification methods. An example of such 
+approach is depicted in "An Application of Machine Learning to Anomaly Detection" by Terran Lane 
+and Carla E. Brodley\cite{bib:lane1997application}. The authors gather historical sequences of
+terminal commands and their corresponding utilised command flags. The obtained vectors are utilised
+to calculate similarity measures with the incoming data. Those values are utilised to identify 
+whether the user interacting with the system was previously profiled by the algorithm.
+Other approaches classify available data with well known algorithms like various Support Vector 
+Machines (SVM) and K-means like Wenjie Hue, Yihua Liao and V Rao Vemuri in "Robust Support Vector 
+Machines for Anomaly Detection in Computer Security" \cite{bib:rsvm}. Their work compares the 
+performance of Robust Support Vector Machines (RSVM), Support Vector Machines and K-means classifiers
+on the data from 1998 DARPA Intrusion Detection System Evaluation program. Obtained results
+prove the superiority of RSVM's in the tested use cases. Some researchers try to perform security
+data classification with novel anomaly detection methods like autoencoders. This approach was
+attempted for example in "Anomaly Detection on the Edge" by Joseph Schneible and Alex Lu
+\cite{bib:autoencoderDist}. This method learns to compress and decompress the available feature 
+vectors with the use of artificial neural vectors. Anomally is detected when the distance 
+between the input and output of the neural net is higher than the specified threshold.
+
+%TODO opisać działanie i dalsze przykłady
+
 
 
 % \begin{itemize}
@@ -428,6 +431,12 @@ large quantities of information. Additionally known tools gather data in rotatin
 before saving it to hard drive. Those two factors combined with limited memory resources 
 available while performing the data gathering process limit the types of information analysed 
 in the thesis. 
+
+Based on the studied literature one of the well-suited result presentation methods is the Receiver 
+Operating Characteristic (ROC) curve which is a plot of the detection accuracy against the false 
+positive ratio. The proboability of false anomaly detection is crucial because it may cause overlaod
+on of the response teams and mechanisms which in turn may result in delayed response or omission
+of actual exploitation. 
 
 \section{Analysed data}
 Available information has been narrowed down to following features analysed to achieve the thesis
@@ -496,9 +505,10 @@ approaches based on artificial neural networks like autoencoders \cite{bib:autoe
 some approaches to training the can be less demanding in example the distributed architecture
 \cite{bib:autoencoderDist}. Their complexity might however shift the focus from the core idea 
 of the thesis which is to prove that Windows Event Trace can be utilised to detect security
-anomalies.
+anomalies. 
 
-
+The detection process is performed on a per process basis and focuses mainly on the web browser
+Microsoft Edge.  
 % \begin{itemize}
 % \item solution to the problem proposed by the author of the thesis
 % \item theoretical analysis of proposed solutions
@@ -542,6 +552,11 @@ language, and a configuration management framework is usually one of the first s
 the process of gaining persistent access to a given machine. Some actors implement advanced 
 code and logic into the exploit. This is however very uncommon due to the high complexity 
 of such a task.
+
+All the information was gathered in a context of a single user due to restricted available
+resources and to simplify the task of anomaly detection. Fullfilling the goal of the thesis
+even in those conditions can be a viable proof of concept which would warrant further 
+research in wider domain.  
 
 \section{Logging}
 
@@ -617,7 +632,8 @@ output file contains following data columns:
 	\item FilePath - The location of the DLL file on the host system
 \end{itemize}
 
-Data gathering was performed on a simulated host usage. The tasks performed in the process 
+Data gathering was performed on a simulated host usage to acquire inlier data samples required 
+for the algorithm training process. The tasks performed in the process 
 included consumption of online media (eg. youtube.com, netflix.com), office work on cloud 
 based services (eg. Google Docks, Gmail ), social media browsing (eg. facebook.com, 
 twitter.com), downloading files and other web browsing. Downloaded files were opened 
@@ -698,6 +714,8 @@ The tool can be easily installed on Microsoft Windows operating systems from the
 
 \section{Results}
 
+
+
 \subsection{Dynamic link libraries}
 %TODO przerobić na narrację eksperymentu
 There are over 1500 different DLL's gathered in the data set created. A single process loads 
@@ -711,58 +729,58 @@ distance in the obtained space can be used to classify how strongly they are cor
 each other. 
 
 
-\begin{figure}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    y tick label style={
-        /pgf/number format/.cd,
-            fixed,  
-            fixed zerofill, 
-            precision=1,
-        /tikz/.cd
-    },
-    x tick label style={
-        /pgf/number format/.cd,
-            fixed,
-            fixed zerofill,
-            precision=2,
-        /tikz/.cd
-    }
-]
-\addplot [domain=0.0:0.1] {rnd};
-\end{axis} 
-\end{tikzpicture}
-\caption{A caption of a figure is \textbf{below} it.}
-\label{fig:2}
-\end{figure}
+% \begin{figure}
+% \centering
+% \begin{tikzpicture}
+% \begin{axis}[
+%     y tick label style={
+%         /pgf/number format/.cd,
+%             fixed,  
+%             fixed zerofill, 
+%             precision=1,
+%         /tikz/.cd
+%     },
+%     x tick label style={
+%         /pgf/number format/.cd,
+%             fixed,
+%             fixed zerofill,
+%             precision=2,
+%         /tikz/.cd
+%     }
+% ]
+% \addplot [domain=0.0:0.1] {rnd};
+% \end{axis} 
+% \end{tikzpicture}
+% \caption{A caption of a figure is \textbf{below} it.}
+% \label{fig:2}
+% \end{figure}
 
-\begin{table}
-\centering
-\caption{A caption of a table is \textbf{above} it.}
-\label{id:tab:wyniki}
-\begin{tabular}{rrrrrrrr}
-\toprule
-	         &                                     \multicolumn{7}{c}{method}                                      \\
-	         \cmidrule{2-8}
-	         &         &         &        \multicolumn{3}{c}{alg. 3}        & \multicolumn{2}{c}{alg. 4, $\gamma = 2$} \\
-	         \cmidrule(r){4-6}\cmidrule(r){7-8}
-	$\zeta$ &     alg. 1 &   alg. 2 & $\alpha= 1.5$ & $\alpha= 2$ & $\alpha= 3$ &   $\beta = 0.1$  &   $\beta = -0.1$ \\
-\midrule
-	       0 &  8.3250 & 1.45305 &       7.5791 &    14.8517 &    20.0028 & 1.16396 &                       1.1365 \\
-	       5 &  0.6111 & 2.27126 &       6.9952 &    13.8560 &    18.6064 & 1.18659 &                       1.1630 \\
-	      10 & 11.6126 & 2.69218 &       6.2520 &    12.5202 &    16.8278 & 1.23180 &                       1.2045 \\
-	      15 &  0.5665 & 2.95046 &       5.7753 &    11.4588 &    15.4837 & 1.25131 &                       1.2614 \\
-	      20 & 15.8728 & 3.07225 &       5.3071 &    10.3935 &    13.8738 & 1.25307 &                       1.2217 \\
-	      25 &  0.9791 & 3.19034 &       5.4575 &     9.9533 &    13.0721 & 1.27104 &                       1.2640 \\
-	      30 &  2.0228 & 3.27474 &       5.7461 &     9.7164 &    12.2637 & 1.33404 &                       1.3209 \\
-	      35 & 13.4210 & 3.36086 &       6.6735 &    10.0442 &    12.0270 & 1.35385 &                       1.3059 \\
-	      40 & 13.2226 & 3.36420 &       7.7248 &    10.4495 &    12.0379 & 1.34919 &                       1.2768 \\
-	      45 & 12.8445 & 3.47436 &       8.5539 &    10.8552 &    12.2773 & 1.42303 &                       1.4362 \\
-	      50 & 12.9245 & 3.58228 &       9.2702 &    11.2183 &    12.3990 & 1.40922 &                       1.3724 \\
-\bottomrule
-\end{tabular}
-\end{table}  
+% \begin{table}
+% \centering
+% \caption{A caption of a table is \textbf{above} it.}
+% \label{id:tab:wyniki}
+% \begin{tabular}{rrrrrrrr}
+% \toprule
+% 	         &                                     \multicolumn{7}{c}{method}                                      \\
+% 	         \cmidrule{2-8}
+% 	         &         &         &        \multicolumn{3}{c}{alg. 3}        & \multicolumn{2}{c}{alg. 4, $\gamma = 2$} \\
+% 	         \cmidrule(r){4-6}\cmidrule(r){7-8}
+% 	$\zeta$ &     alg. 1 &   alg. 2 & $\alpha= 1.5$ & $\alpha= 2$ & $\alpha= 3$ &   $\beta = 0.1$  &   $\beta = -0.1$ \\
+% \midrule
+% 	       0 &  8.3250 & 1.45305 &       7.5791 &    14.8517 &    20.0028 & 1.16396 &                       1.1365 \\
+% 	       5 &  0.6111 & 2.27126 &       6.9952 &    13.8560 &    18.6064 & 1.18659 &                       1.1630 \\
+% 	      10 & 11.6126 & 2.69218 &       6.2520 &    12.5202 &    16.8278 & 1.23180 &                       1.2045 \\
+% 	      15 &  0.5665 & 2.95046 &       5.7753 &    11.4588 &    15.4837 & 1.25131 &                       1.2614 \\
+% 	      20 & 15.8728 & 3.07225 &       5.3071 &    10.3935 &    13.8738 & 1.25307 &                       1.2217 \\
+% 	      25 &  0.9791 & 3.19034 &       5.4575 &     9.9533 &    13.0721 & 1.27104 &                       1.2640 \\
+% 	      30 &  2.0228 & 3.27474 &       5.7461 &     9.7164 &    12.2637 & 1.33404 &                       1.3209 \\
+% 	      35 & 13.4210 & 3.36086 &       6.6735 &    10.0442 &    12.0270 & 1.35385 &                       1.3059 \\
+% 	      40 & 13.2226 & 3.36420 &       7.7248 &    10.4495 &    12.0379 & 1.34919 &                       1.2768 \\
+% 	      45 & 12.8445 & 3.47436 &       8.5539 &    10.8552 &    12.2773 & 1.42303 &                       1.4362 \\
+% 	      50 & 12.9245 & 3.58228 &       9.2702 &    11.2183 &    12.3990 & 1.40922 &                       1.3724 \\
+% \bottomrule
+% \end{tabular}
+% \end{table}  
 
 
 
@@ -778,6 +796,7 @@ each other.
 % Chrome jako process jest bardzo elastyczny ponieważ może uruchamiać szeroką gamme podprocessów. Techniki mogą być skuteczniejsze na programach z mniejszą interakcją użytkownika, które również często są ofiarami exploitów 0-day.
 % W moim mniemaniu najskuteczniejszym zastosowaniem techniki obecnie może być jej użycie do bronienia głównie usług wychodzących na świat.
 % Użycie wersji i czasu buildu do wykrywania DLL hijackingu. 
+% Porównanie działania na danych od wielu userów.
 
 
 
@@ -809,7 +828,8 @@ each other.
 \item[ROC] Receiver Operating Characteristic
 \item[SVM] Support Vector Machine 
 \item[ETL] Event Trace Log 
-\item[DLL] Dynamic link library 
+\item[DLL] Dynamic link library
+\item[RSVM] Robust Support Vector Machines 
 % \item[DNA] deoxyribonucleic acid
 % \item[MVC] model--view--controller 
 % \item[$N$] cardinality of data set
