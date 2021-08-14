@@ -22,6 +22,7 @@ Dodać dll analysis
 ROC curves
 W podsumowaniu możliwość użycia autoencoderów
 Poszukać monitorowania podprocessów
+Dodać dataset do publicznego reposytorium
 
 #Terminy:
 18.08 (obrona 1-8.09)

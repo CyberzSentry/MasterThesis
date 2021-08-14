@@ -489,6 +489,10 @@ to create a new feature called "Process Path". It is a string based variable con
 of the consecutive child processeses starting from the root of the system process tree leading to the 
 process for which the feature is constructed. All names are divided by any arbitrary separator. 
 
+Encoding of such variables like directory paths is not a well researched topic and there is no 
+common consensus on how they should be approached. There are however some novel approaches to 
+handling dirty categorical data.  %TODO
+
 % \subsection{Process lifespan}
 % \subsection{Average processor utilisation}
 % \subsection{Exit code}
@@ -610,7 +614,7 @@ about the processes which include following columns:
 	\item Parent\_ID - Parent Process Id - The Process Id of the process that spawned the 
 	correlating one.
 	\item Bitness - Whether the process executable is created in 32 or 64 bit architecture.
-	\item CPUMsec - Ammount of milliseconds in which the process has ocupied the processor. 
+	\item CPUMsec - Amount of milliseconds in which the process has occupied the processor. 
 	\item AveProcsUsed - Average processor utilisation calculated by dividing the amount
 	of time when process has ocupied the processor by the total process lifespan. 
 	\item DurationMSec - The duration of the process life stored in milliseconds.
@@ -637,7 +641,7 @@ for the algorithm training process. The tasks performed in the process
 included consumption of online media (eg. youtube.com, netflix.com), office work on cloud 
 based services (eg. Google Docks, Gmail ), social media browsing (eg. facebook.com, 
 twitter.com), downloading files and other web browsing. Downloaded files were opened 
-directly from the browser. The data was gathered in the timespan of X hours. %TODO x hours
+directly from the browser. The data was gathered on the span of multiple user sessions.
 
 \section{Preprocessing}
 
@@ -651,8 +655,11 @@ usually to one of multiple root programs in the operating system.
 
 Additionally a process of OneHot encoding was performed on the loaded DLL's. The data from 
 the "processSummary" and "processModules" files was correlated by the order in which it was 
-stored. Three of the stored processes never in testing had any corresponding modules - 
-"Registry", "MemCompression" and the process marked with -1 ProcessId.
+stored. Similarly as before this approach was choosen because of the reuse of process id's.
+Three of the stored processes never in testing had any corresponding modules - 
+"Registry", "MemCompression" and the process marked with -1 ProcessId. Obtained data was
+additionally validated with the input information to minimise the risc of introducing error
+to the dataset.
 
 The final product of the data processing is a dataset containing information about all the 
 executed processes. Each row represents an individual process and following information is 
@@ -667,7 +674,7 @@ provided in the columns:
 	\item CommandLine - String containing the shell command used to start the process.
 	\item ParentId - The identifying integer number of the parent process. 
 	\item DLLs - All columns not listed above contain OneHot encoded information about the 
-	dynamically linked libraries (DLLs). When a column contains value 1 the process has 
+	dynamically linked libraries. When a column contains value 1 the process has 
 	loaded the dll specified in the column name.
 \end{itemize}
 
@@ -676,7 +683,7 @@ provided in the columns:
 
 This chapter describes the experiments performed to achieve the purpose of the thesis
 and the underlying methodology. This includes the utilised tools, information about used datasets,
-description of the taken actions and presentation as well as analysis of the obtained results.
+description of the taken actions and presentation as well as analysis of the obtained results. 
 % This chapter presents the experiments. It is a crucial part of the thesis and has to dominate in the thesis. 
 % The experiments and their analysis should be done in the way commonly accepted in the scientific community (eg. 
 % benchmark datasets, cross validation of elaborated results, reproducibility and replicability of tests etc).
@@ -708,9 +715,50 @@ The tool can be easily installed on Microsoft Windows operating systems from the
 
 \section{Data sets}
 
-% \begin{itemize}
-% \item description of data sets
-% \end{itemize}
+Main datased utilised in the thesis is called 
+
+Data is stored in a CSV format which is a text based file for tabular information.  
+Each entry in the file is separated by the new line character and it's features are divided 
+by commas. This simple, non-proprietary format is very accessible and supported by most 
+known data handling programs and frameworks. 
+
+The dataset was acquired in 4 user sessions. In one of those a simulated 0-day attack was 
+performed. The processes spawned in result have been marked as anomalies. 
+
+After preprocessing of the data following features are stored in the output file:
+\begin{itemize}
+	\item index - Continuous integer identificator assigned to each entry in the data set.
+	\item Session - Integer identificator of the session in which the corresponding process data 
+	was gathered.
+	\item ID -  The integer number used by the kernel to uniquely identify an active process.
+	\item Name -  The name of the process, usually identical to the binary file name. Expressed by a 
+	string data type.
+	\item ProcessPath - String containing sequence of parent processes names separated by "/".
+	\item ProcessPathId - String containing sequence of parent processes id's separated by "/".
+	\item CommandLine - String containing the shell command used to start the process.
+	\item ParentId - The identifying integer number of the parent process. 
+	\item CPUMsec - Amount of milliseconds in which the process has occupied the processor. Integer value.
+	\item AveProcsUsed -  Average processor utilisation calculated by dividing the amount of time 
+	when a process has occupied the processor by the total process lifespan. Expressed in floating 
+	point numbers. This value is derivative combination of the features "CPUMsec" and "DurationMSec"
+	but it is still stored for verification purposes.
+	\item Bitness - Integer value indicating whether the process executable is created in 
+	32 or 64 bit architecture.
+	\item DurationMSec - The duration of the process life stored in milliseconds. Expressed in 
+	floating point numbers.
+	\item StartMSec -  The start time of the process stored in milliseconds. Expressed in floating 
+	point numbers.
+	\item ExitCode - Integer value returned after the process execution. Commonly known as exit code.
+	\item Y - This binary column indicates whether the corresponding entry is a anomaly. Value "1" corresponds
+	inliers and "-1" to outliers. Processes marked as "-1" were spawned as a result of 0-day explotation.
+	\item The remaining columns contain OneHot encoded information about the dynamically linked 
+libraries. When a column contains value 1 the process has loaded the dll specified in the 
+column name. Otherwise the column contains 0. Full list of the captured modules can be 
+found in the appendix % dodać listę dll
+\end{itemize}
+
+The dataset utilised in the thesis can be found in a public repository %TODO link
+
 
 \section{Results}
 
@@ -797,6 +845,8 @@ each other.
 % W moim mniemaniu najskuteczniejszym zastosowaniem techniki obecnie może być jej użycie do bronienia głównie usług wychodzących na świat.
 % Użycie wersji i czasu buildu do wykrywania DLL hijackingu. 
 % Porównanie działania na danych od wielu userów.
+% dodanie elementu czasowego do analizy
+% dodanie innych niezebranych danych z perfview.
 
 
 
@@ -830,12 +880,6 @@ each other.
 \item[ETL] Event Trace Log 
 \item[DLL] Dynamic link library
 \item[RSVM] Robust Support Vector Machines 
-% \item[DNA] deoxyribonucleic acid
-% \item[MVC] model--view--controller 
-% \item[$N$] cardinality of data set
-% \item[$\mu$] membership function of a fuzzy set
-% \item[$\mathbb{E}$] set of edges of a graph
-% \item[$\mathcal{L}$] Laplace transformation
 \end{itemize}
 
 \chapter*{Listings}
