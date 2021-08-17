@@ -491,7 +491,16 @@ process for which the feature is constructed. All names are divided by any arbit
 
 Encoding of such variables like directory paths is not a well researched topic and there is no 
 common consensus on how they should be approached. There are however some novel approaches to 
-handling dirty categorical data.  %TODO
+handling dirty categorical data. An example of how to handle data like that was featured in the 
+"Similarity encoding for learning with dirty categorical variables" by Patricio Cerda,  Ga{\"e}l 
+Varoquaux and Bal{\'a}zs K{\'e}gl. Where in most literature on encoding categorical variables 
+relies on the idea that the set of categories is finite, known a priori, and composed of mutually 
+exclusive elements, the authors of this paper propose a new approach called similarity encoding. 
+It is based on calculation of similarities between string values. Instead of a binary column 
+indicating whether a specific category was set in the input value, a real number indicates how 
+distant it is from the specific previously chosen encoding column. It is a generalisation of the 
+OneHot method \cite{bib:dirtycat}. The python implementation of this approach utilised in this thesis 
+can be found under \url{https://dirty-cat.github.io/stable/}.
 
 % \subsection{Process lifespan}
 % \subsection{Average processor utilisation}
@@ -710,7 +719,7 @@ The tool can be easily installed on Microsoft Windows operating systems from the
 % \begin{itemize}
 % \item description of methodology of experiments
 % \item description of experimental framework (description of user interface of research applications 
-% – move to an appendix)
+%  move to an appendix)
 % \end{itemize}
 
 \section{Data sets}
@@ -762,20 +771,106 @@ The dataset utilised in the thesis can be found in a public repository %TODO lin
 
 \section{Results}
 
-
+In all of the experiments performed the focus was placed on 'msedge' binary and it's child processes.
+The dataset was filtered with the use of 'ProcessPath' feature. Any string value containing the 'msedge'
+substring indicated that the coresponding process is either Microsoft Edge browser or was spawned by it. 
 
 \subsection{Dynamic link libraries}
 %TODO przerobić na narrację eksperymentu
+%TODO poprawić ilość DLL
 There are over 1500 different DLL's gathered in the data set created. A single process loads 
 even upto 300 modules. This extremely high dimensionality of the information might be too complex 
 to analyse efficiently. To better understand the gathered information a multiple component 
-analysis (MCA) was performed. This extension of correspondence analysis allows us to analyze the 
-pattern of relationships of multiple categorical dependent variables \cite{bib:mca}. This was performed 
+analysis (MCA) was performed. This extension of correspondance analysis allows us to analyze the 
+pattern of relationships of multiple categorical dependent variables \cite{bib:mca}. It was performed 
 with a python mca 1.0.3 library \cite{bib:pymca}. The result of this process is a set of points in a 
 low-dimensional map corresponding either to columns or rows of the input data frame. Their 
 distance in the obtained space can be used to classify how strongly they are correlated with 
 each other. 
 
+%TODO dodać tabele
+The principal inertias (eigenvalues) obtained as the result of the algorithm can help us better 
+understand how well the resulting dimentions express the relations between the input samples. 
+The values calculated were normalised and can be found in the figure \ref{fig:mcaInertias} and 
+the table \ref{id:tab:MCAEigenvalues} located in the appendix. Those results sugest that the 
+usefulness of the dimentions in the data analysis significantly drops after the first one. The two
+following values are however very similar which indicatetes that it might be good to adjust the 
+dimention cutoff to utilise only the first one or all three.
+
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/MCAEigenvalues}
+	\caption{Multiple correspondance analysis inertias.}
+	\label{fig:mcaInertias}
+ \end{figure}
+
+To validate that the MCA can extract valiable information from the available data, it's results for all
+the processes were compared to the actual purpose for each 'msedge' subprocess. The location of the
+binaries in the obtained multidimentional space can be found in the figures \ref{fig:mca01} which 
+depicts dimentions 0 and 1 as well as figure \ref{fig:mca12} for dimentions 1 and 2. The raw numerical 
+values utilised to generate those visualizations are located in the table \ref{id:tab:MCAValues} placed 
+in the appendix of this document. 
+
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/MCA01}
+	\caption{Multiple correspondance analysis distribution in the first and second dimention.}
+	\label{fig:mca01}
+ \end{figure}
+
+ \begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/MCA12}
+	\caption{Multiple correspondance analysis distribution in the second and third dimention.}
+	\label{fig:mca12}
+ \end{figure}
+
+From the distributions we can clearly see that MCA process has managed to group closely identical processes.
+It is also very apprent that the outlier 'powershell' is significantly distant from all remaining samples. 
+This pattern can be spoted in both figure \ref{fig:mca01} and \ref{fig:mca12}. Those results are very 
+promissing and indicate that at least partial detection of anomalies is possible. 
+
+Additionally to this strategy a simple annomaly detector based on the detection of any previously not loaded
+DLL can be utilised. This method could be a solid intrusion detection system on its own and it's performance
+would not be dependent on the proper adjustment of parameters as in the more sofisticated approaches.
+
+
+
+The proof of possible classification is ilustrated in the table \ref{id:tab:OCSVMonMCA} which shows the 
+results One Class Support Vector Machine annomaly detection performed directly on the first three dimentions 
+of the data from multiple component analysis. With proper configuration the algorythm has managed to detect 
+two anomalies with zero false negative results. This approach however is very difficoult to apply in the 
+production enviroment due to the full dataset required prior to classification. This data may be however 
+utilised to develop and train a custom encoder capable of positioning the new input data in the previously 
+analysed DLL space.  
+
+\begin{table}
+	\centering
+	\caption{OCSVM classification on MCA data}
+	\label{id:tab:OCSVMonMCA}
+\begin{tabular}{rrrrr}
+	\toprule
+		nu &  Positive &  Negative &  False positive &  False negative \\
+	\midrule
+	 0.010 &       224 &         1 &               6 &               0 \\
+	 0.015 &       224 &         2 &               5 &               0 \\
+	 0.020 &        74 &         3 &               4 &             150 \\
+	 0.030 &       222 &         3 &               4 &               2 \\
+	 0.040 &        77 &         3 &               4 &             147 \\
+	 0.050 &       221 &         3 &               4 &               3 \\
+	 0.060 &        71 &         3 &               4 &             153 \\
+	 0.070 &        71 &         3 &               4 &             153 \\
+	 0.080 &        70 &         3 &               4 &             154 \\
+	 0.090 &       215 &         3 &               4 &               9 \\
+	 0.100 &        69 &         3 &               4 &             155 \\
+	\bottomrule
+\end{tabular}
+\end{table} 
+
+%TODO jak ma działać enkoder
+The idea behind the custom encoder is to classify 
 
 % \begin{figure}
 % \centering
@@ -802,6 +897,8 @@ each other.
 % \caption{A caption of a figure is \textbf{below} it.}
 % \label{fig:2}
 % \end{figure}
+
+
 
 % \begin{table}
 % \centering
@@ -884,6 +981,283 @@ each other.
 
 \chapter*{Listings}
 
+\begin{table}
+\centering
+\caption{Eigenvalues of the multiple correspondance analysis.}
+\label{id:tab:MCAEigenvalues}
+	\begin{tabular}{rr}
+		\toprule
+		Dimentions &  Eigenvalues \\
+		\midrule
+				0 &     0.278652 \\
+				1 &     0.126788 \\
+				2 &     0.108930 \\
+				3 &     0.067005 \\
+				4 &     0.058106 \\
+				5 &     0.046981 \\
+				6 &     0.022424 \\
+				7 &     0.014908 \\
+				8 &     0.011448 \\
+				9 &     0.008646 \\
+				10 &     0.007569 \\
+				11 &     0.004358 \\
+				12 &     0.003819 \\
+				13 &     0.003075 \\
+				14 &     0.002759 \\
+				15 &     0.001986 \\
+				16 &     0.001220 \\
+				17 &     0.000840 \\
+				18 &     0.000622 \\
+				19 &     0.000473 \\
+				20 &     0.000428 \\
+				21 &     0.000297 \\
+				22 &     0.000208 \\
+		\bottomrule
+	\end{tabular}
+\end{table} 
+
+\begin{table}
+\centering
+\caption{Values of the multiple correspondance analysis.}
+\label{id:tab:MCAValues}
+\begin{tabular}{rrr}
+	\toprule
+		Dim 0 &     Dim 1 &     Dim 2 \\
+	\midrule
+	-0.000786 &  0.094955 & -0.170278 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	-1.295154 &  0.533901 & -0.690322 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	-0.084455 &  0.143001 & -0.235539 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	-0.258942 &  0.178374 & -0.073033 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-1.097736 &  0.132434 &  1.278262 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-0.721461 &  0.353485 & -0.367996 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-0.037923 &  0.108548 & -0.156661 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.022125 &  0.052553 & -0.116180 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.015476 & -0.003412 & -0.108106 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.189662 &  0.053016 & -0.101119 \\
+	 0.303309 & -0.019059 &  0.005987 \\
+	 0.103734 & -0.015432 &  0.046046 \\
+	 0.131203 & -0.015473 &  0.041941 \\
+	-0.058290 &  0.114228 & -0.165737 \\
+	 0.275592 & -0.014281 & -0.001820 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	-1.369476 &  0.360832 & -0.593341 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-0.114025 &  0.155558 & -0.253616 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	-0.258942 &  0.178374 & -0.073033 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-1.300167 & -2.466700 & -0.370686 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-1.097736 &  0.132434 &  1.278262 \\
+	-0.339037 &  0.075674 &  0.029995 \\
+	-0.166117 &  0.023475 &  0.012137 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-0.597109 &  0.033244 &  0.133987 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-0.597109 &  0.033244 &  0.133987 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.022125 &  0.052553 & -0.116180 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303309 & -0.019059 &  0.005987 \\
+	 0.015476 & -0.003412 & -0.108106 \\
+	 0.301241 & -0.017681 &  0.006321 \\
+	-0.080700 &  0.219873 & -0.344296 \\
+	-0.052792 &  0.005908 &  0.025548 \\
+	-0.052792 &  0.005908 &  0.025548 \\
+	 0.124951 & -0.014448 &  0.042986 \\
+	-0.210704 &  0.576562 & -1.085697 \\
+	-0.086686 & -0.014227 &  0.074501 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	-1.264270 &  0.514452 & -0.681936 \\
+	-0.054170 &  0.117843 & -0.170403 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	-0.009257 &  0.099378 & -0.175992 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-0.258942 &  0.178374 & -0.073033 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-1.097736 &  0.132434 &  1.278262 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.022125 &  0.052553 & -0.116180 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.015476 & -0.003412 & -0.108106 \\
+	 0.103734 & -0.015432 &  0.046046 \\
+	-1.362217 &  0.507347 & -0.585543 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	-0.054170 &  0.117843 & -0.170403 \\
+	-0.084455 &  0.143001 & -0.235539 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.287204 & -0.019984 &  0.007545 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-1.312293 & -2.514440 & -0.378790 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-0.258942 &  0.178374 & -0.073033 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-1.097736 &  0.132434 &  1.278262 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-0.760363 &  0.044270 &  0.415179 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-0.674937 &  0.326724 & -0.323714 \\
+	-0.389508 &  0.094083 &  0.055093 \\
+	-0.618902 &  0.034549 &  0.175243 \\
+	-0.806960 & -0.028002 &  0.316956 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.206638 & -0.003644 &  0.068008 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-0.597109 &  0.033244 &  0.133987 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.022125 &  0.052553 & -0.116180 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-0.597109 &  0.033244 &  0.133987 \\
+	 0.015476 & -0.003412 & -0.108106 \\
+	 0.303309 & -0.019059 &  0.005987 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	 0.303286 & -0.019973 &  0.006682 \\
+	-0.206594 &  0.024989 &  0.262793 \\
+	 0.303309 & -0.019059 &  0.005987 \\
+	-0.206594 &  0.024989 &  0.262793 \\
+	 0.081225 & -0.015643 &  0.046059 \\
+	-0.052792 &  0.005908 &  0.025548 \\
+	 0.131203 & -0.015473 &  0.041941 \\
+	 0.256092 & -0.025394 &  0.004780 \\
+	 0.256092 & -0.025394 &  0.004780 \\
+	\bottomrule
+\end{tabular}
+\end{table}
    
 Example of a \lstinline|"exploit.html"| file:
 

@@ -20,9 +20,16 @@ Mark Russinovich, David A. Solomon, Alex Ionescu - Windows Internals, Microsoft 
 Dodać wpa w experymentach i analizie danych
 Dodać dll analysis
 ROC curves
+https://www.youtube.com/watch?v=b4kRAt4mkB8
 W podsumowaniu możliwość użycia autoencoderów
 Poszukać monitorowania podprocessów
 Dodać dataset do publicznego reposytorium
+że false negative i true negative to najważniejsze
+Dodanie odrzuconych cech i przyczyn
+Multipage table
+How OCSVM analysis is performed
+Możliwość wykrywania wcześniej niewykrytych DLL
+
 
 #Terminy:
 18.08 (obrona 1-8.09)
