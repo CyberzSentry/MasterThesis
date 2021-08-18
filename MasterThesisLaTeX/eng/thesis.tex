@@ -736,16 +736,15 @@ performed. The processes spawned in result have been marked as anomalies.
 
 After preprocessing of the data following features are stored in the output file:
 \begin{itemize}
-	\item index - Continuous integer identificator assigned to each entry in the data set.
-	\item Session - Integer identificator of the session in which the corresponding process data 
+	\item Session - String identificator of the session in which the corresponding process data 
 	was gathered.
 	\item ID -  The integer number used by the kernel to uniquely identify an active process.
 	\item Name -  The name of the process, usually identical to the binary file name. Expressed by a 
 	string data type.
-	\item ProcessPath - String containing sequence of parent processes names separated by "/".
-	\item ProcessPathId - String containing sequence of parent processes id's separated by "/".
+	\item Path - String containing sequence of parent processes names separated by "/".
+	\item PathId - String containing sequence of parent processes id's separated by "/".
 	\item CommandLine - String containing the shell command used to start the process.
-	\item ParentId - The identifying integer number of the parent process. 
+	\item ParentID - The identifying integer number of the parent process. 
 	\item CPUMsec - Amount of milliseconds in which the process has occupied the processor. Integer value.
 	\item AveProcsUsed -  Average processor utilisation calculated by dividing the amount of time 
 	when a process has occupied the processor by the total process lifespan. Expressed in floating 
@@ -761,9 +760,9 @@ After preprocessing of the data following features are stored in the output file
 	\item Y - This binary column indicates whether the corresponding entry is a anomaly. Value "1" corresponds
 	inliers and "-1" to outliers. Processes marked as "-1" were spawned as a result of 0-day explotation.
 	\item The remaining columns contain OneHot encoded information about the dynamically linked 
-libraries. When a column contains value 1 the process has loaded the dll specified in the 
-column name. Otherwise the column contains 0. Full list of the captured modules can be 
-found in the appendix % dodać listę dll
+	libraries. When a column contains value 1 the process has loaded the dll specified in the 
+	column name. Otherwise the column contains 0. Full list of the captured modules can be 
+	found in the appendix % dodać listę dll
 \end{itemize}
 
 The dataset utilised in the thesis can be found in a public repository %TODO link
