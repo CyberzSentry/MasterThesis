@@ -432,11 +432,7 @@ before saving it to hard drive. Those two factors combined with limited memory r
 available while performing the data gathering process limit the types of information analysed 
 in the thesis. 
 
-Based on the studied literature one of the well-suited result presentation methods is the Receiver 
-Operating Characteristic (ROC) curve which is a plot of the detection accuracy against the false 
-positive ratio. The proboability of false anomaly detection is crucial because it may cause overlaod
-on of the response teams and mechanisms which in turn may result in delayed response or omission
-of actual exploitation. 
+
 
 \section{Analysed data}
 Available information has been narrowed down to following features analysed to achieve the thesis
@@ -518,10 +514,31 @@ approaches based on artificial neural networks like autoencoders \cite{bib:autoe
 some approaches to training the can be less demanding in example the distributed architecture
 \cite{bib:autoencoderDist}. Their complexity might however shift the focus from the core idea 
 of the thesis which is to prove that Windows Event Trace can be utilised to detect security
-anomalies. 
+anomalies. In the thesis the detection performed by the One Class SVM is tested for multiple 'nu'
+values which is upper bound on the fraction of training errors and a lower bound of the 
+fraction of support vectors\cite{bib:skocsvm}. The kernel utilised in all the tests is 'rbf' with
+the gamma parameter set to 'auto'. The detection process is performed 
+on a per process basis and focuses mainly on the web browser Microsoft Edge. 
 
-The detection process is performed on a per process basis and focuses mainly on the web browser
-Microsoft Edge.  
+For all anomaly detections performed in the research following parameters were quantified:
+\begin{itemize}
+	\item Positive - number of samples correctly classified as inliers.
+	\item Negative - number of samples correctly classified as outliers.
+	\item False positive - number of samples misclassified as inliers. 
+	\item False negative - number of samples misclassified as outliers.
+\end{itemize}
+
+Those values may be also expressed in percentages. Detection accuracy for axample is the ratio
+of detected anomalies (Negative) to all marked in the dataset. False positive probability is 
+the number of misclassified samples (False negative) divided by the known count of inliers.  
+
+Based on the studied literature one of the well-suited result presentation methods is the Receiver 
+Operating Characteristic (ROC) curve which is a plot of the detection accuracy against the false 
+positive ratio. The proboability of false anomaly detection is crucial because it may cause overlaod
+on of the response teams and mechanisms which in turn may result in delayed response or omission
+of actual exploitation. All annomaly detection performance analysis in the thesis is focused
+on those indicators. 
+
 % \begin{itemize}
 % \item solution to the problem proposed by the author of the thesis
 % \item theoretical analysis of proposed solutions
@@ -775,11 +792,40 @@ The dataset was filtered with the use of 'ProcessPath' feature. Any string value
 substring indicated that the coresponding process is either Microsoft Edge browser or was spawned by it. 
 
 \subsection{Dynamic link libraries}
-%TODO przerobić na narrację eksperymentu
-%TODO poprawić ilość DLL
-There are over 1500 different DLL's gathered in the data set created. A single process loads 
-even upto 300 modules. This extremely high dimensionality of the information might be too complex 
-to analyse efficiently. To better understand the gathered information a multiple component 
+To obtain baseline results to which any developed frameworks can be compared a one class SVM anomaly 
+detection was performed on the raw one hot encoded DLL data. The results of this process can be found
+in the table \ref{id:tab:rawDlls} and show that singling out of the outliers is possible with this type 
+of information.
+
+\begin{table}
+	\centering
+	\caption{Anomaly detection on raw DLL data}
+	\label{id:tab:rawDLLs}
+\begin{tabular}{rrrrr}
+	\toprule
+		nu &  Positive &  Negative &  False positive &  False negative \\
+	\midrule
+	 0.010 &       221 &         1 &               6 &               3 \\
+	 0.015 &       217 &         1 &               6 &               7 \\
+	 0.020 &       221 &         2 &               5 &               3 \\
+	 0.030 &       218 &         1 &               6 &               6 \\
+	 0.040 &       218 &         3 &               4 &               6 \\
+	 0.050 &       215 &         3 &               4 &               9 \\
+	 0.060 &       216 &         3 &               4 &               8 \\
+	 0.070 &       210 &         3 &               4 &              14 \\
+	 0.080 &       210 &         4 &               3 &              14 \\
+	 0.090 &       207 &         4 &               3 &              17 \\
+	 0.100 &       207 &         4 &               3 &              17 \\
+	\bottomrule
+	\end{tabular}
+\end{table}
+	
+
+
+There are over 1400 different DLL's gathered in the data set created. A single process loads 
+even upto 287 modules. This extremely high dimensionality of the information might be too complex 
+to analyse efficiently, even for the algorithms that can handle well datasets where features 
+outnumber samples. To better understand the gathered information a multiple component 
 analysis (MCA) was performed. This extension of correspondance analysis allows us to analyze the 
 pattern of relationships of multiple categorical dependent variables \cite{bib:mca}. It was performed 
 with a python mca 1.0.3 library \cite{bib:pymca}. The result of this process is a set of points in a 
@@ -787,7 +833,6 @@ low-dimensional map corresponding either to columns or rows of the input data fr
 distance in the obtained space can be used to classify how strongly they are correlated with 
 each other. 
 
-%TODO dodać tabele
 The principal inertias (eigenvalues) obtained as the result of the algorithm can help us better 
 understand how well the resulting dimentions express the relations between the input samples. 
 The values calculated were normalised and can be found in the figure \ref{fig:mcaInertias} and 
@@ -829,13 +874,63 @@ in the appendix of this document.
 From the distributions we can clearly see that MCA process has managed to group closely identical processes.
 It is also very apprent that the outlier 'powershell' is significantly distant from all remaining samples. 
 This pattern can be spoted in both figure \ref{fig:mca01} and \ref{fig:mca12}. Those results are very 
-promissing and indicate that at least partial detection of anomalies is possible. 
+promissing and indicate that at least partial detection of anomalies is possible and the peak performance
+has improved when compared to the raw data baseline. 
 
 Additionally to this strategy a simple annomaly detector based on the detection of any previously not loaded
 DLL can be utilised. This method could be a solid intrusion detection system on its own and it's performance
-would not be dependent on the proper adjustment of parameters as in the more sofisticated approaches.
+would not be dependent on the proper adjustment of parameters as in the more sofisticated approaches. The 
+DLL's present only in the outliers can be found in table \ref{id:tab:outlierDLLs}.
 
-
+\begin{table}
+	\centering
+	\caption{DLL's present only in outliers}
+	\label{id:tab:outlierDLLs}
+\begin{tabular}{l}
+	\toprule
+											   0 \\
+	\midrule
+							  system.numerics.ni \\
+								  system.data.ni \\
+										   psapi \\
+										  clrjit \\
+								 system.numerics \\
+			 microsoft.powershell.consolehost.ni \\
+										 napinsp \\
+										mpclient \\
+						 system.configuration.ni \\
+									 mscorlib.ni \\
+										  winrnr \\
+				 system.management.automation.ni \\
+				 microsoft.powershell.psreadline \\
+										mscoreei \\
+							vcruntime140\_clr0400 \\
+				microsoft.powershell.security.ni \\
+	 microsoft.powershell.commands.management.ni \\
+							system.management.ni \\
+		microsoft.powershell.commands.utility.ni \\
+											 atl \\
+								   system.xml.ni \\
+								  system.core.ni \\
+				 system.configuration.install.ni \\
+								  system.dynamic \\
+								ucrtbase\_clr0400 \\
+							 microsoft.csharp.ni \\
+										 mscoree \\
+									   system.ni \\
+					 system.directoryservices.ni \\
+							 system.transactions \\
+										  wshbth \\
+									 system.data \\
+											 clr \\
+						  system.transactions.ni \\
+										 pnrpnsp \\
+		  microsoft.management.infrastructure.ni \\
+										   authz \\
+								microsoft.csharp \\
+	\bottomrule
+\end{tabular}
+\end{table}
 
 The proof of possible classification is ilustrated in the table \ref{id:tab:OCSVMonMCA} which shows the 
 results One Class Support Vector Machine annomaly detection performed directly on the first three dimentions 
@@ -844,6 +939,7 @@ two anomalies with zero false negative results. This approach however is very di
 production enviroment due to the full dataset required prior to classification. This data may be however 
 utilised to develop and train a custom encoder capable of positioning the new input data in the previously 
 analysed DLL space.  
+
 
 \begin{table}
 	\centering
@@ -869,7 +965,12 @@ analysed DLL space.
 \end{table} 
 
 %TODO jak ma działać enkoder
-The idea behind the custom encoder is to classify 
+The idea behind the custom encoder is to perform unsupervised classification algorithm 
+like K-means on the results of the MCA performed for the columns of the inliers to obtain 
+$\mathit{N}$ classes each containing $\mathit{O_{j}}$  where $\mathit{j}$
+
+
+
 
 % \begin{figure}
 % \centering
