@@ -522,10 +522,10 @@ on a per process basis and focuses mainly on the web browser Microsoft Edge.
 
 For all anomaly detections performed in the research following parameters were quantified:
 \begin{itemize}
-	\item Positive - number of samples correctly classified as inliers.
-	\item Negative - number of samples correctly classified as outliers.
-	\item False positive - number of samples misclassified as inliers. 
-	\item False negative - number of samples misclassified as outliers.
+	\item Positive (P) - number of samples correctly classified as inliers.
+	\item Negative (N) - number of samples correctly classified as outliers.
+	\item False positive (FP) - number of samples misclassified as inliers. 
+	\item False negative (FN) - number of samples misclassified as outliers.
 \end{itemize}
 
 Those values may be also expressed in percentages. Detection accuracy for axample is the ratio
@@ -1001,6 +1001,7 @@ analysed DLL space.
 \end{tabular}
 \end{table} 
 
+
 %TODO jak ma działać enkoder
 The idea behind the custom encoder is to group DLL's by their common occurance and therefore
 conclude common functionality of the programs that share them. This task can be performed
@@ -1053,187 +1054,187 @@ table contains following additional columns:
 	\label{id:tab:resEncoder}
 	\begin{tabular}{rrrlrrrr}
 		\toprule
-		 clusters &     nu &  other\_c &  New\_DLL &  Positive &  Negative &  False positive &  False negative \\
+		 clusters &     nu &  other\_c &  New\_DLL &    P &  N &  FP &  FN \\
 		\midrule
-				1 &  0.050 &        0.01 &               True &       217 &         5 &               2 &               7 \\
-				1 &  0.050 &        0.10 &               True &       217 &         5 &               2 &               7 \\
-				1 &  0.050 &        0.01 &              False &       217 &         5 &               2 &               7 \\
-				1 &  0.050 &        0.10 &              False &       217 &         5 &               2 &               7 \\
-				2 &  0.060 &        0.10 &               True &       215 &         5 &               2 &               9 \\
-				2 &  0.060 &        0.10 &              False &       215 &         5 &               2 &               9 \\
-				2 &  0.070 &        0.10 &               True &       213 &         5 &               2 &              11 \\
-				1 &  0.080 &        0.01 &               True &       213 &         5 &               2 &              11 \\
-				1 &  0.080 &        0.10 &               True &       213 &         5 &               2 &              11 \\
-				2 &  0.080 &        0.10 &               True &       213 &         5 &               2 &              11 \\
-				2 &  0.070 &        0.10 &              False &       213 &         5 &               2 &              11 \\
-				1 &  0.080 &        0.01 &              False &       213 &         5 &               2 &              11 \\
-				1 &  0.080 &        0.10 &              False &       213 &         5 &               2 &              11 \\
-				2 &  0.080 &        0.10 &              False &       213 &         5 &               2 &              11 \\
-				3 &  0.070 &        0.10 &               True &       212 &         5 &               2 &              12 \\
-				2 &  0.090 &        0.01 &               True &       212 &         5 &               2 &              12 \\
-				2 &  0.090 &        0.10 &               True &       212 &         5 &               2 &              12 \\
-				3 &  0.070 &        0.10 &              False &       212 &         5 &               2 &              12 \\
-				2 &  0.090 &        0.01 &              False &       212 &         5 &               2 &              12 \\
-				2 &  0.090 &        0.10 &              False &       212 &         5 &               2 &              12 \\
-				1 &  0.060 &        0.01 &               True &       209 &         5 &               2 &              15 \\
-				1 &  0.060 &        0.10 &               True &       209 &         5 &               2 &              15 \\
-				1 &  0.070 &        0.01 &               True &       209 &         5 &               2 &              15 \\
-				1 &  0.070 &        0.10 &               True &       209 &         5 &               2 &              15 \\
-				1 &  0.090 &        0.01 &               True &       209 &         5 &               2 &              15 \\
-				1 &  0.090 &        0.10 &               True &       209 &         5 &               2 &              15 \\
-				1 &  0.060 &        0.01 &              False &       209 &         5 &               2 &              15 \\
-				1 &  0.060 &        0.10 &              False &       209 &         5 &               2 &              15 \\
-				1 &  0.070 &        0.01 &              False &       209 &         5 &               2 &              15 \\
-				1 &  0.070 &        0.10 &              False &       209 &         5 &               2 &              15 \\
-				1 &  0.090 &        0.01 &              False &       209 &         5 &               2 &              15 \\
-				1 &  0.090 &        0.10 &              False &       209 &         5 &               2 &              15 \\
-				3 &  0.080 &        0.10 &               True &       206 &         5 &               2 &              18 \\
-				3 &  0.090 &        0.10 &               True &       206 &         5 &               2 &              18 \\
-				1 &  0.100 &        0.01 &               True &       206 &         5 &               2 &              18 \\
-				2 &  0.100 &        0.10 &               True &       206 &         5 &               2 &              18 \\
-				3 &  0.100 &        0.10 &               True &       206 &         5 &               2 &              18 \\
-				3 &  0.080 &        0.10 &              False &       206 &         5 &               2 &              18 \\
-				3 &  0.090 &        0.10 &              False &       206 &         5 &               2 &              18 \\
-				1 &  0.100 &        0.01 &              False &       206 &         5 &               2 &              18 \\
-				2 &  0.100 &        0.10 &              False &       206 &         5 &               2 &              18 \\
-				3 &  0.100 &        0.10 &              False &       206 &         5 &               2 &              18 \\
-				4 &  0.090 &        0.10 &               True &       205 &         5 &               2 &              19 \\
-				4 &  0.100 &        0.10 &               True &       205 &         5 &               2 &              19 \\
-				4 &  0.090 &        0.10 &              False &       205 &         5 &               2 &              19 \\
-				4 &  0.100 &        0.10 &              False &       205 &         5 &               2 &              19 \\
-				2 &  0.100 &        0.01 &               True &       204 &         5 &               2 &              20 \\
-				2 &  0.100 &        0.01 &              False &       204 &         5 &               2 &              20 \\
-				1 &  0.100 &        0.10 &               True &       203 &         5 &               2 &              21 \\
-				1 &  0.100 &        0.10 &              False &       203 &         5 &               2 &              21 \\
-				3 &  0.050 &        0.10 &               True &       219 &         4 &               3 &               5 \\
-				3 &  0.050 &        0.10 &              False &       219 &         4 &               3 &               5 \\
-				3 &  0.060 &        0.10 &               True &       215 &         4 &               3 &               9 \\
-				3 &  0.060 &        0.10 &              False &       215 &         4 &               3 &               9 \\
-				4 &  0.070 &        0.10 &               True &       210 &         4 &               3 &              14 \\
-				4 &  0.070 &        0.10 &              False &       210 &         4 &               3 &              14 \\
-				4 &  0.080 &        0.10 &               True &       209 &         4 &               3 &              15 \\
-				4 &  0.080 &        0.10 &              False &       209 &         4 &               3 &              15 \\
-				2 &  0.080 &        0.01 &               True &       208 &         4 &               3 &              16 \\
-				2 &  0.080 &        0.01 &              False &       208 &         4 &               3 &              16 \\
-				2 &  0.040 &        0.10 &               True &       222 &         3 &               4 &               2 \\
-				2 &  0.040 &        0.10 &              False &       222 &         3 &               4 &               2 \\
-				1 &  0.030 &        0.10 &               True &       219 &         3 &               4 &               5 \\
-				2 &  0.050 &        0.10 &               True &       219 &         3 &               4 &               5 \\
-				4 &  0.050 &        0.10 &               True &       219 &         3 &               4 &               5 \\
-				1 &  0.030 &        0.10 &              False &       219 &         3 &               4 &               5 \\
-				2 &  0.050 &        0.10 &              False &       219 &         3 &               4 &               5 \\
-				4 &  0.050 &        0.10 &              False &       219 &         3 &               4 &               5 \\
-				1 &  0.040 &        0.01 &               True &       218 &         3 &               4 &               6 \\
-				1 &  0.040 &        0.10 &               True &       218 &         3 &               4 &               6 \\
-				1 &  0.040 &        0.01 &              False &       218 &         3 &               4 &               6 \\
-				1 &  0.040 &        0.10 &              False &       218 &         3 &               4 &               6 \\
-				2 &  0.060 &        0.01 &               True &       214 &         3 &               4 &              10 \\
-				4 &  0.060 &        0.10 &               True &       214 &         3 &               4 &              10 \\
-				2 &  0.060 &        0.01 &              False &       214 &         3 &               4 &              10 \\
-				4 &  0.060 &        0.10 &              False &       214 &         3 &               4 &              10 \\
-				3 &  0.060 &        0.01 &               True &       213 &         3 &               4 &              11 \\
-				2 &  0.070 &        0.01 &               True &       213 &         3 &               4 &              11 \\
-				3 &  0.060 &        0.01 &              False &       213 &         3 &               4 &              11 \\
-				2 &  0.070 &        0.01 &              False &       213 &         3 &               4 &              11 \\
-				4 &  0.070 &        0.01 &               True &       212 &         3 &               4 &              12 \\
-				4 &  0.070 &        0.01 &              False &       212 &         3 &               4 &              12 \\
-				3 &  0.070 &        0.01 &               True &       206 &         3 &               4 &              18 \\
-				3 &  0.080 &        0.01 &               True &       206 &         3 &               4 &              18 \\
-				3 &  0.070 &        0.01 &              False &       206 &         3 &               4 &              18 \\
-				3 &  0.080 &        0.01 &              False &       206 &         3 &               4 &              18 \\
-				4 &  0.080 &        0.01 &               True &       205 &         3 &               4 &              19 \\
-				3 &  0.090 &        0.01 &               True &       205 &         3 &               4 &              19 \\
-				4 &  0.080 &        0.01 &              False &       205 &         3 &               4 &              19 \\
-				3 &  0.090 &        0.01 &              False &       205 &         3 &               4 &              19 \\
-				3 &  0.100 &        0.01 &               True &       204 &         3 &               4 &              20 \\
-				3 &  0.100 &        0.01 &              False &       204 &         3 &               4 &              20 \\
-				4 &  0.090 &        0.01 &               True &       203 &         3 &               4 &              21 \\
-				4 &  0.090 &        0.01 &              False &       203 &         3 &               4 &              21 \\
-				4 &  0.100 &        0.01 &               True &       201 &         3 &               4 &              23 \\
-				4 &  0.100 &        0.01 &              False &       201 &         3 &               4 &              23 \\
-				2 &  0.020 &        0.10 &               True &       223 &         2 &               5 &               1 \\
-				2 &  0.020 &        0.10 &              False &       223 &         2 &               5 &               1 \\
-				4 &  0.020 &        0.10 &               True &       222 &         2 &               5 &               2 \\
-				2 &  0.030 &        0.10 &               True &       222 &         2 &               5 &               2 \\
-				4 &  0.020 &        0.10 &              False &       222 &         2 &               5 &               2 \\
-				2 &  0.030 &        0.10 &              False &       222 &         2 &               5 &               2 \\
-				2 &  0.010 &        0.10 &               True &       221 &         2 &               5 &               3 \\
-				4 &  0.030 &        0.10 &               True &       221 &         2 &               5 &               3 \\
-				2 &  0.010 &        0.10 &              False &       221 &         2 &               5 &               3 \\
-				4 &  0.030 &        0.10 &              False &       221 &         2 &               5 &               3 \\
-				1 &  0.015 &        0.10 &               True &       220 &         2 &               5 &               4 \\
-				2 &  0.015 &        0.10 &               True &       220 &         2 &               5 &               4 \\
-				3 &  0.015 &        0.10 &               True &       220 &         2 &               5 &               4 \\
-				1 &  0.020 &        0.10 &               True &       220 &         2 &               5 &               4 \\
-				1 &  0.015 &        0.10 &              False &       220 &         2 &               5 &               4 \\
-				2 &  0.015 &        0.10 &              False &       220 &         2 &               5 &               4 \\
-				3 &  0.015 &        0.10 &              False &       220 &         2 &               5 &               4 \\
-				1 &  0.020 &        0.10 &              False &       220 &         2 &               5 &               4 \\
-				3 &  0.020 &        0.10 &               True &       219 &         2 &               5 &               5 \\
-				4 &  0.040 &        0.10 &               True &       219 &         2 &               5 &               5 \\
-				3 &  0.050 &        0.01 &               True &       219 &         2 &               5 &               5 \\
-				3 &  0.020 &        0.10 &              False &       219 &         2 &               5 &               5 \\
-				4 &  0.040 &        0.10 &              False &       219 &         2 &               5 &               5 \\
-				3 &  0.050 &        0.01 &              False &       219 &         2 &               5 &               5 \\
-				3 &  0.030 &        0.10 &               True &       218 &         2 &               5 &               6 \\
-				3 &  0.040 &        0.01 &               True &       218 &         2 &               5 &               6 \\
-				3 &  0.030 &        0.10 &              False &       218 &         2 &               5 &               6 \\
-				3 &  0.040 &        0.01 &              False &       218 &         2 &               5 &               6 \\
-				3 &  0.040 &        0.10 &               True &       215 &         2 &               5 &               9 \\
-				2 &  0.050 &        0.01 &               True &       215 &         2 &               5 &               9 \\
-				3 &  0.040 &        0.10 &              False &       215 &         2 &               5 &               9 \\
-				2 &  0.050 &        0.01 &              False &       215 &         2 &               5 &               9 \\
-				4 &  0.060 &        0.01 &               True &       213 &         2 &               5 &              11 \\
-				4 &  0.060 &        0.01 &              False &       213 &         2 &               5 &              11 \\
-				1 &  0.010 &        0.01 &               True &       224 &         1 &               6 &               0 \\
-				1 &  0.015 &        0.01 &               True &       224 &         1 &               6 &               0 \\
-				1 &  0.010 &        0.01 &              False &       224 &         1 &               6 &               0 \\
-				1 &  0.015 &        0.01 &              False &       224 &         1 &               6 &               0 \\
-				4 &  0.010 &        0.10 &               True &       223 &         1 &               6 &               1 \\
-				4 &  0.010 &        0.10 &              False &       223 &         1 &               6 &               1 \\
-				1 &  0.010 &        0.10 &               True &       222 &         1 &               6 &               2 \\
-				1 &  0.010 &        0.10 &              False &       222 &         1 &               6 &               2 \\
-				2 &  0.030 &        0.01 &               True &       220 &         1 &               6 &               4 \\
-				2 &  0.030 &        0.01 &              False &       220 &         1 &               6 &               4 \\
-				3 &  0.010 &        0.10 &               True &       219 &         1 &               6 &               5 \\
-				4 &  0.015 &        0.10 &               True &       219 &         1 &               6 &               5 \\
-				1 &  0.020 &        0.01 &               True &       219 &         1 &               6 &               5 \\
-				1 &  0.030 &        0.01 &               True &       219 &         1 &               6 &               5 \\
-				4 &  0.030 &        0.01 &               True &       219 &         1 &               6 &               5 \\
-				3 &  0.010 &        0.10 &              False &       219 &         1 &               6 &               5 \\
-				4 &  0.015 &        0.10 &              False &       219 &         1 &               6 &               5 \\
-				1 &  0.020 &        0.01 &              False &       219 &         1 &               6 &               5 \\
-				1 &  0.030 &        0.01 &              False &       219 &         1 &               6 &               5 \\
-				4 &  0.030 &        0.01 &              False &       219 &         1 &               6 &               5 \\
-				2 &  0.040 &        0.01 &               True &       215 &         1 &               6 &               9 \\
-				2 &  0.040 &        0.01 &              False &       215 &         1 &               6 &               9 \\
-				4 &  0.050 &        0.01 &               True &       214 &         1 &               6 &              10 \\
-				4 &  0.050 &        0.01 &              False &       214 &         1 &               6 &              10 \\
-				4 &  0.010 &        0.01 &               True &       222 &         0 &               7 &               2 \\
-				2 &  0.015 &        0.01 &               True &       222 &         0 &               7 &               2 \\
-				4 &  0.015 &        0.01 &               True &       222 &         0 &               7 &               2 \\
-				2 &  0.020 &        0.01 &               True &       222 &         0 &               7 &               2 \\
-				4 &  0.010 &        0.01 &              False &       222 &         0 &               7 &               2 \\
-				2 &  0.015 &        0.01 &              False &       222 &         0 &               7 &               2 \\
-				4 &  0.015 &        0.01 &              False &       222 &         0 &               7 &               2 \\
-				2 &  0.020 &        0.01 &              False &       222 &         0 &               7 &               2 \\
-				2 &  0.010 &        0.01 &               True &       221 &         0 &               7 &               3 \\
-				3 &  0.020 &        0.01 &               True &       221 &         0 &               7 &               3 \\
-				2 &  0.010 &        0.01 &              False &       221 &         0 &               7 &               3 \\
-				3 &  0.020 &        0.01 &              False &       221 &         0 &               7 &               3 \\
-				4 &  0.020 &        0.01 &               True &       220 &         0 &               7 &               4 \\
-				4 &  0.020 &        0.01 &              False &       220 &         0 &               7 &               4 \\
-				3 &  0.010 &        0.01 &               True &       219 &         0 &               7 &               5 \\
-				3 &  0.015 &        0.01 &               True &       219 &         0 &               7 &               5 \\
-				3 &  0.010 &        0.01 &              False &       219 &         0 &               7 &               5 \\
-				3 &  0.015 &        0.01 &              False &       219 &         0 &               7 &               5 \\
-				3 &  0.030 &        0.01 &               True &       216 &         0 &               7 &               8 \\
-				3 &  0.030 &        0.01 &              False &       216 &         0 &               7 &               8 \\
-				4 &  0.040 &        0.01 &               True &       214 &         0 &               7 &              10 \\
-				4 &  0.040 &        0.01 &              False &       214 &         0 &               7 &              10 \\
+				1 &  0.050 &     0.01 &     True &  217 &  5 &   2 &   7 \\
+				1 &  0.050 &     0.10 &     True &  217 &  5 &   2 &   7 \\
+				2 &  0.060 &     0.10 &     True &  215 &  5 &   2 &   9 \\
+				2 &  0.070 &     0.10 &     True &  213 &  5 &   2 &  11 \\
+				1 &  0.080 &     0.01 &     True &  213 &  5 &   2 &  11 \\
+				1 &  0.080 &     0.10 &     True &  213 &  5 &   2 &  11 \\
+				2 &  0.080 &     0.10 &     True &  213 &  5 &   2 &  11 \\
+				3 &  0.070 &     0.10 &     True &  212 &  5 &   2 &  12 \\
+				2 &  0.090 &     0.01 &     True &  212 &  5 &   2 &  12 \\
+				2 &  0.090 &     0.10 &     True &  212 &  5 &   2 &  12 \\
+				1 &  0.060 &     0.01 &     True &  209 &  5 &   2 &  15 \\
+				1 &  0.060 &     0.10 &     True &  209 &  5 &   2 &  15 \\
+				1 &  0.070 &     0.01 &     True &  209 &  5 &   2 &  15 \\
+				1 &  0.070 &     0.10 &     True &  209 &  5 &   2 &  15 \\
+				1 &  0.090 &     0.01 &     True &  209 &  5 &   2 &  15 \\
+				1 &  0.090 &     0.10 &     True &  209 &  5 &   2 &  15 \\
+				3 &  0.080 &     0.10 &     True &  206 &  5 &   2 &  18 \\
+				3 &  0.090 &     0.10 &     True &  206 &  5 &   2 &  18 \\
+				1 &  0.100 &     0.01 &     True &  206 &  5 &   2 &  18 \\
+				2 &  0.100 &     0.10 &     True &  206 &  5 &   2 &  18 \\
+				3 &  0.100 &     0.10 &     True &  206 &  5 &   2 &  18 \\
+				4 &  0.090 &     0.10 &     True &  205 &  5 &   2 &  19 \\
+				4 &  0.100 &     0.10 &     True &  205 &  5 &   2 &  19 \\
+				2 &  0.100 &     0.01 &     True &  204 &  5 &   2 &  20 \\
+				1 &  0.100 &     0.10 &     True &  203 &  5 &   2 &  21 \\
+				3 &  0.050 &     0.10 &     True &  219 &  4 &   3 &   5 \\
+				3 &  0.060 &     0.10 &     True &  215 &  4 &   3 &   9 \\
+				4 &  0.070 &     0.10 &     True &  210 &  4 &   3 &  14 \\
+				4 &  0.080 &     0.10 &     True &  209 &  4 &   3 &  15 \\
+				2 &  0.080 &     0.01 &     True &  208 &  4 &   3 &  16 \\
+				2 &  0.040 &     0.10 &     True &  222 &  3 &   4 &   2 \\
+				1 &  0.030 &     0.10 &     True &  219 &  3 &   4 &   5 \\
+				2 &  0.050 &     0.10 &     True &  219 &  3 &   4 &   5 \\
+				4 &  0.050 &     0.10 &     True &  219 &  3 &   4 &   5 \\
+				1 &  0.040 &     0.01 &     True &  218 &  3 &   4 &   6 \\
+				1 &  0.040 &     0.10 &     True &  218 &  3 &   4 &   6 \\
+				1 &  0.040 &     0.01 &    False &  218 &  3 &   4 &   6 \\
+				1 &  0.040 &     0.10 &    False &  218 &  3 &   4 &   6 \\
+				2 &  0.060 &     0.01 &     True &  214 &  3 &   4 &  10 \\
+				4 &  0.060 &     0.10 &     True &  214 &  3 &   4 &  10 \\
+				3 &  0.060 &     0.01 &     True &  213 &  3 &   4 &  11 \\
+				2 &  0.070 &     0.01 &     True &  213 &  3 &   4 &  11 \\
+				1 &  0.050 &     0.01 &    False &  213 &  3 &   4 &  11 \\
+				1 &  0.050 &     0.10 &    False &  213 &  3 &   4 &  11 \\
+				1 &  0.060 &     0.01 &    False &  213 &  3 &   4 &  11 \\
+				1 &  0.060 &     0.10 &    False &  213 &  3 &   4 &  11 \\
+				2 &  0.060 &     0.01 &    False &  213 &  3 &   4 &  11 \\
+				2 &  0.060 &     0.10 &    False &  213 &  3 &   4 &  11 \\
+				1 &  0.070 &     0.01 &    False &  213 &  3 &   4 &  11 \\
+				1 &  0.070 &     0.10 &    False &  213 &  3 &   4 &  11 \\
+				4 &  0.070 &     0.01 &     True &  212 &  3 &   4 &  12 \\
+				3 &  0.060 &     0.01 &    False &  212 &  3 &   4 &  12 \\
+				3 &  0.060 &     0.10 &    False &  212 &  3 &   4 &  12 \\
+				2 &  0.080 &     0.01 &    False &  212 &  3 &   4 &  12 \\
+				2 &  0.080 &     0.10 &    False &  212 &  3 &   4 &  12 \\
+				2 &  0.070 &     0.01 &    False &  208 &  3 &   4 &  16 \\
+				2 &  0.070 &     0.10 &    False &  208 &  3 &   4 &  16 \\
+				2 &  0.090 &     0.01 &    False &  207 &  3 &   4 &  17 \\
+				2 &  0.090 &     0.10 &    False &  207 &  3 &   4 &  17 \\
+				4 &  0.100 &     0.01 &    False &  207 &  3 &   4 &  17 \\
+				4 &  0.100 &     0.10 &    False &  207 &  3 &   4 &  17 \\
+				3 &  0.070 &     0.01 &     True &  206 &  3 &   4 &  18 \\
+				3 &  0.080 &     0.01 &     True &  206 &  3 &   4 &  18 \\
+				3 &  0.070 &     0.01 &    False &  206 &  3 &   4 &  18 \\
+				3 &  0.070 &     0.10 &    False &  206 &  3 &   4 &  18 \\
+				1 &  0.080 &     0.01 &    False &  206 &  3 &   4 &  18 \\
+				1 &  0.080 &     0.10 &    False &  206 &  3 &   4 &  18 \\
+				3 &  0.080 &     0.01 &    False &  206 &  3 &   4 &  18 \\
+				3 &  0.080 &     0.10 &    False &  206 &  3 &   4 &  18 \\
+				1 &  0.090 &     0.01 &    False &  206 &  3 &   4 &  18 \\
+				1 &  0.090 &     0.10 &    False &  206 &  3 &   4 &  18 \\
+				3 &  0.090 &     0.01 &    False &  206 &  3 &   4 &  18 \\
+				3 &  0.090 &     0.10 &    False &  206 &  3 &   4 &  18 \\
+				4 &  0.080 &     0.01 &     True &  205 &  3 &   4 &  19 \\
+				3 &  0.090 &     0.01 &     True &  205 &  3 &   4 &  19 \\
+				4 &  0.080 &     0.01 &    False &  205 &  3 &   4 &  19 \\
+				4 &  0.080 &     0.10 &    False &  205 &  3 &   4 &  19 \\
+				4 &  0.090 &     0.01 &    False &  205 &  3 &   4 &  19 \\
+				4 &  0.090 &     0.10 &    False &  205 &  3 &   4 &  19 \\
+				1 &  0.100 &     0.01 &    False &  205 &  3 &   4 &  19 \\
+				1 &  0.100 &     0.10 &    False &  205 &  3 &   4 &  19 \\
+				3 &  0.100 &     0.01 &     True &  204 &  3 &   4 &  20 \\
+				3 &  0.100 &     0.01 &    False &  204 &  3 &   4 &  20 \\
+				3 &  0.100 &     0.10 &    False &  204 &  3 &   4 &  20 \\
+				4 &  0.090 &     0.01 &     True &  203 &  3 &   4 &  21 \\
+				4 &  0.100 &     0.01 &     True &  201 &  3 &   4 &  23 \\
+				2 &  0.100 &     0.01 &    False &  201 &  3 &   4 &  23 \\
+				2 &  0.100 &     0.10 &    False &  201 &  3 &   4 &  23 \\
+				2 &  0.020 &     0.10 &     True &  223 &  2 &   5 &   1 \\
+				4 &  0.020 &     0.10 &     True &  222 &  2 &   5 &   2 \\
+				2 &  0.030 &     0.10 &     True &  222 &  2 &   5 &   2 \\
+				2 &  0.010 &     0.10 &     True &  221 &  2 &   5 &   3 \\
+				4 &  0.030 &     0.10 &     True &  221 &  2 &   5 &   3 \\
+				1 &  0.015 &     0.10 &     True &  220 &  2 &   5 &   4 \\
+				2 &  0.015 &     0.10 &     True &  220 &  2 &   5 &   4 \\
+				3 &  0.015 &     0.10 &     True &  220 &  2 &   5 &   4 \\
+				1 &  0.020 &     0.10 &     True &  220 &  2 &   5 &   4 \\
+				3 &  0.020 &     0.10 &     True &  219 &  2 &   5 &   5 \\
+				4 &  0.040 &     0.10 &     True &  219 &  2 &   5 &   5 \\
+				3 &  0.050 &     0.01 &     True &  219 &  2 &   5 &   5 \\
+				3 &  0.030 &     0.10 &     True &  218 &  2 &   5 &   6 \\
+				3 &  0.040 &     0.01 &     True &  218 &  2 &   5 &   6 \\
+				1 &  0.030 &     0.01 &    False &  218 &  2 &   5 &   6 \\
+				1 &  0.030 &     0.10 &    False &  218 &  2 &   5 &   6 \\
+				3 &  0.040 &     0.01 &    False &  218 &  2 &   5 &   6 \\
+				3 &  0.040 &     0.10 &    False &  218 &  2 &   5 &   6 \\
+				3 &  0.050 &     0.01 &    False &  218 &  2 &   5 &   6 \\
+				3 &  0.050 &     0.10 &    False &  218 &  2 &   5 &   6 \\
+				3 &  0.040 &     0.10 &     True &  215 &  2 &   5 &   9 \\
+				2 &  0.050 &     0.01 &     True &  215 &  2 &   5 &   9 \\
+				2 &  0.050 &     0.01 &    False &  215 &  2 &   5 &   9 \\
+				2 &  0.050 &     0.10 &    False &  215 &  2 &   5 &   9 \\
+				4 &  0.050 &     0.01 &    False &  214 &  2 &   5 &  10 \\
+				4 &  0.050 &     0.10 &    False &  214 &  2 &   5 &  10 \\
+				4 &  0.060 &     0.01 &     True &  213 &  2 &   5 &  11 \\
+				4 &  0.060 &     0.01 &    False &  213 &  2 &   5 &  11 \\
+				4 &  0.060 &     0.10 &    False &  213 &  2 &   5 &  11 \\
+				4 &  0.070 &     0.01 &    False &  210 &  2 &   5 &  14 \\
+				4 &  0.070 &     0.10 &    False &  210 &  2 &   5 &  14 \\
+				1 &  0.010 &     0.01 &     True &  224 &  1 &   6 &   0 \\
+				1 &  0.015 &     0.01 &     True &  224 &  1 &   6 &   0 \\
+				4 &  0.010 &     0.10 &     True &  223 &  1 &   6 &   1 \\
+				1 &  0.010 &     0.10 &     True &  222 &  1 &   6 &   2 \\
+				2 &  0.030 &     0.01 &     True &  220 &  1 &   6 &   4 \\
+				2 &  0.030 &     0.01 &    False &  220 &  1 &   6 &   4 \\
+				2 &  0.030 &     0.10 &    False &  220 &  1 &   6 &   4 \\
+				3 &  0.010 &     0.10 &     True &  219 &  1 &   6 &   5 \\
+				4 &  0.015 &     0.10 &     True &  219 &  1 &   6 &   5 \\
+				1 &  0.020 &     0.01 &     True &  219 &  1 &   6 &   5 \\
+				1 &  0.030 &     0.01 &     True &  219 &  1 &   6 &   5 \\
+				4 &  0.030 &     0.01 &     True &  219 &  1 &   6 &   5 \\
+				2 &  0.040 &     0.01 &    False &  219 &  1 &   6 &   5 \\
+				2 &  0.040 &     0.10 &    False &  219 &  1 &   6 &   5 \\
+				2 &  0.040 &     0.01 &     True &  215 &  1 &   6 &   9 \\
+				4 &  0.050 &     0.01 &     True &  214 &  1 &   6 &  10 \\
+				4 &  0.010 &     0.01 &    False &  223 &  0 &   7 &   1 \\
+				4 &  0.010 &     0.10 &    False &  223 &  0 &   7 &   1 \\
+				4 &  0.010 &     0.01 &     True &  222 &  0 &   7 &   2 \\
+				2 &  0.015 &     0.01 &     True &  222 &  0 &   7 &   2 \\
+				4 &  0.015 &     0.01 &     True &  222 &  0 &   7 &   2 \\
+				2 &  0.020 &     0.01 &     True &  222 &  0 &   7 &   2 \\
+				2 &  0.010 &     0.01 &    False &  222 &  0 &   7 &   2 \\
+				2 &  0.010 &     0.10 &    False &  222 &  0 &   7 &   2 \\
+				2 &  0.010 &     0.01 &     True &  221 &  0 &   7 &   3 \\
+				3 &  0.020 &     0.01 &     True &  221 &  0 &   7 &   3 \\
+				2 &  0.015 &     0.01 &    False &  221 &  0 &   7 &   3 \\
+				2 &  0.015 &     0.10 &    False &  221 &  0 &   7 &   3 \\
+				4 &  0.020 &     0.01 &     True &  220 &  0 &   7 &   4 \\
+				1 &  0.010 &     0.01 &    False &  220 &  0 &   7 &   4 \\
+				1 &  0.010 &     0.10 &    False &  220 &  0 &   7 &   4 \\
+				1 &  0.015 &     0.01 &    False &  220 &  0 &   7 &   4 \\
+				1 &  0.015 &     0.10 &    False &  220 &  0 &   7 &   4 \\
+				4 &  0.015 &     0.01 &    False &  220 &  0 &   7 &   4 \\
+				4 &  0.015 &     0.10 &    False &  220 &  0 &   7 &   4 \\
+				1 &  0.020 &     0.01 &    False &  220 &  0 &   7 &   4 \\
+				1 &  0.020 &     0.10 &    False &  220 &  0 &   7 &   4 \\
+				2 &  0.020 &     0.01 &    False &  220 &  0 &   7 &   4 \\
+				2 &  0.020 &     0.10 &    False &  220 &  0 &   7 &   4 \\
+				3 &  0.010 &     0.01 &     True &  219 &  0 &   7 &   5 \\
+				3 &  0.015 &     0.01 &     True &  219 &  0 &   7 &   5 \\
+				3 &  0.010 &     0.01 &    False &  219 &  0 &   7 &   5 \\
+				3 &  0.010 &     0.10 &    False &  219 &  0 &   7 &   5 \\
+				3 &  0.015 &     0.01 &    False &  219 &  0 &   7 &   5 \\
+				3 &  0.015 &     0.10 &    False &  219 &  0 &   7 &   5 \\
+				4 &  0.030 &     0.01 &    False &  219 &  0 &   7 &   5 \\
+				4 &  0.030 &     0.10 &    False &  219 &  0 &   7 &   5 \\
+				3 &  0.020 &     0.01 &    False &  218 &  0 &   7 &   6 \\
+				3 &  0.020 &     0.10 &    False &  218 &  0 &   7 &   6 \\
+				3 &  0.030 &     0.01 &     True &  216 &  0 &   7 &   8 \\
+				4 &  0.020 &     0.01 &    False &  216 &  0 &   7 &   8 \\
+				4 &  0.020 &     0.10 &    False &  216 &  0 &   7 &   8 \\
+				3 &  0.030 &     0.01 &    False &  216 &  0 &   7 &   8 \\
+				3 &  0.030 &     0.10 &    False &  216 &  0 &   7 &   8 \\
+				4 &  0.040 &     0.01 &    False &  215 &  0 &   7 &   9 \\
+				4 &  0.040 &     0.10 &    False &  215 &  0 &   7 &   9 \\
+				4 &  0.040 &     0.01 &     True &  214 &  0 &   7 &  10 \\
 		\bottomrule
 	\end{tabular}
-\end{table} 
+\end{table}		
 
 Those results show that the classification performed on the encoded data can be as efective
 as the one performed directly on the MCA data. It can also outperform it in the number of 
@@ -1242,32 +1243,23 @@ detection was most accurate in the negative sample detection for the number of c
 The additive nature of the encoder means that in those cases the detection is actually performed 
 on the DLL counts. This configuration also most efective when the primary focus is on the reduction
 of the false negative amount. The increase of dimentions can however lead to higher number of detected
-negative samples with low rise in the mislabeling.
+negative samples with low rise in the mislabeling. The performance is best when the dimention 
+responsible for new DLL's is taken under account in classification it can however work even 
+without it. 
 
+The encoder was also tested with the training data unlabled data. All samples were fed in the 
+classification phase. The obtained performance was comparable to the one of the encoder trained 
+only on the inlier samples but with different sets of input parameters. Obtained values can be found
+in the table xxx.
 
-\begin{table}
-	\centering
-	\caption{OCSVM classification on MCA data}
-	\label{id:tab:OCSVMonMCA}
-\begin{tabular}{rrrrr}
-	\toprule
-		nu &  Positive &  Negative &  False positive &  False negative \\
-	\midrule
-	 0.010 &       224 &         1 &               6 &               0 \\
-	 0.015 &       224 &         2 &               5 &               0 \\
-	 0.020 &        74 &         3 &               4 &             150 \\
-	 0.030 &       222 &         3 &               4 &               2 \\
-	 0.040 &        77 &         3 &               4 &             147 \\
-	 0.050 &       221 &         3 &               4 &               3 \\
-	 0.060 &        71 &         3 &               4 &             153 \\
-	 0.070 &        71 &         3 &               4 &             153 \\
-	 0.080 &        70 &         3 &               4 &             154 \\
-	 0.090 &       215 &         3 &               4 &               9 \\
-	 0.100 &        69 &         3 &               4 &             155 \\
-	\bottomrule
-\end{tabular}
-\end{table} 
+%TODO dodać tabele
 
+The performance of the develop methot should be tested on the completely separate validation data but 
+the gathered data set is very small and to best perform this task an additional samples should 
+be gathered in the future work.
+
+ %TODO ROC curves
+\subsection{Process paths}
 
 \chapter{Summary}
 % \begin{itemize}
@@ -1317,6 +1309,10 @@ negative samples with low rise in the mislabeling.
 \item[ETL] Event Trace Log 
 \item[DLL] Dynamic link library
 \item[RSVM] Robust Support Vector Machines 
+\item[P] Positive 
+\item[N] Negative 
+\item[FP] False Positive
+\item[FN] False Negative  
 \end{itemize}
 
 \chapter*{Listings}
