@@ -1261,6 +1261,77 @@ be gathered in the future work.
  %TODO ROC curves
 \subsection{Process paths}
 
+We can see in our data that some paths contain the "msedge" parent process and some start with the first 
+edge browser. This may be a result of a specific case in the data gathering process or the result of wrong 
+processing. In the future some logs may contain even more complex prefixes to the actually investigated
+process. For those reasons the first step in the process path analysis should be their normalisation which
+would result in them starting with the process of intrest in the first place. In our dataset this can 
+be achieved by cutting off any prefix values before the first "msedge".  
+
+All paths corresponding to the researched process consist of elements presented in the table 
+\ref{id:tab:pathElems}. The uniqe values obtained after normalisation are presented in the table 
+\ref{if:tab:uniqPaths}. The full list normalised paths can be found in the appendix \ref{id:tab:fullPaths}.
+
+\begin{table}
+\centering
+\caption{Elements of researched paths.}
+\label{id:tab:pathElems}
+\begin{tabular}{ll}
+	\toprule
+	0 &        conhost \\
+	1 &       HOSTNAME \\
+	2 &       WerFault \\
+	3 &       ipconfig \\
+	4 &  cpu-z\_1.96-en \\
+	5 &         msedge \\
+	6 &         whoami \\
+	7 &     powershell \\
+	8 &        notepad \\
+	\bottomrule
+\end{tabular}
+\end{table}		
+	
+\begin{table}
+	\centering
+	\caption{Unique researched paths.}
+	\label{id:tab:uniqPaths}
+	\begin{tabular}{ll}
+		\toprule
+		0  &                                     /msedge/msedge \\
+		1  &                                            /msedge \\
+		2  &                          /msedge/msedge/powershell \\
+		3  &                  /msedge/msedge/powershell/conhost \\
+		4  &                                    /msedge/notepad \\
+		5  &                 /msedge/msedge/powershell/ipconfig \\
+		6  &                            /msedge/msedge/WerFault \\
+		7  &                 /msedge/msedge/powershell/HOSTNAME \\
+		8  &                   /msedge/msedge/powershell/whoami \\
+		9  &  /msedge/cpu-z\_1.96-en/cpu-z\_1.96-en/cpu-z\_1.96... \\
+		10 &        /msedge/cpu-z\_1.96-en/cpu-z\_1.96-en/notepad \\
+		11 &                /msedge/cpu-z\_1.96-en/cpu-z\_1.96-en \\
+		12 &                              /msedge/cpu-z\_1.96-en \\
+		13 &  /msedge/cpu-z\_1.96-en/cpu-z\_1.96-en/cpu-z\_1.96-en \\
+		14 &                              /msedge/msedge/msedge \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+This data cannot be fed directly to the classification algorithm because of it's 
+qualitative nature. Because of that no baseline can be obtained. The basic feature
+of the path it's size - the number of processes contained in it. The distribution
+of the path lengths is presented in the graph \ref{fig:pathLenHist}. Those values
+extracted can be scaled and used to detect anomalies.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/pathLenHist}
+	\caption{Histogram of the path lengths.}
+	\label{fig:pathLenHist}
+ \end{figure}
+
+Those values extracted
+can be scaled and used to detect anomalies. 
+
 \chapter{Summary}
 % \begin{itemize}
 % \item synthetic description of performed work
@@ -1595,6 +1666,249 @@ be gathered in the future work.
 \end{tabular}
 \end{table}
    
+\begin{table}
+	\centering
+	\caption{Values of the multiple correspondance analysis.}
+	\label{id:tab:fullPaths}
+	\begin{tabular}{ll}
+		\toprule
+		{} &                                                  0 \\
+		\midrule
+		0   &                                     /msedge/msedge \\
+		1   &                                     /msedge/msedge \\
+		2   &                                     /msedge/msedge \\
+		3   &                                     /msedge/msedge \\
+		4   &                                            /msedge \\
+		5   &                                     /msedge/msedge \\
+		6   &                                     /msedge/msedge \\
+		7   &                                     /msedge/msedge \\
+		8   &                                     /msedge/msedge \\
+		9   &                                     /msedge/msedge \\
+		10  &                                     /msedge/msedge \\
+		11  &                                     /msedge/msedge \\
+		12  &                                     /msedge/msedge \\
+		13  &                                     /msedge/msedge \\
+		14  &                                     /msedge/msedge \\
+		15  &                                     /msedge/msedge \\
+		16  &                                     /msedge/msedge \\
+		17  &                                     /msedge/msedge \\
+		18  &                                     /msedge/msedge \\
+		19  &                                     /msedge/msedge \\
+		20  &                                     /msedge/msedge \\
+		21  &                                     /msedge/msedge \\
+		22  &                                     /msedge/msedge \\
+		23  &                                     /msedge/msedge \\
+		24  &                                     /msedge/msedge \\
+		25  &                                     /msedge/msedge \\
+		26  &                                     /msedge/msedge \\
+		27  &                                     /msedge/msedge \\
+		28  &                                     /msedge/msedge \\
+		29  &                                     /msedge/msedge \\
+		30  &                                     /msedge/msedge \\
+		31  &                                     /msedge/msedge \\
+		32  &                                     /msedge/msedge \\
+		33  &                                     /msedge/msedge \\
+		34  &                                            /msedge \\
+		35  &                                     /msedge/msedge \\
+		36  &                                     /msedge/msedge \\
+		37  &                                     /msedge/msedge \\
+		38  &                                     /msedge/msedge \\
+		39  &                                     /msedge/msedge \\
+		40  &                                     /msedge/msedge \\
+		41  &                                     /msedge/msedge \\
+		42  &                                     /msedge/msedge \\
+		43  &                                     /msedge/msedge \\
+		44  &                                     /msedge/msedge \\
+		45  &                                     /msedge/msedge \\
+		46  &                                     /msedge/msedge \\
+		47  &                                     /msedge/msedge \\
+		48  &                                     /msedge/msedge \\
+		49  &                                     /msedge/msedge \\
+		50  &                                     /msedge/msedge \\
+		51  &                                     /msedge/msedge \\
+		52  &                                     /msedge/msedge \\
+		53  &                                     /msedge/msedge \\
+		54  &                                     /msedge/msedge \\
+		55  &                                     /msedge/msedge \\
+		56  &                                            /msedge \\
+		57  &                                     /msedge/msedge \\
+		58  &                                     /msedge/msedge \\
+		59  &                                     /msedge/msedge \\
+		60  &                                            /msedge \\
+		61  &                                     /msedge/msedge \\
+		62  &                                     /msedge/msedge \\
+		63  &                                            /msedge \\
+		64  &                                     /msedge/msedge \\
+		65  &                                     /msedge/msedge \\
+		66  &                                     /msedge/msedge \\
+		67  &                                     /msedge/msedge \\
+		68  &                                     /msedge/msedge \\
+		69  &                                     /msedge/msedge \\
+		70  &                                     /msedge/msedge \\
+		71  &                                     /msedge/msedge \\
+		72  &                                     /msedge/msedge \\
+		73  &                                     /msedge/msedge \\
+		74  &                                     /msedge/msedge \\
+		75  &                                     /msedge/msedge \\
+		76  &                                     /msedge/msedge \\
+		77  &                                     /msedge/msedge \\
+		78  &                          /msedge/msedge/powershell \\
+		79  &                                     /msedge/msedge \\
+		80  &                                     /msedge/msedge \\
+		81  &                                     /msedge/msedge \\
+		82  &                                     /msedge/msedge \\
+		83  &                                     /msedge/msedge \\
+		84  &                                     /msedge/msedge \\
+		85  &                                     /msedge/msedge \\
+		86  &                                     /msedge/msedge \\
+		87  &                                     /msedge/msedge \\
+		88  &                                     /msedge/msedge \\
+		89  &                  /msedge/msedge/powershell/conhost \\
+		90  &                                     /msedge/msedge \\
+		91  &                                     /msedge/msedge \\
+		92  &                                     /msedge/msedge \\
+		93  &                                     /msedge/msedge \\
+		94  &                                     /msedge/msedge \\
+		95  &                                     /msedge/msedge \\
+		96  &                                     /msedge/msedge \\
+		97  &                                     /msedge/msedge \\
+		98  &                                    /msedge/notepad \\
+		99  &                                     /msedge/msedge \\
+		100 &                                     /msedge/msedge \\
+		101 &                                     /msedge/msedge \\
+		102 &                                     /msedge/msedge \\
+		103 &                                     /msedge/msedge \\
+		104 &                                    /msedge/notepad \\
+		105 &                                     /msedge/msedge \\
+		106 &                                     /msedge/msedge \\
+		107 &                                     /msedge/msedge \\
+		108 &                                     /msedge/msedge \\
+		109 &                                     /msedge/msedge \\
+		110 &                                     /msedge/msedge \\
+		111 &                                     /msedge/msedge \\
+		112 &                                     /msedge/msedge \\
+		113 &                 /msedge/msedge/powershell/ipconfig \\
+		114 &                            /msedge/msedge/WerFault \\
+		115 &                            /msedge/msedge/WerFault \\
+		116 &                                            /msedge \\
+		117 &                 /msedge/msedge/powershell/HOSTNAME \\
+		118 &                   /msedge/msedge/powershell/whoami \\
+		119 &                                     /msedge/msedge \\
+		120 &                                     /msedge/msedge \\
+		121 &                                            /msedge \\
+		122 &                                     /msedge/msedge \\
+		123 &                                     /msedge/msedge \\
+		124 &                                     /msedge/msedge \\
+		125 &                                     /msedge/msedge \\
+		126 &                                     /msedge/msedge \\
+		127 &                                     /msedge/msedge \\
+		128 &                                     /msedge/msedge \\
+		129 &                                     /msedge/msedge \\
+		130 &                                     /msedge/msedge \\
+		131 &                                     /msedge/msedge \\
+		132 &                                     /msedge/msedge \\
+		133 &                                     /msedge/msedge \\
+		134 &                                     /msedge/msedge \\
+		135 &                                     /msedge/msedge \\
+		136 &                                     /msedge/msedge \\
+		137 &                                     /msedge/msedge \\
+		138 &                                     /msedge/msedge \\
+		139 &                                     /msedge/msedge \\
+		140 &                                     /msedge/msedge \\
+		141 &                                     /msedge/msedge \\
+		142 &                                     /msedge/msedge \\
+		143 &                                            /msedge \\
+		144 &                                     /msedge/msedge \\
+		145 &                                     /msedge/msedge \\
+		146 &                                     /msedge/msedge \\
+		147 &                                     /msedge/msedge \\
+		148 &                                     /msedge/msedge \\
+		149 &                                     /msedge/msedge \\
+		150 &                                     /msedge/msedge \\
+		151 &                                     /msedge/msedge \\
+		152 &                                     /msedge/msedge \\
+		153 &                                     /msedge/msedge \\
+		154 &                                     /msedge/msedge \\
+		155 &                                     /msedge/msedge \\
+		156 &                                     /msedge/msedge \\
+		157 &                                     /msedge/msedge \\
+		158 &                                     /msedge/msedge \\
+		159 &                                     /msedge/msedge \\
+		160 &                                     /msedge/msedge \\
+		161 &                                     /msedge/msedge \\
+		162 &                                     /msedge/msedge \\
+		163 &                                     /msedge/msedge \\
+		164 &                                     /msedge/msedge \\
+		165 &                                     /msedge/msedge \\
+		166 &                          /msedge/msedge/powershell \\
+		167 &                                     /msedge/msedge \\
+		168 &                                     /msedge/msedge \\
+		169 &                                     /msedge/msedge \\
+		170 &                                     /msedge/msedge \\
+		171 &                                     /msedge/msedge \\
+		172 &                                     /msedge/msedge \\
+		173 &                                     /msedge/msedge \\
+		174 &                                     /msedge/msedge \\
+		175 &                                     /msedge/msedge \\
+		176 &                                     /msedge/msedge \\
+		177 &  /msedge/cpu-z\_1.96-en/cpu-z\_1.96-en/cpu-z\_1.96... \\
+		178 &                                     /msedge/msedge \\
+		179 &                                     /msedge/msedge \\
+		180 &                                     /msedge/msedge \\
+		181 &                                     /msedge/msedge \\
+		182 &                                     /msedge/msedge \\
+		183 &                                     /msedge/msedge \\
+		184 &                                     /msedge/msedge \\
+		185 &                                     /msedge/msedge \\
+		186 &                                     /msedge/msedge \\
+		187 &                                     /msedge/msedge \\
+		188 &                                     /msedge/msedge \\
+		189 &                                     /msedge/msedge \\
+		190 &                                     /msedge/msedge \\
+		191 &                                     /msedge/msedge \\
+		192 &                                     /msedge/msedge \\
+		193 &                                     /msedge/msedge \\
+		194 &                                     /msedge/msedge \\
+		195 &                                     /msedge/msedge \\
+		196 &                  /msedge/msedge/powershell/conhost \\
+		197 &        /msedge/cpu-z\_1.96-en/cpu-z\_1.96-en/notepad \\
+		198 &                /msedge/cpu-z\_1.96-en/cpu-z\_1.96-en \\
+		199 &                                     /msedge/msedge \\
+		200 &                                     /msedge/msedge \\
+		201 &                                     /msedge/msedge \\
+		202 &                                     /msedge/msedge \\
+		203 &                                     /msedge/msedge \\
+		204 &                                     /msedge/msedge \\
+		205 &                                     /msedge/msedge \\
+		206 &                                     /msedge/msedge \\
+		207 &                                     /msedge/msedge \\
+		208 &                                     /msedge/msedge \\
+		209 &                                     /msedge/msedge \\
+		210 &                                    /msedge/notepad \\
+		211 &                                     /msedge/msedge \\
+		212 &                                     /msedge/msedge \\
+		213 &                                     /msedge/msedge \\
+		214 &                                     /msedge/msedge \\
+		215 &                                     /msedge/msedge \\
+		216 &                                     /msedge/msedge \\
+		217 &                                     /msedge/msedge \\
+		218 &                                    /msedge/notepad \\
+		219 &                                     /msedge/msedge \\
+		220 &                                     /msedge/msedge \\
+		221 &                                     /msedge/msedge \\
+		222 &                                     /msedge/msedge \\
+		223 &                              /msedge/cpu-z\_1.96-en \\
+		224 &                                     /msedge/msedge \\
+		225 &  /msedge/cpu-z\_1.96-en/cpu-z\_1.96-en/cpu-z\_1.96-en \\
+		226 &                                     /msedge/msedge \\
+		227 &                            /msedge/msedge/WerFault \\
+		228 &                              /msedge/msedge/msedge \\
+		229 &                              /msedge/msedge/msedge \\
+		230 &                              /msedge/msedge/msedge \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 Example of a \lstinline|"exploit.html"| file:
 
 \begin{lstlisting}
