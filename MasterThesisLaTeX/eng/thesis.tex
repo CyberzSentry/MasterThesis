@@ -1329,8 +1329,108 @@ extracted can be scaled and used to detect anomalies.
 	\label{fig:pathLenHist}
  \end{figure}
 
-Those values extracted
-can be scaled and used to detect anomalies. 
+ %TODO tabela wyniki.
+Those values extracted can be scaled and used to detect anomalies and the performance
+of this approach is depicted in the table xxx. Obtained values show that outliers can be
+detected with a managable false positive ratio. This is especially visible in the row 
+4 for 'nu' values equal to 0.05. 
+
+In order to attempt recognision of more complex patterns in the data it was encoded with
+the use of a Similarity Encoder which assignes values to the input based on its similarity 
+to the known char strings obtained in the training process. The outputs are calculated with 
+one the avialable algorithms like "N -gram", "Levenshtein-ratio" and other. This encoder is
+capable of handling previously unknown values which is a big factor when processing 
+qualitative features like paths. In a cases where new values occur in the data processing,
+classic encoders like "OneHot" fail. 
+
+In the initial approach the paths were normalised to start with the same initial 'msedge' 
+process and split on the separators to obtain a matrix of their components. Each entry in the
+matrix corresponds to a single path and the columns represent segments in the path. The matrix
+width is equal to the maximum path length in the data where path length is equal to the number
+of components from which it is build. Paths shorter than matrix width were paded in the spliting
+process with empty strings. The result of this process is presented in the table xxx located in
+the appendix. 
+
+% TODO dodać tabele
+The encoder trained with the inlier split data assigned known entries to each column and this 
+information was used to encode all samples which subsequentialy were analysed with the One Class
+SVM. The results presented in the table xxx show that this approach is very ineffective. 
+
+% todo add values
+The results of the anomaly detection performed with the 'nu' value equal to x were inspected 
+to establish the root causes of the low performance. The first noticable problem with the data
+is the handling of the empty string values. The similarities for each input column are 
+calculated to the corresponding set of know values which result in multiple encoded values per
+column. Because of that the returned result is flattened to the vector form in which entries
+correspond to both the input dimention and it's specific categories. 
+
+An example of this can be shown with the folowing categories based on the ones computed 
+for the the used data:
+\begin{itemize}
+	\item Column 1 - '', 'cpu-z\_1.96-en', 'msedge', 'notepad'.
+	\item Column 2 - '', 'cpu-z\_1.96-en', 'msedge'.
+\end{itemize}
+
+Those result in the output vector with following entries:
+\begin{itemize}
+	\item Similarity of the first column entry to the ''.
+	\item Similarity of the first column entry to the 'cpu-z\_1.96-en'.
+	\item Similarity of the first column entry to the 'msedge'.
+	\item Similarity of the first column entry to the 'notepad'.
+	\item Similarity of the second column entry to the ''.
+	\item Similarity of the second column entry to the 'cpu-z\_1.96-en'.
+	\item Similarity of the second column entry to the 'msedge'.
+\end{itemize}
+
+In our data the the similarities to empty strings ('') is always equal to zero, even if the input
+is identical. This is most probably due to the limitations in the utilised string comparison
+algorithms. Because of that our calculated categories:
+\begin{lstlisting}
+[
+	['msedge'],
+	['', 'cpu-z_1.96-en', 'msedge', 'notepad'],
+ 	['', 'cpu-z_1.96-en', 'msedge'],
+	['', 'cpu-z_1.96-en', 'notepad'],
+ 	['', 'cpu-z_1.96-en']
+]
+\end{lstlisting}
+
+are in reality:
+
+\begin{lstlisting}
+[
+	['msedge'],
+	['cpu-z_1.96-en', 'msedge', 'notepad'],
+	['cpu-z_1.96-en', 'msedge'],
+	['cpu-z_1.96-en', 'notepad'],
+	['cpu-z_1.96-en']
+]
+\end{lstlisting}
+
+
+
+Additionally it is possible that because the encoder was designed to be more robust in the face 
+data variance, in other words smooth out anomalies. Even though this process allows for the handling
+of new values it might significantly disrupt anomaly detection.
+
+An example of this is the process '/msedge/msedge/powershell' which is a clear outlier
+but in the encoded form it is equal [1., 0., 1., 0., 0., 0., 0., 0., 0.]. This is equal
+to the 'center of gravity' of the encoded data because the by far most numerous process
+'/msedge/msedge' obtains the same value. This is due to the third element of the outlier process  
+path having no similarity of the known previous values.
+
+On the other side of the spectrum is the inlier '/msedge/notepad' value which encoded is equal to
+[1., 1., 0., 0., 0., 0., 0., 0., 0.] which is distant from the 'center of gravity' by 1 (maximum 
+value) in the two of the nine dimentions. 
+
+The encoder in this configuration is skewered in its performance to detect low count values that
+are present in the training process and overlook new values that are very different to them. 
+
+This problem might however be solved by fixing encoding of the empty string values. The
+initial analysis showed also that the paths should be normalised to start with the first 
+subprocess of the msedge because it is always identical and does not introduce any information
+to the classification process.
+
 
 \chapter{Summary}
 % \begin{itemize}
