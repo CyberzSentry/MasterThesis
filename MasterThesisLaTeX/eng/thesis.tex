@@ -498,8 +498,18 @@ distant it is from the specific previously chosen encoding column. It is a gener
 OneHot method \cite{bib:dirtycat}. The python implementation of this approach utilised in this thesis 
 can be found under \url{https://dirty-cat.github.io/stable/}.
 
+
+\subsection{Average processor utilisation}
+
+This feature represents how processor intensive the given process is. This information can possibly 
+be utilised both the processes that are not usually spawned by the one being analysed as well as
+inlier processes that missbehave due to the performed exploitation. Because this feature is 
+strictly numerical, it is a lot easier to analyze than the qualitative values like the process
+paths and the loaded DLL's. It is also a lot less impacted by the actions of the normal user when
+compared to the process lifespan values from which it is derived.
+
 % \subsection{Process lifespan}
-% \subsection{Average processor utilisation}
+
 % \subsection{Exit code}
 
 \section{Anomaly detection algorithms}
@@ -1347,7 +1357,7 @@ In the initial approach the paths were normalised to start with the same initial
 process and split on the separators to obtain a matrix of their components. Each entry in the
 matrix corresponds to a single path and the columns represent segments in the path. The matrix
 width is equal to the maximum path length in the data where path length is equal to the number
-of components from which it is build. Paths shorter than matrix width were paded in the spliting
+of components from which it is build. Paths shorter than matrix width were paded in the splitting
 process with empty strings. The result of this process is presented in the table xxx located in
 the appendix. 
 
@@ -1429,8 +1439,21 @@ are present in the training process and overlook new values that are very differ
 This problem might however be solved by fixing encoding of the empty string values. The
 initial analysis showed also that the paths should be normalised to start with the first 
 subprocess of the msedge because it is always identical and does not introduce any information
-to the classification process.
+to the classification process. The values coresponfing to the empty strings were manualy adjusted
+to be equal 1 in the cases of exact match. Corected data was once again used to in anomaly detection
+and the results can be found in the table xxx. Those values show improvement in the performance
+which is especially visible in the entry number x for the 'nu' value equal x.
 
+%TODO tabele
+The similarity encoder was also tested with the training on normalised paths without splitting 
+them into components as well as only the value '/msedge' and an empty stirng. The performance for
+both is quite similar. The results are presented in the table xxx and xxx. Both of those approaches
+are capable of detecting outliers with higher success trate than the split path approach. It does
+however come with the cost in the false negative rate.
+
+\subsection{Average processor utilisation}
+
+\subsection{Combined performance}
 
 \chapter{Summary}
 % \begin{itemize}

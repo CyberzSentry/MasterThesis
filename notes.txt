@@ -26,7 +26,7 @@ Dodanie odrzuconych cech i przyczyn z perfview
 Multipage table
 Możliwość wykrywania wcześniej niewykrytych DLL
 Perform x validation with the dll data.
-
+Plot encoded paths with validation
 
 #Terminy:
 18.08 (obrona 1-8.09)
