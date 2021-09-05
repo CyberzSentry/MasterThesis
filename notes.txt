@@ -33,3 +33,5 @@ Plot encoded paths with validation
 10.09 (obrona 24-30.09)
 
 https://link.springer.com/article/10.1007/s10994-018-5724-2
+
+https://sekurak.pl/polnocnokoreanska-grupa-apt-wykorzystuje-exploit-w-adobe-readerze-do-infekowania-celow-zlosliwymi-plikami-pdf/?fbclid=IwAR2IjeYjiiVF0bFYEg3v1UwGY2bmTIxiJxv6HsqFHzySNdGxOqjQ7np6Zd4

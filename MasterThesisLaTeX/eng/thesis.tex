@@ -1409,6 +1409,8 @@ both is quite similar. The results are presented in the table xxx and xxx. Both 
 are capable of detecting outliers with higher success trate than the split path approach. It does
 however come with the cost in the false negative rate.
 
+%todo county lepsze 
+
 \subsection{Average processor utilisation}
 
 This feature is the easiest to analyze due to its quantitative nature and the fact that it is
@@ -1442,8 +1444,8 @@ appendix.
 To further analyze the potential of the Event Trace for Windows data in the identification of
 anomalous processes spawned with zero day exploitation, all identified valuable features were
 combined in a single experiment and their parameters were adjusted based on the prevoiusly drawn 
-conclusions.
-
+conclusions. To further improve the validity of the results a ten fold cross validation was 
+performed. 
 
 
 \chapter{Summary}
@@ -1453,7 +1455,16 @@ detail.
 
 \section{Security anomaly detection}
 
-
+The results obtained in the experiments show that with all of the selected features allow 
+to perform a security anomaly detection with the above average success ratio. For the tested
+data it was possible to obtain a 30\% detection rate with a 2.2\% false positive ratio while
+utilising all of the best performing features at once. This obtained score may be significantly 
+improved by the increase in the dataset size. This approach to the monitoring of the programs 
+running on the operating systems may be utilised in a honeypot traps which are "a sacrificial 
+computer systems that are intended to attract cyberattacks, like a decoy" \cite{bib:Honeypot}. 
+The best use case for the system would be a deployment on the detector on the servers and 
+computers for the individual users to learn their specific patterns and identify the exploitation
+attempts.
 
 \section{Data sample}
 
@@ -1475,6 +1486,8 @@ complicates the anomaly detection process. This also sugests that methods and ap
 for the application with the browsers may be highly effective when utilised with other outward 
 facing programs like databases, web servers etc.
 
+Since the start of the work on this thesis %todo dodać exploit na pdf viewera 
+
 \section{Unutilised data}
 
 Due to the limitations imposed in the data gathering process by the limited memory resources and its
@@ -1494,6 +1507,14 @@ used to detect this specific type of attack.
 
 Those include the "build time" and the "File version" of the loaded modules as well as their paths.
 Example of this data is presented in the figure x.
+
+\section{Software classification via multiple correspondance analysis}
+
+The correlation of software by the loaded DLL's is a interesting idea that has not been
+found in the previously written literature. This idea may be worth further research. It maybe worth
+the effort to perform the multiple correspondance analysis on the DLL's loaded by a wide range 
+of programs and to analyze how the obtained results correspond to their functionalities. It may also
+be useful to check where passible malware samples lay in the obtained feature space. 
 
 % \begin{itemize}
 % \item synthetic description of performed work
