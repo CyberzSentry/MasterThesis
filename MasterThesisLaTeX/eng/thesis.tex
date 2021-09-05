@@ -396,7 +396,7 @@ prove the superiority of RSVM's in the tested use cases. Some researchers try to
 data classification with novel anomaly detection methods like autoencoders. This approach was
 attempted for example in "Anomaly Detection on the Edge" by Joseph Schneible and Alex Lu
 \cite{bib:autoencoderDist}. This method learns to compress and decompress the available feature 
-vectors with the use of artificial neural vectors. Anomally is detected when the distance 
+vectors with the use of artificial neural vectors. Anomaly is detected when the distance 
 between the input and output of the neural net is higher than the specified threshold.
 
 %TODO opisać działanie i dalsze przykłady
@@ -544,10 +544,14 @@ the number of misclassified samples (False negative) divided by the known count 
 
 Based on the studied literature one of the well-suited result presentation methods is the Receiver 
 Operating Characteristic (ROC) curve which is a plot of the detection accuracy against the false 
-positive ratio. The proboability of false anomaly detection is crucial because it may cause overlaod
+positive ratio. In this document the detected outliers are classified as negative samples. Because 
+of that the reciever operating characteristic curves are ploted as true negative ratio agains the 
+false negative. The proboability of false anomaly detection is crucial because it may cause overload
 on of the response teams and mechanisms which in turn may result in delayed response or omission
 of actual exploitation. All annomaly detection performance analysis in the thesis is focused
-on those indicators. 
+on those indicators. The ROC curves may however be corrupted by the small available sample size 
+which negatively impacts the performance analysis.
+
 
 % \begin{itemize}
 % \item solution to the problem proposed by the author of the thesis
@@ -804,36 +808,21 @@ substring indicated that the coresponding process is either Microsoft Edge brows
 \subsection{Dynamic link libraries}
 To obtain baseline results to which any developed frameworks can be compared a one class SVM anomaly 
 detection was performed on the raw one hot encoded DLL data. The results of this process can be found
-in the table \ref{id:tab:rawDlls} and show that singling out of the outliers is possible with this type 
-of information.
+in the figure \ref{fig:DLLBaselineROC} and show that singling out of the outliers is possible with this type 
+of information. The raw results can be found in the table \ref{id:tab:rawDlls} located in the appendix. 
 
-\begin{table}
+\begin{figure}
 	\centering
-	\caption{Anomaly detection on raw DLL data}
-	\label{id:tab:rawDlls}
-\begin{tabular}{rrrrr}
-	\toprule
-		nu &  Positive &  Negative &  False positive &  False negative \\
-	\midrule
-	 0.010 &       221 &         1 &               6 &               3 \\
-	 0.015 &       217 &         1 &               6 &               7 \\
-	 0.020 &       221 &         2 &               5 &               3 \\
-	 0.030 &       218 &         1 &               6 &               6 \\
-	 0.040 &       218 &         3 &               4 &               6 \\
-	 0.050 &       215 &         3 &               4 &               9 \\
-	 0.060 &       216 &         3 &               4 &               8 \\
-	 0.070 &       210 &         3 &               4 &              14 \\
-	 0.080 &       210 &         4 &               3 &              14 \\
-	 0.090 &       207 &         4 &               3 &              17 \\
-	 0.100 &       207 &         4 &               3 &              17 \\
-	\bottomrule
-	\end{tabular}
-\end{table}
+	\includegraphics{images/DLLBaselineROC}
+	\caption{The receiver operating characteristic of the baseline annomaly detection.}
+	\label{fig:DLLBaselineROC}
+ \end{figure}
 	
 In the initial analysis of the data we can look at the counts of DLL's loaded by specific 
 processes. The distribution of those values can be found in the histogram \ref{fig:dllCounts}. 
 From depiction we can clearly see that some of the outlier samples lie distant from other 
 samples. This pattern may be detectable. 
+
 
 \begin{figure}
 	\centering
@@ -843,31 +832,17 @@ samples. This pattern may be detectable.
  \end{figure}
 
 To test the hypothesis the DLL counts were normalised to fit the range from 0 to 1 and a anomaly 
-detection was performed. The outputs presented in the table \ref{id:tab:countOCSVM} show that 
-negative samples were at least partialy correctly labled for some classifier configurations.
+detection was performed. The ROC of the process is visible in the figure \ref{fig:DLLcountsROC} and
+raw outputs are presented in the table \ref{id:tab:countOCSVM}. Both of those show that 
+negative samples were at least partialy correctly labled for some classifier configurations. In 
+some cases 100\% of anomalies was detected with a relatively low false negative ratio.
 
-\begin{table}
+\begin{figure}
 	\centering
-	\caption{Anomaly detection on normalised DLL counts}
-	\label{id:tab:countOCSVM}
-	\begin{tabular}{rrrrr}
-		\toprule
-			nu &  Positive &  Negative &  False positive &  False negative \\
-		\midrule
-		 0.010 &       220 &         0 &               7 &               4 \\
-		 0.015 &       220 &         0 &               7 &               4 \\
-		 0.020 &       219 &         0 &               7 &               5 \\
-		 0.030 &       219 &         1 &               6 &               5 \\
-		 0.040 &       218 &         3 &               4 &               6 \\
-		 0.050 &       217 &         3 &               4 &               7 \\
-		 0.060 &       217 &         3 &               4 &               7 \\
-		 0.070 &       217 &         3 &               4 &               7 \\
-		 0.080 &       209 &         3 &               4 &              15 \\
-		 0.090 &       209 &         3 &               4 &              15 \\
-		 0.100 &       202 &         3 &               4 &              22 \\
-		\bottomrule
-	\end{tabular}
-\end{table}
+	\includegraphics{images/DLLCountsROC}
+	\caption{The receiver operating characteristic of the baseline annomaly detection.}
+	\label{fig:DLLcountsROC}
+\end{figure}
 
 There are over 1400 different DLL's gathered in the data set created. A single process loads 
 even upto 287 modules. This extremely high dimensionality of the information might be too complex 
@@ -979,37 +954,21 @@ DLL's present only in the outliers can be found in table \ref{id:tab:outlierDLLs
 \end{tabular}
 \end{table}
 
-The proof of possible classification is ilustrated in the table \ref{id:tab:OCSVMonMCA} which shows the 
-results One Class Support Vector Machine annomaly detection performed directly on the first three dimentions 
-of the data from multiple component analysis. With proper configuration the algorythm has managed to detect 
+The proof of possible classification is ilustrated in the figure \ref{fig:mcaroc} which shows the 
+results One Class Support Vector Machine annomaly detection performed directly on the first two dimentions 
+of the data from multiple component analysis. The raw data used to obtain the ROC can be found in the table
+\ref{id:tab:OCSVMonMCA} located in the appendix. With proper configuration the algorythm has managed to detect 
 two anomalies with zero false negative results. This approach however is very difficoult to apply in the 
 production enviroment due to the full dataset required prior to classification. This data may be however 
 utilised to develop and train a custom encoder capable of positioning the new input data in the previously 
 analysed DLL space.  
 
-
-\begin{table}
+\begin{figure}
 	\centering
-	\caption{OCSVM classification on MCA data}
-	\label{id:tab:OCSVMonMCA}
-\begin{tabular}{rrrrr}
-	\toprule
-		nu &  Positive &  Negative &  False positive &  False negative \\
-	\midrule
-	 0.010 &       224 &         1 &               6 &               0 \\
-	 0.015 &       224 &         2 &               5 &               0 \\
-	 0.020 &        74 &         3 &               4 &             150 \\
-	 0.030 &       222 &         3 &               4 &               2 \\
-	 0.040 &        77 &         3 &               4 &             147 \\
-	 0.050 &       221 &         3 &               4 &               3 \\
-	 0.060 &        71 &         3 &               4 &             153 \\
-	 0.070 &        71 &         3 &               4 &             153 \\
-	 0.080 &        70 &         3 &               4 &             154 \\
-	 0.090 &       215 &         3 &               4 &               9 \\
-	 0.100 &        69 &         3 &               4 &             155 \\
-	\bottomrule
-\end{tabular}
-\end{table} 
+	\includegraphics[scale=0.9]{images/MCAROC}
+	\caption{ROC curve of OCSVM directly on MCA data}
+	\label{fig:mcaroc}
+ \end{figure}
 
 
 %TODO jak ma działać enkoder
@@ -1262,8 +1221,7 @@ classification phase. The obtained performance was comparable to the one of the 
 only on the inlier samples but with different sets of input parameters. Obtained values can be found
 in the table xxx.
 
-%TODO dodać tabele
-
+%TODO dodać tabele.
 The performance of the develop methot should be tested on the completely separate validation data but 
 the gathered data set is very small and to best perform this task an additional samples should 
 be gathered in the future work.
@@ -1453,9 +1411,90 @@ however come with the cost in the false negative rate.
 
 \subsection{Average processor utilisation}
 
+This feature is the easiest to analyze due to its quantitative nature and the fact that it is
+already normalised to the range between 0 and 1. Because of that it does not require virtually 
+any preprocessing. The distribution of the values is presented on the histogram \ref{fig:histavgproc}
+with the bins containing annomaly values marked with red. 
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/HistAvgProcs}
+	\caption{Distribution of the average processor utilisation.}
+	\label{fig:histavgproc}
+ \end{figure}
+
+Obtained values show that anomaly detection with this feature may be feasible. It was attempted with 
+the One Class SVM and the resulting reciever operating characteristic is presented in the figure
+\ref{fig:procroc} and proves the value of the feature. Its ease of utilisation makes it extra valuable.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/ProcROC}
+	\caption{Distribution of the average processor utilisation.}
+	\label{fig:procroc}
+ \end{figure}
+
+The raw values of the anomaly detection performance can be accessed in the table x located in the 
+appendix. 
+
 \subsection{Combined performance}
 
+To further analyze the potential of the Event Trace for Windows data in the identification of
+anomalous processes spawned with zero day exploitation, all identified valuable features were
+combined in a single experiment and their parameters were adjusted based on the prevoiusly drawn 
+conclusions.
+
+
+
 \chapter{Summary}
+
+There can be multiple conclusions drawn from the performed work. This chapter descripes them in 
+detail.
+
+\section{Security anomaly detection}
+
+
+
+\section{Data sample}
+
+The dataset used in the experiments and analysis performed in the thesis can be significantly 
+improved. Its main drawback is the avialable sample size. Gathering additional data would have
+positive impact on the reliability of the drawed conclusions. Additionally an improvement 
+can be performed in the data gathering process. Simulated utilisation of the monitored system
+is a subpar system when compared to a deployment of the datagathering agents on the hosts of 
+multiple real users. Obtaining the data from multiple sources would also allow for the cross
+analysis of the algorithms performance.  
+
+\section{Browser intricacies}
+
+Browsers as programs are highly impacted by the actions of the users. They are capable of spawning
+multiple very distant in the purpose subprocesses. In the same session a single user can open start
+a notepad to view a text file as well as starting an installation process which in turn starts a 
+video game under the same umbrella of the browser subprocesses. This characteristic significantly
+complicates the anomaly detection process. This also sugests that methods and approaches developed
+for the application with the browsers may be highly effective when utilised with other outward 
+facing programs like databases, web servers etc.
+
+\section{Unutilised data}
+
+Due to the limitations imposed in the data gathering process by the limited memory resources and its
+design multiple promissing data features avialable in the Event Trace for Windows framework had to be
+left out of scope. Those include the information about the memory utilisation, hard drive input/output 
+operations, system registry access, network send/recieve and others. In the further research additional 
+data should be gathered and analysed. This may require a design and implementation of the custom  
+gathering framework.
+
+\section{Possible DLL hijacking detection}
+
+DLL hijacking is a technique of privilege escalation on Windows operating systems by hijacking the 
+search order of the DLL loading. This allows for the execution of arbitray code with the same rights 
+as the exploited program. It can also be used as a persistance technique \cite{bib:DLLhijacking}.
+Some aspects of the gathered information were not used in the anomaly detection process but may be
+used to detect this specific type of attack. 
+
+Those include the "build time" and the "File version" of the loaded modules as well as their paths.
+Example of this data is presented in the figure x.
+
 % \begin{itemize}
 % \item synthetic description of performed work
 % \item conclusions
@@ -1510,6 +1549,110 @@ however come with the cost in the false negative rate.
 \end{itemize}
 
 \chapter*{Listings}
+
+\begin{table}
+	\centering
+	\caption{Anomaly detection on raw DLL data}
+	\label{id:tab:rawDlls}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &       216 &         3 &               7 &               5 \\
+		1  &  0.050 &       209 &         4 &               6 &              12 \\
+		2  &  0.075 &       205 &         8 &               2 &              16 \\
+		3  &  0.100 &       192 &         8 &               2 &              29 \\
+		4  &  0.125 &       191 &         9 &               1 &              30 \\
+		5  &  0.150 &       191 &         9 &               1 &              30 \\
+		6  &  0.175 &       191 &        10 &               0 &              30 \\
+		7  &  0.200 &       176 &        10 &               0 &              45 \\
+		8  &  0.225 &       171 &        10 &               0 &              50 \\
+		9  &  0.250 &        23 &        10 &               0 &             198 \\
+		10 &  0.275 &        23 &        10 &               0 &             198 \\
+		11 &  0.300 &       164 &        10 &               0 &              57 \\
+		12 &  0.325 &       164 &        10 &               0 &              57 \\
+		13 &  0.350 &       164 &        10 &               0 &              57 \\
+		14 &  0.375 &       164 &        10 &               0 &              57 \\
+		15 &  0.400 &       164 &        10 &               0 &              57 \\
+		16 &  0.425 &       164 &        10 &               0 &              57 \\
+		17 &  0.450 &       164 &        10 &               0 &              57 \\
+		18 &  0.475 &       164 &        10 &               0 &              57 \\
+		19 &  0.500 &       164 &        10 &               0 &              57 \\
+		20 &  0.525 &       145 &        10 &               0 &              76 \\
+		21 &  0.550 &       145 &        10 &               0 &              76 \\
+		22 &  0.575 &       145 &        10 &               0 &              76 \\
+		23 &  0.600 &       145 &        10 &               0 &              76 \\
+		24 &  0.625 &       145 &        10 &               0 &              76 \\
+		25 &  0.650 &       145 &        10 &               0 &              76 \\
+		26 &  0.675 &       145 &        10 &               0 &              76 \\
+		27 &  0.700 &       145 &        10 &               0 &              76 \\
+		28 &  0.725 &       145 &        10 &               0 &              76 \\
+		29 &  0.750 &       145 &        10 &               0 &              76 \\
+		30 &  0.775 &       145 &        10 &               0 &              76 \\
+		31 &  0.800 &       145 &        10 &               0 &              76 \\
+		32 &  0.825 &       145 &        10 &               0 &              76 \\
+		33 &  0.850 &       145 &        10 &               0 &              76 \\
+		34 &  0.875 &       145 &        10 &               0 &              76 \\
+		35 &  0.900 &       145 &        10 &               0 &              76 \\
+		36 &  0.925 &       145 &        10 &               0 &              76 \\
+		37 &  0.950 &       145 &        10 &               0 &              76 \\
+		38 &  0.975 &       145 &        10 &               0 &              76 \\
+		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{table}
+	\centering
+	\caption{Anomaly detection on normalised DLL counts}
+	\label{id:tab:countOCSVM}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &       216 &         3 &               7 &               5 \\
+		1  &  0.050 &       214 &         3 &               7 &               7 \\
+		2  &  0.075 &       210 &         3 &               7 &              11 \\
+		3  &  0.100 &       201 &         8 &               2 &              20 \\
+		4  &  0.125 &       196 &        10 &               0 &              25 \\
+		5  &  0.150 &       196 &        10 &               0 &              25 \\
+		6  &  0.175 &       194 &        10 &               0 &              27 \\
+		7  &  0.200 &       193 &        10 &               0 &              28 \\
+		8  &  0.225 &       193 &        10 &               0 &              28 \\
+		9  &  0.250 &       188 &        10 &               0 &              33 \\
+		10 &  0.275 &       187 &        10 &               0 &              34 \\
+		11 &  0.300 &       186 &        10 &               0 &              35 \\
+		12 &  0.325 &       186 &        10 &               0 &              35 \\
+		13 &  0.350 &       182 &        10 &               0 &              39 \\
+		14 &  0.375 &       182 &        10 &               0 &              39 \\
+		15 &  0.400 &       181 &        10 &               0 &              40 \\
+		16 &  0.425 &       181 &        10 &               0 &              40 \\
+		17 &  0.450 &       180 &        10 &               0 &              41 \\
+		18 &  0.475 &       180 &        10 &               0 &              41 \\
+		19 &  0.500 &       180 &        10 &               0 &              41 \\
+		20 &  0.525 &       180 &        10 &               0 &              41 \\
+		21 &  0.550 &       180 &        10 &               0 &              41 \\
+		22 &  0.575 &       180 &        10 &               0 &              41 \\
+		23 &  0.600 &       180 &        10 &               0 &              41 \\
+		24 &  0.625 &       180 &        10 &               0 &              41 \\
+		25 &  0.650 &       178 &        10 &               0 &              43 \\
+		26 &  0.675 &       178 &        10 &               0 &              43 \\
+		27 &  0.700 &       178 &        10 &               0 &              43 \\
+		28 &  0.725 &       178 &        10 &               0 &              43 \\
+		29 &  0.750 &       178 &        10 &               0 &              43 \\
+		30 &  0.775 &       178 &        10 &               0 &              43 \\
+		31 &  0.800 &       178 &        10 &               0 &              43 \\
+		32 &  0.825 &       178 &        10 &               0 &              43 \\
+		33 &  0.850 &       178 &        10 &               0 &              43 \\
+		34 &  0.875 &        28 &        10 &               0 &             193 \\
+		35 &  0.900 &        27 &        10 &               0 &             194 \\
+		36 &  0.925 &        27 &        10 &               0 &             194 \\
+		37 &  0.950 &        27 &        10 &               0 &             194 \\
+		38 &  0.975 &         7 &        10 &               0 &             214 \\
+		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 \begin{table}
 \centering
@@ -2032,9 +2175,114 @@ however come with the cost in the false negative rate.
 	\end{tabular}
 \end{table}
 
+\begin{table}
+	\centering
+	\caption{OCSVM classification on MCA data}
+	\label{id:tab:OCSVMonMCA}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &       218 &         2 &               8 &               3 \\
+		1  &  0.050 &       217 &         2 &               8 &               4 \\
+		2  &  0.075 &       213 &         3 &               7 &               8 \\
+		3  &  0.100 &       211 &         3 &               7 &              10 \\
+		4  &  0.125 &       209 &         3 &               7 &              12 \\
+		5  &  0.150 &       208 &         3 &               7 &              13 \\
+		6  &  0.175 &       204 &         3 &               7 &              17 \\
+		7  &  0.200 &       204 &         3 &               7 &              17 \\
+		8  &  0.225 &       204 &         5 &               5 &              17 \\
+		9  &  0.250 &       204 &         5 &               5 &              17 \\
+		10 &  0.275 &       200 &         5 &               5 &              21 \\
+		11 &  0.300 &       198 &         5 &               5 &              23 \\
+		12 &  0.325 &       197 &         6 &               4 &              24 \\
+		13 &  0.350 &       196 &         6 &               4 &              25 \\
+		14 &  0.375 &       196 &         6 &               4 &              25 \\
+		15 &  0.400 &       194 &         6 &               4 &              27 \\
+		16 &  0.425 &       193 &         7 &               3 &              28 \\
+		17 &  0.450 &       191 &         7 &               3 &              30 \\
+		18 &  0.475 &       190 &         7 &               3 &              31 \\
+		19 &  0.500 &       189 &        10 &               0 &              32 \\
+		20 &  0.525 &       189 &        10 &               0 &              32 \\
+		21 &  0.550 &       188 &        10 &               0 &              33 \\
+		22 &  0.575 &       188 &        10 &               0 &              33 \\
+		23 &  0.600 &       188 &        10 &               0 &              33 \\
+		24 &  0.625 &       184 &        10 &               0 &              37 \\
+		25 &  0.650 &       184 &        10 &               0 &              37 \\
+		26 &  0.675 &       180 &        10 &               0 &              41 \\
+		27 &  0.700 &       180 &        10 &               0 &              41 \\
+		28 &  0.725 &       180 &        10 &               0 &              41 \\
+		29 &  0.750 &       180 &        10 &               0 &              41 \\
+		30 &  0.775 &       180 &        10 &               0 &              41 \\
+		31 &  0.800 &       180 &        10 &               0 &              41 \\
+		32 &  0.825 &       179 &        10 &               0 &              42 \\
+		33 &  0.850 &        30 &        10 &               0 &             191 \\
+		34 &  0.875 &        27 &        10 &               0 &             194 \\
+		35 &  0.900 &         8 &        10 &               0 &             213 \\
+		36 &  0.925 &         8 &        10 &               0 &             213 \\
+		37 &  0.950 &         8 &        10 &               0 &             213 \\
+		38 &  0.975 &         7 &        10 &               0 &             214 \\
+		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		\bottomrule
+	\end{tabular}
+\end{table} 
+
+\begin{table}
+	\centering
+	\caption{OCSVM classification on Average Process Utilistaion}
+	\label{id:tab:OCSVMonProc}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &       216 &         3 &               7 &               5 \\
+		1  &  0.050 &       209 &         4 &               6 &              12 \\
+		2  &  0.075 &       205 &         8 &               2 &              16 \\
+		3  &  0.100 &       192 &         8 &               2 &              29 \\
+		4  &  0.125 &       191 &         9 &               1 &              30 \\
+		5  &  0.150 &       191 &         9 &               1 &              30 \\
+		6  &  0.175 &       191 &        10 &               0 &              30 \\
+		7  &  0.200 &       176 &        10 &               0 &              45 \\
+		8  &  0.225 &       171 &        10 &               0 &              50 \\
+		9  &  0.250 &        23 &        10 &               0 &             198 \\
+		10 &  0.275 &        23 &        10 &               0 &             198 \\
+		11 &  0.300 &       164 &        10 &               0 &              57 \\
+		12 &  0.325 &       164 &        10 &               0 &              57 \\
+		13 &  0.350 &       164 &        10 &               0 &              57 \\
+		14 &  0.375 &       164 &        10 &               0 &              57 \\
+		15 &  0.400 &       164 &        10 &               0 &              57 \\
+		16 &  0.425 &       164 &        10 &               0 &              57 \\
+		17 &  0.450 &       164 &        10 &               0 &              57 \\
+		18 &  0.475 &       164 &        10 &               0 &              57 \\
+		19 &  0.500 &       164 &        10 &               0 &              57 \\
+		20 &  0.525 &       145 &        10 &               0 &              76 \\
+		21 &  0.550 &       145 &        10 &               0 &              76 \\
+		22 &  0.575 &       145 &        10 &               0 &              76 \\
+		23 &  0.600 &       145 &        10 &               0 &              76 \\
+		24 &  0.625 &       145 &        10 &               0 &              76 \\
+		25 &  0.650 &       145 &        10 &               0 &              76 \\
+		26 &  0.675 &       145 &        10 &               0 &              76 \\
+		27 &  0.700 &       145 &        10 &               0 &              76 \\
+		28 &  0.725 &       145 &        10 &               0 &              76 \\
+		29 &  0.750 &       145 &        10 &               0 &              76 \\
+		30 &  0.775 &       145 &        10 &               0 &              76 \\
+		31 &  0.800 &       145 &        10 &               0 &              76 \\
+		32 &  0.825 &       145 &        10 &               0 &              76 \\
+		33 &  0.850 &       145 &        10 &               0 &              76 \\
+		34 &  0.875 &       145 &        10 &               0 &              76 \\
+		35 &  0.900 &       145 &        10 &               0 &              76 \\
+		36 &  0.925 &       145 &        10 &               0 &              76 \\
+		37 &  0.950 &       145 &        10 &               0 &              76 \\
+		38 &  0.975 &       145 &        10 &               0 &              76 \\
+		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		\bottomrule
+	\end{tabular}
+\end{table} 
+
 Example of a \lstinline|"exploit.html"| file:
 
 \begin{lstlisting}
+
 <script>
 /*
 BSD 2-Clause License
