@@ -1,0 +1,48 @@
+\item Session - String identificator of the session in which the corresponding process data 
+was gathered.
+\item ID -  The integer number used by the kernel to uniquely identify an active process.
+\item Name -  The name of the process, usually identical to the binary file name. Expressed by a 
+string data type.
+\item ProcessPath - String containing sequence of parent processes names separated by "/".
+\item ProcessPathId - String containing sequence of parent processes id's separated by "/".
+\item CommandLine - String containing the shell command used to start the process.
+\item ParentId - The identifying integer number of the parent process. 
+\item CPUMsec - Amount of milliseconds in which the process has occupied the processor. Integer value.
+\item AveProcsUsed -  Average processor utilisation calculated by dividing the amount of time 
+when a process has occupied the processor by the total process lifespan. Expressed in floating 
+point numbers. This value is derivative combination of the features "CPUMsec" and "DurationMSec"
+but it is still stored for verification purposes.
+\item Bitness - Integer value indicating whether the process executable is created in 
+32 or 64 bit architecture.
+\item DurationMSec - The duration of the process life stored in milliseconds. Expressed in 
+floating point numbers.
+\item StartMSec -  The start time of the process stored in milliseconds. Expressed in floating 
+point numbers.
+\item ExitCode - Integer value returned after the process execution. Commonly known as exit code.
+\item Y - This binary column indicates whether the corresponding entry is a anomaly. Value "1" corresponds
+inliers and "-1" to outliers. Processes marked as "-1" were spawned as a result of 0-day explotation.
+\item The remaining columns contain OneHot encoded information about the dynamically linked 
+libraries. When a column contains value 1 the process has loaded the dll specified in the 
+column name. Otherwise the column contains 0. Full list of the captured modules can be 
+found in the appendix % dodać listę dll
+
+
+Aby otrzymać same DLL:
+import pandas as pd
+onehot_df = pd.read_csv('latest/combined_data.csv')
+onehot_df_only_dll = onehot_df.drop(
+    ['CommandLine', 
+     'Path', 
+     'PathId', 
+     'EndMSec', 
+     'DurationMSec', 
+     'StartMSec', 
+     'Name', 
+     'ID', 
+     'AveProcsUsed', 
+     'CPUMsec',
+     'Bitness', 
+     'ExitCode', 
+     'Session',
+     'Y', 
+     'ParentID'], axis=1)
