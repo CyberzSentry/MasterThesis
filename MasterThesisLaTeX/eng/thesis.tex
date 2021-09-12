@@ -359,7 +359,7 @@ This chapter is a indepth overview of the problem related infrormation available
 litelature and resources. Additionally it contains analysis of complications possibly encountered
 durring the realisation the required work.  
 
-\section(Known problems)
+\section{Known problems}
 There are multiple problems that need to be solved to form conclusions to the stated questions.
 There are no commonly available security focused datasets sourced from the Event Trace for 
 Windows mechanism. The data used in the thests has to be generated and gathered as part of the
@@ -371,9 +371,6 @@ Gathered data might require preprocessing that will adjust it's form to the form
 current classification methods and algorithms. Some types of information present in the computer 
 generated data set might require utilisation of novel processing and encoding frameworks or 
 development of new approaches to them.  
-
-
-%TODO znane metody wykrywania anomaliów
 
 \section{Literature research}
 
@@ -392,14 +389,24 @@ Machines (SVM) and K-means like Wenjie Hue, Yihua Liao and V Rao Vemuri in "Robu
 Machines for Anomaly Detection in Computer Security" \cite{bib:rsvm}. Their work compares the 
 performance of Robust Support Vector Machines (RSVM), Support Vector Machines and K-means classifiers
 on the data from 1998 DARPA Intrusion Detection System Evaluation program. Obtained results
-prove the superiority of RSVM's in the tested use cases. Some researchers try to perform security
+prove the superiority of RSVM's in the tested use cases. 
+
+SVM is a kernel-based method for binary classification problem which "aims at constructing 
+the optimal middle hyperplane which induces the largest margin. It is proven that in a linearly 
+separable case, this middle hyperplane offers the high accuracy on universal datasets". This 
+approach however has reduced performance due to the fact that " real world datasets often contain 
+overlapping regions and therefore, the decision hyperplane should be adjusted according to the 
+profiles of the datasets". This problem is addressed in the improved version of the algorithm
+where "by setting the value of the adjustment factor properly, RSVM can handle well the datasets 
+with any possible profiles"\cite{bib:svmandrsvm}.
+
+Some researchers try to perform security
 data classification with novel anomaly detection methods like autoencoders. This approach was
 attempted for example in "Anomaly Detection on the Edge" by Joseph Schneible and Alex Lu
 \cite{bib:autoencoderDist}. This method learns to compress and decompress the available feature 
 vectors with the use of artificial neural vectors. Anomaly is detected when the distance 
 between the input and output of the neural net is higher than the specified threshold.
-
-%TODO opisać działanie i dalsze przykłady
+Neural network based approaches require large amounts of training data.  
 
 
 
@@ -796,7 +803,8 @@ After preprocessing of the data following features are stored in the output file
 	found in the appendix % dodać listę dll
 \end{itemize}
 
-The dataset utilised in the thesis can be found in a public repository %TODO link
+The dataset utilised in the thesis can be found in a public repository under the url 
+\url{https://github.com/maxDoesHacking/MasterThesis/blob/master/data/combined_data.csv}
 
 
 \section{Results}
@@ -1003,12 +1011,31 @@ This approach combines the detection of previously unknown DLL's with the attemp
 
 All 'msedge' samples were tested on the on the encoder trained only with the inlier samples.
 This solution was tested for multiple sets of possible parameters. The number of utilised MCA 
-dimentions was equal 3 as in the detection performed directly on the MCA data. This was done to 
+dimentions was equal 2 as in the detection performed directly on the MCA data. This was done to 
 allow for just comparison of the results. The anomaly detection was performed
 both with and without the last dimention corresponding to the occurance of previously unknown DLL's.
-The results of this experiment are presented in the table \ref{id:tab:resEncoder}. The stored values 
-are sorted by the number of 'Negative' detections descending and 'False negative' ascending. The 
-table contains following additional columns:
+The results of this experiment are presented in the graph 
+
+%HERE
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/EncROCwLab}
+	\caption{Unsupervised classification of encoded inlier MCA results}
+	\label{fig:EncROCwLab}
+ \end{figure}
+
+ \begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/EncROCwoLab}
+	\caption{Unsupervised classification of encoded all MCA results}
+	\label{fig:EncROCwoLab}
+ \end{figure}
+
+% \ref{id:tab:resEncoder}. 
+% The stored values 
+% are sorted by the number of 'Negative' detections descending and 'False negative' ascending. The 
+% table contains following additional columns:
 
 \begin{itemize}
 	\item clusters - Number of clusters resulting from K-means classification.
@@ -1474,7 +1501,11 @@ positive impact on the reliability of the drawed conclusions. Additionally an im
 can be performed in the data gathering process. Simulated utilisation of the monitored system
 is a subpar system when compared to a deployment of the datagathering agents on the hosts of 
 multiple real users. Obtaining the data from multiple sources would also allow for the cross
-analysis of the algorithms performance.  
+analysis of the algorithms performance. 
+
+A very interesting aspect would be also how the developed methods perform on the samples from 
+different exploit. Exploit CVE-2021-40444 allows for arbitrary code execution in the same 'msedge'
+process and could be utilised to gain deeper insight into the problem \cite{bib:newEdgeExploit}.
 
 \section{Browser intricacies}
 
@@ -1486,7 +1517,11 @@ complicates the anomaly detection process. This also sugests that methods and ap
 for the application with the browsers may be highly effective when utilised with other outward 
 facing programs like databases, web servers etc.
 
-Since the start of the work on this thesis %todo dodać exploit na pdf viewera 
+Since the start of the work on this thesis there has been reports of new 0-day vulnerabilities that were
+utilised by the advanced persistent threat groups to target security researchers. Exploitation of the
+software flaw in some versions of the Adobe Acrobat and Reader can lead to arbitraty code execution\cite{bib:AdobeExploit}.
+This developed framework could be further researched and tested on this latest atack vector. This 
+software may have a very different behaviour profile which may lead to interesting discoveries.
 
 \section{Unutilised data}
 
@@ -1496,6 +1531,10 @@ left out of scope. Those include the information about the memory utilisation, h
 operations, system registry access, network send/recieve and others. In the further research additional 
 data should be gathered and analysed. This may require a design and implementation of the custom  
 gathering framework.
+
+Currently the developed framework focuses on the detection of the spawning of new outlier processes.
+Additional low level data could be utilised to attempt the detection of the normal processes that behave
+in a suspicious manner due to the ongoing exploitation.
 
 \section{Possible DLL hijacking detection}
 
@@ -1514,7 +1553,19 @@ The correlation of software by the loaded DLL's is a interesting idea that has n
 found in the previously written literature. This idea may be worth further research. It maybe worth
 the effort to perform the multiple correspondance analysis on the DLL's loaded by a wide range 
 of programs and to analyze how the obtained results correspond to their functionalities. It may also
-be useful to check where passible malware samples lay in the obtained feature space. 
+be useful to check where passible malware samples lay in the obtained feature space. This would also
+allow to further assess the real value of the custom DLL encoder designed in the thesis. 
+
+\section{Performance of different algorithms}
+
+The work done in this thesis focused on establishing whether the anomaly detection performed on the
+data obtained from the Event Trace for Windows framework is possible and whether a significant results
+can be obtained. For this purpose a single classification algorithm was utilised. In the future work 
+additional tests can be performed with multiple anomaly detection methods to establish how well each 
+of them performs on the avialable data. This may include the utilisation of the latest state of the 
+art algorithms based on the artificial neural networks like autoencoders or...
+
+%jak się robi rsvm w scikit
 
 % \begin{itemize}
 % \item synthetic description of performed work
@@ -1523,13 +1574,7 @@ be useful to check where passible malware samples lay in the obtained feature sp
 % \item Has the objective been reached?
 % \end{itemize}
 
-% Emulacja danych jest subpar sposobem ich zbiórki
-% Chrome jako process jest bardzo elastyczny ponieważ może uruchamiać szeroką gamme podprocessów. Techniki mogą być skuteczniejsze na programach z mniejszą interakcją użytkownika, które również często są ofiarami exploitów 0-day.
-% W moim mniemaniu najskuteczniejszym zastosowaniem techniki obecnie może być jej użycie do bronienia głównie usług wychodzących na świat.
-% Użycie wersji i czasu buildu do wykrywania DLL hijackingu. 
-% Porównanie działania na danych od wielu userów.
 % dodanie elementu czasowego do analizy
-% dodanie innych niezebranych danych z perfview.
 
 
 
