@@ -1152,9 +1152,8 @@ extracted can be scaled and used to detect anomalies.
 	\label{fig:pathLenHist}
  \end{figure}
 
- %TODO tabela wyniki.
 Those values extracted can be scaled and used to detect anomalies and the performance
-of this approach is depicted in the table xxx. Obtained values show that outliers can be
+of this approach is depicted in the table \ref{id:tab:pathLenOcSVM}. Obtained values show that outliers can be
 detected with a managable false positive ratio. This is especially visible in the row 
 4 for 'nu' values equal to 0.05. 
 
@@ -1171,16 +1170,15 @@ process and split on the separators to obtain a matrix of their components. Each
 matrix corresponds to a single path and the columns represent segments in the path. The matrix
 width is equal to the maximum path length in the data where path length is equal to the number
 of components from which it is build. Paths shorter than matrix width were paded in the splitting
-process with empty strings. The result of this process is presented in the table xxx located in
-the appendix. 
+process with empty strings. The result of this process is presented in the table \ref{id:tab:splitPaths} 
+located in the appendix. 
 
-% TODO dodać tabele
 The encoder trained with the inlier split data assigned known entries to each column and this 
 information was used to encode all samples which subsequentialy were analysed with the One Class
-SVM. The results presented in the table xxx show that this approach is very ineffective. 
+SVM. The results presented in the table \ref{id:tab:ocsvmOnDirtyCatBad} show that this approach is 
+very ineffective. 
 
-% todo add values
-The results of the anomaly detection performed with the 'nu' value equal to x were inspected 
+The results of the anomaly detection performed with the 'nu' value equal to 0.075 were inspected 
 to establish the root causes of the low performance. The first noticable problem with the data
 is the handling of the empty string values. The similarities for each input column are 
 calculated to the corresponding set of know values which result in multiple encoded values per
@@ -1254,17 +1252,21 @@ initial analysis showed also that the paths should be normalised to start with t
 subprocess of the msedge because it is always identical and does not introduce any information
 to the classification process. The values coresponfing to the empty strings were manualy adjusted
 to be equal 1 in the cases of exact match. Corected data was once again used to in anomaly detection
-and the results can be found in the table xxx. Those values show improvement in the performance
-which is especially visible in the entry number x for the 'nu' value equal x.
+and the results can be found in the table \ref{id:tab:ocsvmOnDirtyCatGood}. Those values show 
+improvement in the performance which is especially visible in the entry number 1 for the 'nu' 
+value equal 0.05.
 
-%TODO tabele
 The similarity encoder was also tested with the training on normalised paths without splitting 
 them into components as well as only the value '/msedge' and an empty stirng. The performance for
-both is quite similar. The results are presented in the table xxx and xxx. Both of those approaches
+both is quite similar. The results are presented in the tables \ref{id:tab:ocsvmOnDirtyCatFullPaths} 
+and \ref{id:tab:ocsvmOnDirtyCatMsEdge}. Both of those approaches
 are capable of detecting outliers with higher success trate than the split path approach. It does
 however come with the cost in the false negative rate.
 
+% Dodac ze pelny path zjebany, przetestowac CV
+
 %todo county lepsze 
+All analysed approaches to path analysis are compared in the graph xxx. Those results
 
 \subsection{Average processor utilisation}
 
@@ -1826,6 +1828,57 @@ art algorithms based on the artificial neural networks like autoencoders or...
 \end{tabular}
 \end{table}
 
+\begin{table}
+	\centering
+	\caption{OCSVM classification on MCA data}
+	\label{id:tab:OCSVMonMCA}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &       218 &         2 &               8 &               3 \\
+		1  &  0.050 &       217 &         2 &               8 &               4 \\
+		2  &  0.075 &       213 &         3 &               7 &               8 \\
+		3  &  0.100 &       211 &         3 &               7 &              10 \\
+		4  &  0.125 &       209 &         3 &               7 &              12 \\
+		5  &  0.150 &       208 &         3 &               7 &              13 \\
+		6  &  0.175 &       204 &         3 &               7 &              17 \\
+		7  &  0.200 &       204 &         3 &               7 &              17 \\
+		8  &  0.225 &       204 &         5 &               5 &              17 \\
+		9  &  0.250 &       204 &         5 &               5 &              17 \\
+		10 &  0.275 &       200 &         5 &               5 &              21 \\
+		11 &  0.300 &       198 &         5 &               5 &              23 \\
+		12 &  0.325 &       197 &         6 &               4 &              24 \\
+		13 &  0.350 &       196 &         6 &               4 &              25 \\
+		14 &  0.375 &       196 &         6 &               4 &              25 \\
+		15 &  0.400 &       194 &         6 &               4 &              27 \\
+		16 &  0.425 &       193 &         7 &               3 &              28 \\
+		17 &  0.450 &       191 &         7 &               3 &              30 \\
+		18 &  0.475 &       190 &         7 &               3 &              31 \\
+		19 &  0.500 &       189 &        10 &               0 &              32 \\
+		20 &  0.525 &       189 &        10 &               0 &              32 \\
+		21 &  0.550 &       188 &        10 &               0 &              33 \\
+		22 &  0.575 &       188 &        10 &               0 &              33 \\
+		23 &  0.600 &       188 &        10 &               0 &              33 \\
+		24 &  0.625 &       184 &        10 &               0 &              37 \\
+		25 &  0.650 &       184 &        10 &               0 &              37 \\
+		26 &  0.675 &       180 &        10 &               0 &              41 \\
+		27 &  0.700 &       180 &        10 &               0 &              41 \\
+		28 &  0.725 &       180 &        10 &               0 &              41 \\
+		29 &  0.750 &       180 &        10 &               0 &              41 \\
+		30 &  0.775 &       180 &        10 &               0 &              41 \\
+		31 &  0.800 &       180 &        10 &               0 &              41 \\
+		32 &  0.825 &       179 &        10 &               0 &              42 \\
+		33 &  0.850 &        30 &        10 &               0 &             191 \\
+		34 &  0.875 &        27 &        10 &               0 &             194 \\
+		35 &  0.900 &         8 &        10 &               0 &             213 \\
+		36 &  0.925 &         8 &        10 &               0 &             213 \\
+		37 &  0.950 &         8 &        10 &               0 &             213 \\
+		38 &  0.975 &         7 &        10 &               0 &             214 \\
+		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		\bottomrule
+	\end{tabular}
+\end{table} 
 
 \begin{table}
 	\centering
@@ -2414,57 +2467,503 @@ art algorithms based on the artificial neural networks like autoencoders or...
 	\end{tabular}
 \end{table}
 
+
+
+
 \begin{table}
 	\centering
-	\caption{OCSVM classification on MCA data}
-	\label{id:tab:OCSVMonMCA}
+	\caption{Performance of anomaly detection on process data.}
+	\label{id:tab:pathLenOcSVM}
+	\begin{tabular}{lrrrrr}
+	\toprule
+	{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+	\midrule
+	0  &  0.025 &       210 &         5 &               5 &              11 \\
+	1  &  0.050 &       218 &         5 &               5 &               3 \\
+	2  &  0.075 &       206 &        10 &               0 &              15 \\
+	3  &  0.100 &       206 &        10 &               0 &              15 \\
+	4  &  0.125 &       206 &        10 &               0 &              15 \\
+	5  &  0.150 &       206 &        10 &               0 &              15 \\
+	6  &  0.175 &       206 &        10 &               0 &              15 \\
+	7  &  0.200 &       206 &        10 &               0 &              15 \\
+	8  &  0.225 &       206 &        10 &               0 &              15 \\
+	9  &  0.250 &       206 &        10 &               0 &              15 \\
+	10 &  0.275 &       206 &        10 &               0 &              15 \\
+	11 &  0.300 &       206 &        10 &               0 &              15 \\
+	12 &  0.325 &       206 &        10 &               0 &              15 \\
+	13 &  0.350 &       206 &        10 &               0 &              15 \\
+	14 &  0.375 &       206 &        10 &               0 &              15 \\
+	15 &  0.400 &       206 &        10 &               0 &              15 \\
+	16 &  0.425 &       206 &        10 &               0 &              15 \\
+	17 &  0.450 &       206 &        10 &               0 &              15 \\
+	18 &  0.475 &       206 &        10 &               0 &              15 \\
+	19 &  0.500 &       206 &        10 &               0 &              15 \\
+	20 &  0.525 &       206 &        10 &               0 &              15 \\
+	21 &  0.550 &       206 &        10 &               0 &              15 \\
+	22 &  0.575 &       206 &        10 &               0 &              15 \\
+	23 &  0.600 &       206 &        10 &               0 &              15 \\
+	24 &  0.625 &       206 &        10 &               0 &              15 \\
+	25 &  0.650 &       206 &        10 &               0 &              15 \\
+	26 &  0.675 &       206 &        10 &               0 &              15 \\
+	27 &  0.700 &       206 &        10 &               0 &              15 \\
+	28 &  0.725 &       206 &        10 &               0 &              15 \\
+	29 &  0.750 &       206 &        10 &               0 &              15 \\
+	30 &  0.775 &       206 &        10 &               0 &              15 \\
+	31 &  0.800 &       206 &        10 &               0 &              15 \\
+	32 &  0.825 &       206 &        10 &               0 &              15 \\
+	33 &  0.850 &       206 &        10 &               0 &              15 \\
+	34 &  0.875 &       206 &        10 &               0 &              15 \\
+	35 &  0.900 &       206 &        10 &               0 &              15 \\
+	36 &  0.925 &       206 &        10 &               0 &              15 \\
+	37 &  0.950 &       206 &        10 &               0 &              15 \\
+	38 &  0.975 &       206 &        10 &               0 &              15 \\
+	39 &  1.000 &         0 &        10 &               0 &             221 \\
+	\bottomrule
+	\end{tabular}
+\end{table}
+	
+\begin{table}
+	\centering
+	\caption{Split and processed paths.}
+	\label{id:tab:splitPaths}
+	\begin{tabular}{lllll}
+	\toprule
+	{} &              0 &              1 &              2 &              3 \\
+	\midrule
+	0   &         msedge &                &                &                \\
+	1   &         msedge &                &                &                \\
+	2   &         msedge &                &                &                \\
+	3   &         msedge &                &                &                \\
+	4   &                &                &                &                \\
+	5   &         msedge &                &                &                \\
+	6   &         msedge &                &                &                \\
+	7   &         msedge &                &                &                \\
+	8   &         msedge &                &                &                \\
+	9   &         msedge &                &                &                \\
+	10  &         msedge &                &                &                \\
+	11  &         msedge &                &                &                \\
+	12  &         msedge &                &                &                \\
+	13  &         msedge &                &                &                \\
+	14  &         msedge &                &                &                \\
+	15  &         msedge &                &                &                \\
+	16  &         msedge &                &                &                \\
+	17  &         msedge &                &                &                \\
+	18  &         msedge &                &                &                \\
+	19  &         msedge &                &                &                \\
+	20  &         msedge &                &                &                \\
+	21  &         msedge &                &                &                \\
+	22  &         msedge &                &                &                \\
+	23  &         msedge &                &                &                \\
+	24  &         msedge &                &                &                \\
+	25  &         msedge &                &                &                \\
+	26  &         msedge &                &                &                \\
+	27  &         msedge &                &                &                \\
+	28  &         msedge &                &                &                \\
+	29  &         msedge &                &                &                \\
+	30  &         msedge &                &                &                \\
+	31  &         msedge &                &                &                \\
+	32  &         msedge &                &                &                \\
+	33  &         msedge &                &                &                \\
+	34  &                &                &                &                \\
+	35  &         msedge &                &                &                \\
+	36  &         msedge &                &                &                \\
+	37  &         msedge &                &                &                \\
+	38  &         msedge &                &                &                \\
+	39  &         msedge &                &                &                \\
+	40  &         msedge &                &                &                \\
+	41  &         msedge &                &                &                \\
+	42  &         msedge &                &                &                \\
+	43  &         msedge &                &                &                \\
+	44  &         msedge &                &                &                \\
+	45  &         msedge &                &                &                \\
+	46  &         msedge &                &                &                \\
+	47  &         msedge &                &                &                \\
+	48  &         msedge &                &                &                \\
+	49  &         msedge &                &                &                \\
+	50  &         msedge &                &                &                \\
+	51  &         msedge &                &                &                \\
+	52  &         msedge &                &                &                \\
+	53  &         msedge &                &                &                \\
+	54  &         msedge &                &                &                \\
+	55  &         msedge &                &                &                \\
+	56  &                &                &                &                \\
+	57  &         msedge &                &                &                \\
+	58  &         msedge &                &                &                \\
+	59  &         msedge &                &                &                \\
+	60  &                &                &                &                \\
+	61  &         msedge &                &                &                \\
+	62  &         msedge &                &                &                \\
+	63  &                &                &                &                \\
+	64  &         msedge &                &                &                \\
+	65  &         msedge &                &                &                \\
+	66  &         msedge &                &                &                \\
+	67  &         msedge &                &                &                \\
+	68  &         msedge &                &                &                \\
+	69  &         msedge &                &                &                \\
+	70  &         msedge &                &                &                \\
+	71  &         msedge &                &                &                \\
+	72  &         msedge &                &                &                \\
+	73  &         msedge &                &                &                \\
+	74  &         msedge &                &                &                \\
+	75  &         msedge &                &                &                \\
+	76  &         msedge &                &                &                \\
+	77  &         msedge &                &                &                \\
+	78  &         msedge &                &                &                \\
+	79  &         msedge &                &                &                \\
+	80  &         msedge &                &                &                \\
+	81  &         msedge &                &                &                \\
+	82  &         msedge &                &                &                \\
+	83  &         msedge &                &                &                \\
+	84  &         msedge &                &                &                \\
+	85  &         msedge &                &                &                \\
+	86  &         msedge &                &                &                \\
+	87  &         msedge &                &                &                \\
+	88  &         msedge &                &                &                \\
+	89  &         msedge &                &                &                \\
+	90  &         msedge &                &                &                \\
+	91  &         msedge &                &                &                \\
+	92  &         msedge &                &                &                \\
+	93  &         msedge &                &                &                \\
+	94  &         msedge &                &                &                \\
+	95  &         msedge &                &                &                \\
+	96  &        notepad &                &                &                \\
+	97  &         msedge &                &                &                \\
+	98  &         msedge &                &                &                \\
+	99  &         msedge &                &                &                \\
+	100 &         msedge &                &                &                \\
+	101 &         msedge &                &                &                \\
+	102 &        notepad &                &                &                \\
+	103 &         msedge &                &                &                \\
+	104 &         msedge &                &                &                \\
+	105 &         msedge &                &                &                \\
+	106 &         msedge &                &                &                \\
+	107 &         msedge &                &                &                \\
+	108 &         msedge &                &                &                \\
+	109 &         msedge &                &                &                \\
+	110 &         msedge &                &                &                \\
+	111 &                &                &                &                \\
+	112 &         msedge &                &                &                \\
+	113 &         msedge &                &                &                \\
+	114 &                &                &                &                \\
+	115 &         msedge &                &                &                \\
+	116 &         msedge &                &                &                \\
+	117 &         msedge &                &                &                \\
+	118 &         msedge &                &                &                \\
+	119 &         msedge &                &                &                \\
+	120 &         msedge &                &                &                \\
+	121 &         msedge &                &                &                \\
+	122 &         msedge &                &                &                \\
+	123 &         msedge &                &                &                \\
+	124 &         msedge &                &                &                \\
+	125 &         msedge &                &                &                \\
+	126 &         msedge &                &                &                \\
+	127 &         msedge &                &                &                \\
+	128 &         msedge &                &                &                \\
+	129 &         msedge &                &                &                \\
+	130 &         msedge &                &                &                \\
+	131 &         msedge &                &                &                \\
+	132 &         msedge &                &                &                \\
+	133 &         msedge &                &                &                \\
+	134 &         msedge &                &                &                \\
+	135 &         msedge &                &                &                \\
+	136 &                &                &                &                \\
+	137 &         msedge &                &                &                \\
+	138 &         msedge &                &                &                \\
+	139 &         msedge &                &                &                \\
+	140 &         msedge &                &                &                \\
+	141 &         msedge &                &                &                \\
+	142 &         msedge &                &                &                \\
+	143 &         msedge &                &                &                \\
+	144 &         msedge &                &                &                \\
+	145 &         msedge &                &                &                \\
+	146 &         msedge &                &                &                \\
+	147 &         msedge &                &                &                \\
+	148 &         msedge &                &                &                \\
+	149 &         msedge &                &                &                \\
+	150 &         msedge &                &                &                \\
+	151 &         msedge &                &                &                \\
+	152 &         msedge &                &                &                \\
+	153 &         msedge &                &                &                \\
+	154 &         msedge &                &                &                \\
+	155 &         msedge &                &                &                \\
+	156 &         msedge &                &                &                \\
+	157 &         msedge &                &                &                \\
+	158 &         msedge &                &                &                \\
+	159 &         msedge &                &                &                \\
+	160 &         msedge &                &                &                \\
+	161 &         msedge &                &                &                \\
+	162 &         msedge &                &                &                \\
+	163 &         msedge &                &                &                \\
+	164 &         msedge &                &                &                \\
+	165 &         msedge &                &                &                \\
+	166 &         msedge &                &                &                \\
+	167 &         msedge &                &                &                \\
+	168 &         msedge &                &                &                \\
+	169 &  cpu-z\_1.96-en &  cpu-z\_1.96-en &  cpu-z\_1.96-en &  cpu-z\_1.96-en \\
+	170 &         msedge &                &                &                \\
+	171 &         msedge &                &                &                \\
+	172 &         msedge &                &                &                \\
+	173 &         msedge &                &                &                \\
+	174 &         msedge &                &                &                \\
+	175 &         msedge &                &                &                \\
+	176 &         msedge &                &                &                \\
+	177 &         msedge &                &                &                \\
+	178 &         msedge &                &                &                \\
+	179 &         msedge &                &                &                \\
+	180 &         msedge &                &                &                \\
+	181 &         msedge &                &                &                \\
+	182 &         msedge &                &                &                \\
+	183 &         msedge &                &                &                \\
+	184 &         msedge &                &                &                \\
+	185 &         msedge &                &                &                \\
+	186 &         msedge &                &                &                \\
+	187 &         msedge &                &                &                \\
+	188 &  cpu-z\_1.96-en &  cpu-z\_1.96-en &        notepad &                \\
+	189 &  cpu-z\_1.96-en &  cpu-z\_1.96-en &                &                \\
+	190 &         msedge &                &                &                \\
+	191 &         msedge &                &                &                \\
+	192 &         msedge &                &                &                \\
+	193 &         msedge &                &                &                \\
+	194 &         msedge &                &                &                \\
+	195 &         msedge &                &                &                \\
+	196 &         msedge &                &                &                \\
+	197 &         msedge &                &                &                \\
+	198 &         msedge &                &                &                \\
+	199 &         msedge &                &                &                \\
+	200 &         msedge &                &                &                \\
+	201 &        notepad &                &                &                \\
+	202 &         msedge &                &                &                \\
+	203 &         msedge &                &                &                \\
+	204 &         msedge &                &                &                \\
+	205 &         msedge &                &                &                \\
+	206 &         msedge &                &                &                \\
+	207 &         msedge &                &                &                \\
+	208 &         msedge &                &                &                \\
+	209 &        notepad &                &                &                \\
+	210 &         msedge &                &                &                \\
+	211 &         msedge &                &                &                \\
+	212 &         msedge &                &                &                \\
+	213 &         msedge &                &                &                \\
+	214 &  cpu-z\_1.96-en &                &                &                \\
+	215 &         msedge &                &                &                \\
+	216 &  cpu-z\_1.96-en &  cpu-z\_1.96-en &  cpu-z\_1.96-en &                \\
+	217 &         msedge &                &                &                \\
+	218 &         msedge &         msedge &                &                \\
+	219 &         msedge &         msedge &                &                \\
+	220 &         msedge &         msedge &                &                \\
+	\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{table}
+	\centering
+	\caption{Results of anomaly detection on DirtyCat encoded paths.}
+	\label{id:tab:ocsvmOnDirtyCatBad}
+	\begin{tabular}{lrrrrr}
+	\toprule
+	{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+	\midrule
+	0  &  0.025 &       212 &         0 &              10 &               9 \\
+	1  &  0.050 &       209 &         0 &              10 &              12 \\
+	2  &  0.075 &         8 &         8 &               2 &             213 \\
+	3  &  0.100 &         0 &         8 &               2 &             221 \\
+	4  &  0.125 &         0 &         8 &               2 &             221 \\
+	5  &  0.150 &         0 &         8 &               2 &             221 \\
+	6  &  0.175 &         0 &         8 &               2 &             221 \\
+	7  &  0.200 &         0 &         8 &               2 &             221 \\
+	8  &  0.225 &         0 &         8 &               2 &             221 \\
+	9  &  0.250 &         0 &         8 &               2 &             221 \\
+	10 &  0.275 &         0 &         8 &               2 &             221 \\
+	11 &  0.300 &         0 &         8 &               2 &             221 \\
+	12 &  0.325 &         0 &         8 &               2 &             221 \\
+	13 &  0.350 &         0 &         8 &               2 &             221 \\
+	14 &  0.375 &         0 &         8 &               2 &             221 \\
+	15 &  0.400 &         0 &         8 &               2 &             221 \\
+	16 &  0.425 &         0 &         8 &               2 &             221 \\
+	17 &  0.450 &         0 &         8 &               2 &             221 \\
+	18 &  0.475 &         0 &         8 &               2 &             221 \\
+	19 &  0.500 &         0 &         8 &               2 &             221 \\
+	20 &  0.525 &         0 &         8 &               2 &             221 \\
+	21 &  0.550 &         0 &         8 &               2 &             221 \\
+	22 &  0.575 &         0 &         8 &               2 &             221 \\
+	23 &  0.600 &         0 &         8 &               2 &             221 \\
+	24 &  0.625 &         0 &         8 &               2 &             221 \\
+	25 &  0.650 &         0 &         8 &               2 &             221 \\
+	26 &  0.675 &         0 &        10 &               0 &             221 \\
+	27 &  0.700 &         0 &        10 &               0 &             221 \\
+	28 &  0.725 &         0 &        10 &               0 &             221 \\
+	29 &  0.750 &         0 &        10 &               0 &             221 \\
+	30 &  0.775 &         0 &        10 &               0 &             221 \\
+	31 &  0.800 &         0 &        10 &               0 &             221 \\
+	32 &  0.825 &         0 &        10 &               0 &             221 \\
+	33 &  0.850 &         0 &        10 &               0 &             221 \\
+	34 &  0.875 &         0 &        10 &               0 &             221 \\
+	35 &  0.900 &         0 &        10 &               0 &             221 \\
+	36 &  0.925 &         0 &        10 &               0 &             221 \\
+	37 &  0.950 &         0 &        10 &               0 &             221 \\
+	38 &  0.975 &         0 &        10 &               0 &             221 \\
+	39 &  1.000 &         0 &        10 &               0 &             221 \\
+	\bottomrule
+	\end{tabular}
+\end{table}
+	
+\begin{table}
+	\centering
+	\caption{Results of improved anomaly detection on DirtyCat encoded paths.}
+	\label{id:tab:ocsvmOnDirtyCatGood}
+	\begin{tabular}{lrrrrr}
+	\toprule
+	{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+	\midrule
+	0  &  0.025 &       207 &         0 &              10 &              14 \\
+	1  &  0.050 &       211 &         5 &               5 &              10 \\
+	2  &  0.075 &         0 &        10 &               0 &             221 \\
+	3  &  0.100 &         0 &        10 &               0 &             221 \\
+	4  &  0.125 &         0 &        10 &               0 &             221 \\
+	5  &  0.150 &         0 &        10 &               0 &             221 \\
+	6  &  0.175 &         0 &        10 &               0 &             221 \\
+	7  &  0.200 &         0 &        10 &               0 &             221 \\
+	8  &  0.225 &         0 &        10 &               0 &             221 \\
+	9  &  0.250 &         0 &        10 &               0 &             221 \\
+	10 &  0.275 &         0 &        10 &               0 &             221 \\
+	11 &  0.300 &         0 &        10 &               0 &             221 \\
+	12 &  0.325 &         0 &        10 &               0 &             221 \\
+	13 &  0.350 &         0 &        10 &               0 &             221 \\
+	14 &  0.375 &         0 &        10 &               0 &             221 \\
+	15 &  0.400 &         0 &        10 &               0 &             221 \\
+	16 &  0.425 &         0 &        10 &               0 &             221 \\
+	17 &  0.450 &         0 &        10 &               0 &             221 \\
+	18 &  0.475 &         0 &        10 &               0 &             221 \\
+	19 &  0.500 &         0 &        10 &               0 &             221 \\
+	20 &  0.525 &         0 &        10 &               0 &             221 \\
+	21 &  0.550 &         0 &        10 &               0 &             221 \\
+	22 &  0.575 &         0 &        10 &               0 &             221 \\
+	23 &  0.600 &         0 &        10 &               0 &             221 \\
+	24 &  0.625 &         0 &        10 &               0 &             221 \\
+	25 &  0.650 &         0 &        10 &               0 &             221 \\
+	26 &  0.675 &         0 &        10 &               0 &             221 \\
+	27 &  0.700 &         0 &        10 &               0 &             221 \\
+	28 &  0.725 &         0 &        10 &               0 &             221 \\
+	29 &  0.750 &         0 &        10 &               0 &             221 \\
+	30 &  0.775 &         0 &        10 &               0 &             221 \\
+	31 &  0.800 &         0 &        10 &               0 &             221 \\
+	32 &  0.825 &         0 &        10 &               0 &             221 \\
+	33 &  0.850 &         0 &        10 &               0 &             221 \\
+	34 &  0.875 &         0 &        10 &               0 &             221 \\
+	35 &  0.900 &         0 &        10 &               0 &             221 \\
+	36 &  0.925 &         0 &        10 &               0 &             221 \\
+	37 &  0.950 &         0 &        10 &               0 &             221 \\
+	38 &  0.975 &         0 &        10 &               0 &             221 \\
+	39 &  1.000 &         0 &        10 &               0 &             221 \\
+	\bottomrule
+	\end{tabular}
+\end{table}
+
+%%% Tutaj tabele
+
+\begin{table}
+	\centering
+	\caption{Results of anomaly detection on DirtyCat encoded paths without splitting.}
+	\label{id:tab:ocsvmOnDirtyCatFullPaths}
 	\begin{tabular}{lrrrrr}
 		\toprule
 		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
 		\midrule
-		0  &  0.025 &       218 &         2 &               8 &               3 \\
-		1  &  0.050 &       217 &         2 &               8 &               4 \\
-		2  &  0.075 &       213 &         3 &               7 &               8 \\
-		3  &  0.100 &       211 &         3 &               7 &              10 \\
-		4  &  0.125 &       209 &         3 &               7 &              12 \\
-		5  &  0.150 &       208 &         3 &               7 &              13 \\
-		6  &  0.175 &       204 &         3 &               7 &              17 \\
-		7  &  0.200 &       204 &         3 &               7 &              17 \\
-		8  &  0.225 &       204 &         5 &               5 &              17 \\
-		9  &  0.250 &       204 &         5 &               5 &              17 \\
-		10 &  0.275 &       200 &         5 &               5 &              21 \\
-		11 &  0.300 &       198 &         5 &               5 &              23 \\
-		12 &  0.325 &       197 &         6 &               4 &              24 \\
-		13 &  0.350 &       196 &         6 &               4 &              25 \\
-		14 &  0.375 &       196 &         6 &               4 &              25 \\
-		15 &  0.400 &       194 &         6 &               4 &              27 \\
-		16 &  0.425 &       193 &         7 &               3 &              28 \\
-		17 &  0.450 &       191 &         7 &               3 &              30 \\
-		18 &  0.475 &       190 &         7 &               3 &              31 \\
-		19 &  0.500 &       189 &        10 &               0 &              32 \\
-		20 &  0.525 &       189 &        10 &               0 &              32 \\
-		21 &  0.550 &       188 &        10 &               0 &              33 \\
-		22 &  0.575 &       188 &        10 &               0 &              33 \\
-		23 &  0.600 &       188 &        10 &               0 &              33 \\
-		24 &  0.625 &       184 &        10 &               0 &              37 \\
-		25 &  0.650 &       184 &        10 &               0 &              37 \\
-		26 &  0.675 &       180 &        10 &               0 &              41 \\
-		27 &  0.700 &       180 &        10 &               0 &              41 \\
-		28 &  0.725 &       180 &        10 &               0 &              41 \\
-		29 &  0.750 &       180 &        10 &               0 &              41 \\
-		30 &  0.775 &       180 &        10 &               0 &              41 \\
-		31 &  0.800 &       180 &        10 &               0 &              41 \\
-		32 &  0.825 &       179 &        10 &               0 &              42 \\
-		33 &  0.850 &        30 &        10 &               0 &             191 \\
-		34 &  0.875 &        27 &        10 &               0 &             194 \\
-		35 &  0.900 &         8 &        10 &               0 &             213 \\
-		36 &  0.925 &         8 &        10 &               0 &             213 \\
-		37 &  0.950 &         8 &        10 &               0 &             213 \\
-		38 &  0.975 &         7 &        10 &               0 &             214 \\
+		0  &  0.025 &        13 &         0 &              10 &             208 \\
+		1  &  0.050 &       213 &         0 &              10 &               8 \\
+		2  &  0.075 &       209 &         0 &              10 &              12 \\
+		3  &  0.100 &       209 &         0 &              10 &              12 \\
+		4  &  0.125 &       209 &         0 &              10 &              12 \\
+		5  &  0.150 &       209 &         0 &              10 &              12 \\
+		6  &  0.175 &       201 &         0 &              10 &              20 \\
+		7  &  0.200 &       201 &         4 &               6 &              20 \\
+		8  &  0.225 &       201 &         5 &               5 &              20 \\
+		9  &  0.250 &       201 &        10 &               0 &              20 \\
+		10 &  0.275 &       201 &        10 &               0 &              20 \\
+		11 &  0.300 &       201 &        10 &               0 &              20 \\
+		12 &  0.325 &       201 &        10 &               0 &              20 \\
+		13 &  0.350 &       201 &        10 &               0 &              20 \\
+		14 &  0.375 &       201 &        10 &               0 &              20 \\
+		15 &  0.400 &       201 &        10 &               0 &              20 \\
+		16 &  0.425 &       201 &        10 &               0 &              20 \\
+		17 &  0.450 &       201 &        10 &               0 &              20 \\
+		18 &  0.475 &       201 &        10 &               0 &              20 \\
+		19 &  0.500 &       201 &        10 &               0 &              20 \\
+		20 &  0.525 &       201 &        10 &               0 &              20 \\
+		21 &  0.550 &       201 &        10 &               0 &              20 \\
+		22 &  0.575 &       201 &        10 &               0 &              20 \\
+		23 &  0.600 &       201 &        10 &               0 &              20 \\
+		24 &  0.625 &       201 &        10 &               0 &              20 \\
+		25 &  0.650 &       201 &        10 &               0 &              20 \\
+		26 &  0.675 &       201 &        10 &               0 &              20 \\
+		27 &  0.700 &       201 &        10 &               0 &              20 \\
+		28 &  0.725 &       201 &        10 &               0 &              20 \\
+		29 &  0.750 &       201 &        10 &               0 &              20 \\
+		30 &  0.775 &       201 &        10 &               0 &              20 \\
+		31 &  0.800 &       201 &        10 &               0 &              20 \\
+		32 &  0.825 &       201 &        10 &               0 &              20 \\
+		33 &  0.850 &       201 &        10 &               0 &              20 \\
+		34 &  0.875 &       201 &        10 &               0 &              20 \\
+		35 &  0.900 &       201 &        10 &               0 &              20 \\
+		36 &  0.925 &       201 &        10 &               0 &              20 \\
+		37 &  0.950 &       201 &        10 &               0 &              20 \\
+		38 &  0.975 &       201 &        10 &               0 &              20 \\
 		39 &  1.000 &         0 &        10 &               0 &             221 \\
 		\bottomrule
-	\end{tabular}
-\end{table} 
+		\end{tabular}
+\end{table}
+
+\begin{table}
+	\centering
+	\caption{Results of anomaly detection on paths encoded by DirtyCat trained only on '/msedge'.}
+	\label{id:tab:ocsvmOnDirtyCatMsEdge}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &       218 &         0 &              10 &               3 \\
+		1  &  0.050 &       218 &         0 &              10 &               3 \\
+		2  &  0.075 &       218 &         0 &              10 &               3 \\
+		3  &  0.100 &       208 &         0 &              10 &              13 \\
+		4  &  0.125 &       205 &         0 &              10 &              16 \\
+		5  &  0.150 &       205 &         0 &              10 &              16 \\
+		6  &  0.175 &       201 &         0 &              10 &              20 \\
+		7  &  0.200 &       201 &         0 &              10 &              20 \\
+		8  &  0.225 &       201 &         5 &               5 &              20 \\
+		9  &  0.250 &       201 &        10 &               0 &              20 \\
+		10 &  0.275 &       201 &        10 &               0 &              20 \\
+		11 &  0.300 &       201 &        10 &               0 &              20 \\
+		12 &  0.325 &       201 &        10 &               0 &              20 \\
+		13 &  0.350 &       201 &        10 &               0 &              20 \\
+		14 &  0.375 &       201 &        10 &               0 &              20 \\
+		15 &  0.400 &       201 &        10 &               0 &              20 \\
+		16 &  0.425 &       201 &        10 &               0 &              20 \\
+		17 &  0.450 &       201 &        10 &               0 &              20 \\
+		18 &  0.475 &       201 &        10 &               0 &              20 \\
+		19 &  0.500 &       201 &        10 &               0 &              20 \\
+		20 &  0.525 &       201 &        10 &               0 &              20 \\
+		21 &  0.550 &       201 &        10 &               0 &              20 \\
+		22 &  0.575 &       201 &        10 &               0 &              20 \\
+		23 &  0.600 &       201 &        10 &               0 &              20 \\
+		24 &  0.625 &       201 &        10 &               0 &              20 \\
+		25 &  0.650 &       201 &        10 &               0 &              20 \\
+		26 &  0.675 &       201 &        10 &               0 &              20 \\
+		27 &  0.700 &       201 &        10 &               0 &              20 \\
+		28 &  0.725 &       201 &        10 &               0 &              20 \\
+		29 &  0.750 &       201 &        10 &               0 &              20 \\
+		30 &  0.775 &       201 &        10 &               0 &              20 \\
+		31 &  0.800 &       201 &        10 &               0 &              20 \\
+		32 &  0.825 &       201 &        10 &               0 &              20 \\
+		33 &  0.850 &       201 &        10 &               0 &              20 \\
+		34 &  0.875 &       201 &        10 &               0 &              20 \\
+		35 &  0.900 &       201 &        10 &               0 &              20 \\
+		36 &  0.925 &       201 &        10 &               0 &              20 \\
+		37 &  0.950 &       201 &        10 &               0 &              20 \\
+		38 &  0.975 &       201 &        10 &               0 &              20 \\
+		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		\bottomrule
+		\end{tabular}		
+\end{table}
 
 \begin{table}
 	\centering
@@ -2517,6 +3016,7 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		\bottomrule
 	\end{tabular}
 \end{table} 
+
 
 Example of a \lstinline|"exploit.html"| file:
 
