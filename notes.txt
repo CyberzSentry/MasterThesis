@@ -17,7 +17,6 @@ Hastie T., Tibshirani R., Friedman J. - The elements of statistical learning, Sp
 Mark Russinovich, David A. Solomon, Alex Ionescu - Windows Internals, Microsoft Press, 2009
 
 #TODO 
-ROC curves
 https://www.youtube.com/watch?v=b4kRAt4mkB8
 W podsumowaniu możliwość użycia autoencoderów
 Poszukać monitorowania podprocessów
@@ -27,6 +26,9 @@ Multipage table
 Możliwość wykrywania wcześniej niewykrytych DLL
 Perform x validation with the dll data.
 Plot encoded paths with validation
+Zrobić CV na wszystkich przeprowadzonych analizach. Sprawdzić czy wystawione wnioski się pokrywają.
+
+
 
 #Terminy:
 18.08 (obrona 1-8.09)
