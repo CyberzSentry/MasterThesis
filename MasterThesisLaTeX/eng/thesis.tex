@@ -1164,13 +1164,12 @@ extracted can be scaled and used to detect anomalies.
 
 Those values extracted can be scaled and used to detect anomalies and the performance
 of this approach is depicted in the table \ref{id:tab:pathLenOcSVM}. Obtained values show that outliers can be
-detected with a managable false positive ratio. This is especially visible in the row 
-4 for 'nu' values equal to 0.05. 
+detected with a managable false positive ratio. This behavior is visible for wide range of 'nu' values. 
 
 In order to attempt recognision of more complex patterns in the data it was encoded with
 the use of a Similarity Encoder which assignes values to the input based on its similarity 
 to the known char strings obtained in the training process. The outputs are calculated with 
-one the available algorithms like "N -gram", "Levenshtein-ratio" and other. This encoder is
+one the available algorithms like "N-gram", "Levenshtein-ratio" and other. This encoder is
 capable of handling previously unknown values which is a big factor when processing 
 qualitative features like paths. In a cases where new values occur in the data processing,
 classic encoders like "OneHot" fail. 
@@ -1282,18 +1281,21 @@ a result of the small available sample size.
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.9]{images/EncFullPathError}
+	\includegraphics[scale=0.9]{images/EncFullPathErrorKF}
 	\caption{Anomaly detection for full paths encoded.}
 	\label{fig:encfullpath}
  \end{figure}
 
 %todo county lepsze 
-All analysed approaches to path analysis are compared in the graph xxx. Those results show the
-superiority...
+All analysed approaches to path analysis are compared in the graph \ref{fig:pathcomp}. Those results show the
+superiority of the anomaly detection based on the relative path length. In this case it is capable of detecting 
+all outliers with around 7\% false negative rate. The moethods based on dirty cat encoding of the paths also managed 
+achieve significant results. This is especially ture for the encoding based only on the value 'msedge' where 
+the detection of all anomalies in the dataset was done with the false negative ratio of 9\%. 
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.9]{images/EncFullPathError}
+	\includegraphics[scale=0.9]{images/PathCompGraph2}
 	\caption{Comparison of the path based anomaly detection methods.}
 	\label{fig:pathcomp}
  \end{figure}
@@ -1318,12 +1320,12 @@ the One Class SVM and the resulting reciever operating characteristic is present
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.9]{images/ProcROC}
-	\caption{Distribution of the average processor utilisation.}
+	\includegraphics[scale=0.9]{images/ProcROCKF}
+	\caption{The ROC curve of anomaly detection on average processor utilisation.}
 	\label{fig:procroc}
  \end{figure}
 
-The raw values of the anomaly detection performance can be accessed in the table x located in the 
+The raw values of the anomaly detection performance can be accessed in the table \ref{id:tab:OCSVMonProc} located in the 
 appendix. 
 
 \subsection{Combined performance}
@@ -1331,9 +1333,25 @@ appendix.
 To further analyze the potential of the Event Trace for Windows data in the identification of
 anomalous processes spawned with zero day exploitation, all identified valuable features were
 combined in a single experiment and their parameters were adjusted based on the prevoiusly drawn 
-conclusions. To further improve the validity of the results a ten fold cross validation was 
-performed. 
+conclusions. The developed approach was tested with the 10-fold cross validation.
 
+The final test utilised following features:
+\begin{itemize}
+	\item Encoded DLL's - The encoder utilised on the DLL's was trained on all of the collected samples. The MCA 
+	threshold was limited to obtain only two dimentions of multiple component analysis and number of clusters was set 
+	to two. In this case where the entier available data set was utilised in the training process the 'New DLL'
+	coefficient has no impact on the result.  
+	\item Path lengths - In the previous tests the number of processes in the path proved to be the most robust feature
+	based on the path variable. Because of this it was choosen for the final experiment. All paths were normalised to start
+	after the first '/msedge' program. The resulting lengths were consequently normalised to the range between 0 and 1.
+	\item Average processor utilisation - Those values due to their percentage based nature require no normalisation. They 
+	were fed directly to the anomaly detection algorithm. 
+\end{itemize}
+
+As in previous experiments the outlier detection was performed by the One Class SVM for a wide range of 'nu' values. The results of 
+this process are displayed in the graph xxx
+
+% można napisać, że więcej parametrów może lepiej działać. 
 
 \chapter{Summary}
 
@@ -2544,53 +2562,53 @@ art algorithms based on the artificial neural networks like autoencoders or...
 
 \begin{table}
 	\centering
-	\caption{Performance of anomaly detection on process data.}
+	\caption{Performance of anomaly detection on path lengths.}
 	\label{id:tab:pathLenOcSVM}
 	\begin{tabular}{lrrrrr}
-	\toprule
-	{} &     nu &  Positive &  Negative &  False positive &  False negative \\
-	\midrule
-	0  &  0.025 &       210 &         5 &               5 &              11 \\
-	1  &  0.050 &       218 &         5 &               5 &               3 \\
-	2  &  0.075 &       206 &        10 &               0 &              15 \\
-	3  &  0.100 &       206 &        10 &               0 &              15 \\
-	4  &  0.125 &       206 &        10 &               0 &              15 \\
-	5  &  0.150 &       206 &        10 &               0 &              15 \\
-	6  &  0.175 &       206 &        10 &               0 &              15 \\
-	7  &  0.200 &       206 &        10 &               0 &              15 \\
-	8  &  0.225 &       206 &        10 &               0 &              15 \\
-	9  &  0.250 &       206 &        10 &               0 &              15 \\
-	10 &  0.275 &       206 &        10 &               0 &              15 \\
-	11 &  0.300 &       206 &        10 &               0 &              15 \\
-	12 &  0.325 &       206 &        10 &               0 &              15 \\
-	13 &  0.350 &       206 &        10 &               0 &              15 \\
-	14 &  0.375 &       206 &        10 &               0 &              15 \\
-	15 &  0.400 &       206 &        10 &               0 &              15 \\
-	16 &  0.425 &       206 &        10 &               0 &              15 \\
-	17 &  0.450 &       206 &        10 &               0 &              15 \\
-	18 &  0.475 &       206 &        10 &               0 &              15 \\
-	19 &  0.500 &       206 &        10 &               0 &              15 \\
-	20 &  0.525 &       206 &        10 &               0 &              15 \\
-	21 &  0.550 &       206 &        10 &               0 &              15 \\
-	22 &  0.575 &       206 &        10 &               0 &              15 \\
-	23 &  0.600 &       206 &        10 &               0 &              15 \\
-	24 &  0.625 &       206 &        10 &               0 &              15 \\
-	25 &  0.650 &       206 &        10 &               0 &              15 \\
-	26 &  0.675 &       206 &        10 &               0 &              15 \\
-	27 &  0.700 &       206 &        10 &               0 &              15 \\
-	28 &  0.725 &       206 &        10 &               0 &              15 \\
-	29 &  0.750 &       206 &        10 &               0 &              15 \\
-	30 &  0.775 &       206 &        10 &               0 &              15 \\
-	31 &  0.800 &       206 &        10 &               0 &              15 \\
-	32 &  0.825 &       206 &        10 &               0 &              15 \\
-	33 &  0.850 &       206 &        10 &               0 &              15 \\
-	34 &  0.875 &       206 &        10 &               0 &              15 \\
-	35 &  0.900 &       206 &        10 &               0 &              15 \\
-	36 &  0.925 &       206 &        10 &               0 &              15 \\
-	37 &  0.950 &       206 &        10 &               0 &              15 \\
-	38 &  0.975 &       206 &        10 &               0 &              15 \\
-	39 &  1.000 &         0 &        10 &               0 &             221 \\
-	\bottomrule
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &       210 &         5 &               5 &              11 \\
+		1  &  0.050 &       210 &         5 &               5 &              11 \\
+		2  &  0.075 &       210 &         5 &               5 &              11 \\
+		3  &  0.100 &       206 &        10 &               0 &              15 \\
+		4  &  0.125 &       206 &         9 &               1 &              15 \\
+		5  &  0.150 &       206 &        10 &               0 &              15 \\
+		6  &  0.175 &       206 &        10 &               0 &              15 \\
+		7  &  0.200 &       206 &        10 &               0 &              15 \\
+		8  &  0.225 &       206 &        10 &               0 &              15 \\
+		9  &  0.250 &       206 &        10 &               0 &              15 \\
+		10 &  0.275 &       206 &        10 &               0 &              15 \\
+		11 &  0.300 &       206 &        10 &               0 &              15 \\
+		12 &  0.325 &       206 &        10 &               0 &              15 \\
+		13 &  0.350 &       206 &        10 &               0 &              15 \\
+		14 &  0.375 &       206 &        10 &               0 &              15 \\
+		15 &  0.400 &       206 &        10 &               0 &              15 \\
+		16 &  0.425 &       206 &        10 &               0 &              15 \\
+		17 &  0.450 &       206 &        10 &               0 &              15 \\
+		18 &  0.475 &       206 &        10 &               0 &              15 \\
+		19 &  0.500 &       206 &        10 &               0 &              15 \\
+		20 &  0.525 &       206 &        10 &               0 &              15 \\
+		21 &  0.550 &       206 &        10 &               0 &              15 \\
+		22 &  0.575 &       206 &        10 &               0 &              15 \\
+		23 &  0.600 &       206 &        10 &               0 &              15 \\
+		24 &  0.625 &       206 &        10 &               0 &              15 \\
+		25 &  0.650 &       206 &        10 &               0 &              15 \\
+		26 &  0.675 &       206 &        10 &               0 &              15 \\
+		27 &  0.700 &       206 &        10 &               0 &              15 \\
+		28 &  0.725 &       206 &        10 &               0 &              15 \\
+		29 &  0.750 &       206 &        10 &               0 &              15 \\
+		30 &  0.775 &       206 &        10 &               0 &              15 \\
+		31 &  0.800 &       206 &        10 &               0 &              15 \\
+		32 &  0.825 &       206 &        10 &               0 &              15 \\
+		33 &  0.850 &       206 &        10 &               0 &              15 \\
+		34 &  0.875 &       206 &        10 &               0 &              15 \\
+		35 &  0.900 &       206 &        10 &               0 &              15 \\
+		36 &  0.925 &       206 &        10 &               0 &              15 \\
+		37 &  0.950 &       206 &        10 &               0 &              15 \\
+		38 &  0.975 &       206 &        10 &               0 &              15 \\
+		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 	
@@ -2832,50 +2850,50 @@ art algorithms based on the artificial neural networks like autoencoders or...
 	\caption{Results of anomaly detection on DirtyCat encoded paths.}
 	\label{id:tab:ocsvmOnDirtyCatBad}
 	\begin{tabular}{lrrrrr}
-	\toprule
-	{} &     nu &  Positive &  Negative &  False positive &  False negative \\
-	\midrule
-	0  &  0.025 &       212 &         0 &              10 &               9 \\
-	1  &  0.050 &       209 &         0 &              10 &              12 \\
-	2  &  0.075 &         8 &         8 &               2 &             213 \\
-	3  &  0.100 &         0 &         8 &               2 &             221 \\
-	4  &  0.125 &         0 &         8 &               2 &             221 \\
-	5  &  0.150 &         0 &         8 &               2 &             221 \\
-	6  &  0.175 &         0 &         8 &               2 &             221 \\
-	7  &  0.200 &         0 &         8 &               2 &             221 \\
-	8  &  0.225 &         0 &         8 &               2 &             221 \\
-	9  &  0.250 &         0 &         8 &               2 &             221 \\
-	10 &  0.275 &         0 &         8 &               2 &             221 \\
-	11 &  0.300 &         0 &         8 &               2 &             221 \\
-	12 &  0.325 &         0 &         8 &               2 &             221 \\
-	13 &  0.350 &         0 &         8 &               2 &             221 \\
-	14 &  0.375 &         0 &         8 &               2 &             221 \\
-	15 &  0.400 &         0 &         8 &               2 &             221 \\
-	16 &  0.425 &         0 &         8 &               2 &             221 \\
-	17 &  0.450 &         0 &         8 &               2 &             221 \\
-	18 &  0.475 &         0 &         8 &               2 &             221 \\
-	19 &  0.500 &         0 &         8 &               2 &             221 \\
-	20 &  0.525 &         0 &         8 &               2 &             221 \\
-	21 &  0.550 &         0 &         8 &               2 &             221 \\
-	22 &  0.575 &         0 &         8 &               2 &             221 \\
-	23 &  0.600 &         0 &         8 &               2 &             221 \\
-	24 &  0.625 &         0 &         8 &               2 &             221 \\
-	25 &  0.650 &         0 &         8 &               2 &             221 \\
-	26 &  0.675 &         0 &        10 &               0 &             221 \\
-	27 &  0.700 &         0 &        10 &               0 &             221 \\
-	28 &  0.725 &         0 &        10 &               0 &             221 \\
-	29 &  0.750 &         0 &        10 &               0 &             221 \\
-	30 &  0.775 &         0 &        10 &               0 &             221 \\
-	31 &  0.800 &         0 &        10 &               0 &             221 \\
-	32 &  0.825 &         0 &        10 &               0 &             221 \\
-	33 &  0.850 &         0 &        10 &               0 &             221 \\
-	34 &  0.875 &         0 &        10 &               0 &             221 \\
-	35 &  0.900 &         0 &        10 &               0 &             221 \\
-	36 &  0.925 &         0 &        10 &               0 &             221 \\
-	37 &  0.950 &         0 &        10 &               0 &             221 \\
-	38 &  0.975 &         0 &        10 &               0 &             221 \\
-	39 &  1.000 &         0 &        10 &               0 &             221 \\
-	\bottomrule
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &       210 &         0 &              10 &              11 \\
+		1  &  0.050 &        49 &         7 &               3 &             172 \\
+		2  &  0.075 &         8 &         8 &               2 &             213 \\
+		3  &  0.100 &         0 &         8 &               2 &             221 \\
+		4  &  0.125 &         0 &         8 &               2 &             221 \\
+		5  &  0.150 &         0 &         8 &               2 &             221 \\
+		6  &  0.175 &         0 &         8 &               2 &             221 \\
+		7  &  0.200 &         0 &         8 &               2 &             221 \\
+		8  &  0.225 &         0 &         8 &               2 &             221 \\
+		9  &  0.250 &         0 &         8 &               2 &             221 \\
+		10 &  0.275 &         0 &         8 &               2 &             221 \\
+		11 &  0.300 &         0 &         8 &               2 &             221 \\
+		12 &  0.325 &         0 &         8 &               2 &             221 \\
+		13 &  0.350 &         0 &         8 &               2 &             221 \\
+		14 &  0.375 &        15 &         7 &               3 &             206 \\
+		15 &  0.400 &         0 &         8 &               2 &             221 \\
+		16 &  0.425 &         0 &         8 &               2 &             221 \\
+		17 &  0.450 &         0 &         8 &               2 &             221 \\
+		18 &  0.475 &         0 &         8 &               2 &             221 \\
+		19 &  0.500 &        21 &         7 &               3 &             200 \\
+		20 &  0.525 &         0 &         8 &               2 &             221 \\
+		21 &  0.550 &         0 &         8 &               2 &             221 \\
+		22 &  0.575 &         0 &         8 &               2 &             221 \\
+		23 &  0.600 &         0 &         8 &               2 &             221 \\
+		24 &  0.625 &         0 &         8 &               2 &             221 \\
+		25 &  0.650 &         0 &         8 &               2 &             221 \\
+		26 &  0.675 &         0 &         8 &               2 &             221 \\
+		27 &  0.700 &         0 &         8 &               2 &             221 \\
+		28 &  0.725 &         0 &        10 &               0 &             221 \\
+		29 &  0.750 &       142 &         4 &               6 &              79 \\
+		30 &  0.775 &         0 &        10 &               0 &             221 \\
+		31 &  0.800 &         0 &        10 &               0 &             221 \\
+		32 &  0.825 &         0 &        10 &               0 &             221 \\
+		33 &  0.850 &         0 &        10 &               0 &             221 \\
+		34 &  0.875 &         0 &        10 &               0 &             221 \\
+		35 &  0.900 &         0 &        10 &               0 &             221 \\
+		36 &  0.925 &         0 &        10 &               0 &             221 \\
+		37 &  0.950 &         0 &        10 &               0 &             221 \\
+		38 &  0.975 &         0 &        10 &               0 &             221 \\
+		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 	
@@ -2884,54 +2902,53 @@ art algorithms based on the artificial neural networks like autoencoders or...
 	\caption{Results of improved anomaly detection on DirtyCat encoded paths.}
 	\label{id:tab:ocsvmOnDirtyCatGood}
 	\begin{tabular}{lrrrrr}
-	\toprule
-	{} &     nu &  Positive &  Negative &  False positive &  False negative \\
-	\midrule
-	0  &  0.025 &       207 &         0 &              10 &              14 \\
-	1  &  0.050 &       211 &         5 &               5 &              10 \\
-	2  &  0.075 &         0 &        10 &               0 &             221 \\
-	3  &  0.100 &         0 &        10 &               0 &             221 \\
-	4  &  0.125 &         0 &        10 &               0 &             221 \\
-	5  &  0.150 &         0 &        10 &               0 &             221 \\
-	6  &  0.175 &         0 &        10 &               0 &             221 \\
-	7  &  0.200 &         0 &        10 &               0 &             221 \\
-	8  &  0.225 &         0 &        10 &               0 &             221 \\
-	9  &  0.250 &         0 &        10 &               0 &             221 \\
-	10 &  0.275 &         0 &        10 &               0 &             221 \\
-	11 &  0.300 &         0 &        10 &               0 &             221 \\
-	12 &  0.325 &         0 &        10 &               0 &             221 \\
-	13 &  0.350 &         0 &        10 &               0 &             221 \\
-	14 &  0.375 &         0 &        10 &               0 &             221 \\
-	15 &  0.400 &         0 &        10 &               0 &             221 \\
-	16 &  0.425 &         0 &        10 &               0 &             221 \\
-	17 &  0.450 &         0 &        10 &               0 &             221 \\
-	18 &  0.475 &         0 &        10 &               0 &             221 \\
-	19 &  0.500 &         0 &        10 &               0 &             221 \\
-	20 &  0.525 &         0 &        10 &               0 &             221 \\
-	21 &  0.550 &         0 &        10 &               0 &             221 \\
-	22 &  0.575 &         0 &        10 &               0 &             221 \\
-	23 &  0.600 &         0 &        10 &               0 &             221 \\
-	24 &  0.625 &         0 &        10 &               0 &             221 \\
-	25 &  0.650 &         0 &        10 &               0 &             221 \\
-	26 &  0.675 &         0 &        10 &               0 &             221 \\
-	27 &  0.700 &         0 &        10 &               0 &             221 \\
-	28 &  0.725 &         0 &        10 &               0 &             221 \\
-	29 &  0.750 &         0 &        10 &               0 &             221 \\
-	30 &  0.775 &         0 &        10 &               0 &             221 \\
-	31 &  0.800 &         0 &        10 &               0 &             221 \\
-	32 &  0.825 &         0 &        10 &               0 &             221 \\
-	33 &  0.850 &         0 &        10 &               0 &             221 \\
-	34 &  0.875 &         0 &        10 &               0 &             221 \\
-	35 &  0.900 &         0 &        10 &               0 &             221 \\
-	36 &  0.925 &         0 &        10 &               0 &             221 \\
-	37 &  0.950 &         0 &        10 &               0 &             221 \\
-	38 &  0.975 &         0 &        10 &               0 &             221 \\
-	39 &  1.000 &         0 &        10 &               0 &             221 \\
-	\bottomrule
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &       206 &         1 &               9 &              15 \\
+		1  &  0.050 &       201 &         3 &               7 &              20 \\
+		2  &  0.075 &       191 &         3 &               7 &              30 \\
+		3  &  0.100 &       168 &         5 &               5 &              53 \\
+		4  &  0.125 &        21 &         7 &               3 &             200 \\
+		5  &  0.150 &         0 &        10 &               0 &             221 \\
+		6  &  0.175 &         0 &        10 &               0 &             221 \\
+		7  &  0.200 &         0 &        10 &               0 &             221 \\
+		8  &  0.225 &         0 &        10 &               0 &             221 \\
+		9  &  0.250 &         0 &        10 &               0 &             221 \\
+		10 &  0.275 &         0 &        10 &               0 &             221 \\
+		11 &  0.300 &         0 &        10 &               0 &             221 \\
+		12 &  0.325 &         0 &        10 &               0 &             221 \\
+		13 &  0.350 &         0 &        10 &               0 &             221 \\
+		14 &  0.375 &         0 &        10 &               0 &             221 \\
+		15 &  0.400 &         0 &        10 &               0 &             221 \\
+		16 &  0.425 &         0 &        10 &               0 &             221 \\
+		17 &  0.450 &         0 &        10 &               0 &             221 \\
+		18 &  0.475 &         0 &        10 &               0 &             221 \\
+		19 &  0.500 &         0 &        10 &               0 &             221 \\
+		20 &  0.525 &         0 &        10 &               0 &             221 \\
+		21 &  0.550 &         0 &        10 &               0 &             221 \\
+		22 &  0.575 &         0 &        10 &               0 &             221 \\
+		23 &  0.600 &         0 &        10 &               0 &             221 \\
+		24 &  0.625 &         0 &        10 &               0 &             221 \\
+		25 &  0.650 &         0 &        10 &               0 &             221 \\
+		26 &  0.675 &         0 &        10 &               0 &             221 \\
+		27 &  0.700 &         0 &        10 &               0 &             221 \\
+		28 &  0.725 &         0 &        10 &               0 &             221 \\
+		29 &  0.750 &         0 &        10 &               0 &             221 \\
+		30 &  0.775 &         0 &        10 &               0 &             221 \\
+		31 &  0.800 &         0 &        10 &               0 &             221 \\
+		32 &  0.825 &         0 &        10 &               0 &             221 \\
+		33 &  0.850 &         0 &        10 &               0 &             221 \\
+		34 &  0.875 &         0 &        10 &               0 &             221 \\
+		35 &  0.900 &         0 &        10 &               0 &             221 \\
+		36 &  0.925 &         0 &        10 &               0 &             221 \\
+		37 &  0.950 &         0 &        10 &               0 &             221 \\
+		38 &  0.975 &         0 &        10 &               0 &             221 \\
+		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		\bottomrule
 	\end{tabular}
 \end{table}
 
-%%% Tutaj tabele
 
 \begin{table}
 	\centering
@@ -2941,18 +2958,18 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		\toprule
 		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
 		\midrule
-		0  &  0.025 &        13 &         0 &              10 &             208 \\
-		1  &  0.050 &       213 &         0 &              10 &               8 \\
-		2  &  0.075 &       209 &         0 &              10 &              12 \\
-		3  &  0.100 &       209 &         0 &              10 &              12 \\
-		4  &  0.125 &       209 &         0 &              10 &              12 \\
-		5  &  0.150 &       209 &         0 &              10 &              12 \\
-		6  &  0.175 &       201 &         0 &              10 &              20 \\
-		7  &  0.200 &       201 &         4 &               6 &              20 \\
-		8  &  0.225 &       201 &         5 &               5 &              20 \\
-		9  &  0.250 &       201 &        10 &               0 &              20 \\
-		10 &  0.275 &       201 &        10 &               0 &              20 \\
-		11 &  0.300 &       201 &        10 &               0 &              20 \\
+		0  &  0.025 &       147 &         0 &              10 &              74 \\
+		1  &  0.050 &       148 &         0 &              10 &              73 \\
+		2  &  0.075 &       194 &         0 &              10 &              27 \\
+		3  &  0.100 &       194 &         0 &              10 &              27 \\
+		4  &  0.125 &       194 &         0 &              10 &              27 \\
+		5  &  0.150 &       189 &         0 &              10 &              32 \\
+		6  &  0.175 &       186 &         0 &              10 &              35 \\
+		7  &  0.200 &       186 &         1 &               9 &              35 \\
+		8  &  0.225 &       186 &         4 &               6 &              35 \\
+		9  &  0.250 &       186 &         5 &               5 &              35 \\
+		10 &  0.275 &       201 &         5 &               5 &              20 \\
+		11 &  0.300 &       201 &         8 &               2 &              20 \\
 		12 &  0.325 &       201 &        10 &               0 &              20 \\
 		13 &  0.350 &       201 &        10 &               0 &              20 \\
 		14 &  0.375 &       201 &        10 &               0 &              20 \\
@@ -2982,7 +2999,7 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		38 &  0.975 &       201 &        10 &               0 &              20 \\
 		39 &  1.000 &         0 &        10 &               0 &             221 \\
 		\bottomrule
-		\end{tabular}
+	\end{tabular}		
 \end{table}
 
 \begin{table}
@@ -2993,17 +3010,17 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		\toprule
 		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
 		\midrule
-		0  &  0.025 &       218 &         0 &              10 &               3 \\
-		1  &  0.050 &       218 &         0 &              10 &               3 \\
-		2  &  0.075 &       218 &         0 &              10 &               3 \\
+		0  &  0.025 &       217 &         0 &              10 &               4 \\
+		1  &  0.050 &       187 &         0 &              10 &              34 \\
+		2  &  0.075 &       210 &         0 &              10 &              11 \\
 		3  &  0.100 &       208 &         0 &              10 &              13 \\
 		4  &  0.125 &       205 &         0 &              10 &              16 \\
-		5  &  0.150 &       205 &         0 &              10 &              16 \\
+		5  &  0.150 &       203 &         0 &              10 &              18 \\
 		6  &  0.175 &       201 &         0 &              10 &              20 \\
-		7  &  0.200 &       201 &         0 &              10 &              20 \\
-		8  &  0.225 &       201 &         5 &               5 &              20 \\
-		9  &  0.250 &       201 &        10 &               0 &              20 \\
-		10 &  0.275 &       201 &        10 &               0 &              20 \\
+		7  &  0.200 &       201 &         1 &               9 &              20 \\
+		8  &  0.225 &       201 &         4 &               6 &              20 \\
+		9  &  0.250 &       201 &         5 &               5 &              20 \\
+		10 &  0.275 &       201 &         6 &               4 &              20 \\
 		11 &  0.300 &       201 &        10 &               0 &              20 \\
 		12 &  0.325 &       201 &        10 &               0 &              20 \\
 		13 &  0.350 &       201 &        10 &               0 &              20 \\
@@ -3034,8 +3051,10 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		38 &  0.975 &       201 &        10 &               0 &              20 \\
 		39 &  1.000 &         0 &        10 &               0 &             221 \\
 		\bottomrule
-		\end{tabular}		
+	\end{tabular}				
 \end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%Avg Proces utilisation
 
 \begin{table}
 	\centering
@@ -3045,48 +3064,48 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		\toprule
 		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
 		\midrule
-		0  &  0.025 &       216 &         3 &               7 &               5 \\
-		1  &  0.050 &       209 &         4 &               6 &              12 \\
-		2  &  0.075 &       205 &         8 &               2 &              16 \\
-		3  &  0.100 &       192 &         8 &               2 &              29 \\
-		4  &  0.125 &       191 &         9 &               1 &              30 \\
-		5  &  0.150 &       191 &         9 &               1 &              30 \\
-		6  &  0.175 &       191 &        10 &               0 &              30 \\
-		7  &  0.200 &       176 &        10 &               0 &              45 \\
-		8  &  0.225 &       171 &        10 &               0 &              50 \\
-		9  &  0.250 &        23 &        10 &               0 &             198 \\
-		10 &  0.275 &        23 &        10 &               0 &             198 \\
-		11 &  0.300 &       164 &        10 &               0 &              57 \\
-		12 &  0.325 &       164 &        10 &               0 &              57 \\
-		13 &  0.350 &       164 &        10 &               0 &              57 \\
-		14 &  0.375 &       164 &        10 &               0 &              57 \\
-		15 &  0.400 &       164 &        10 &               0 &              57 \\
-		16 &  0.425 &       164 &        10 &               0 &              57 \\
-		17 &  0.450 &       164 &        10 &               0 &              57 \\
-		18 &  0.475 &       164 &        10 &               0 &              57 \\
-		19 &  0.500 &       164 &        10 &               0 &              57 \\
-		20 &  0.525 &       145 &        10 &               0 &              76 \\
-		21 &  0.550 &       145 &        10 &               0 &              76 \\
-		22 &  0.575 &       145 &        10 &               0 &              76 \\
-		23 &  0.600 &       145 &        10 &               0 &              76 \\
-		24 &  0.625 &       145 &        10 &               0 &              76 \\
-		25 &  0.650 &       145 &        10 &               0 &              76 \\
-		26 &  0.675 &       145 &        10 &               0 &              76 \\
-		27 &  0.700 &       145 &        10 &               0 &              76 \\
-		28 &  0.725 &       145 &        10 &               0 &              76 \\
-		29 &  0.750 &       145 &        10 &               0 &              76 \\
-		30 &  0.775 &       145 &        10 &               0 &              76 \\
-		31 &  0.800 &       145 &        10 &               0 &              76 \\
-		32 &  0.825 &       145 &        10 &               0 &              76 \\
-		33 &  0.850 &       145 &        10 &               0 &              76 \\
-		34 &  0.875 &       145 &        10 &               0 &              76 \\
-		35 &  0.900 &       145 &        10 &               0 &              76 \\
-		36 &  0.925 &       145 &        10 &               0 &              76 \\
-		37 &  0.950 &       145 &        10 &               0 &              76 \\
-		38 &  0.975 &       145 &        10 &               0 &              76 \\
+		0  &  0.025 &       190 &         0 &              10 &              31 \\
+		1  &  0.050 &       188 &         1 &               9 &              33 \\
+		2  &  0.075 &       190 &         1 &               9 &              31 \\
+		3  &  0.100 &       194 &         1 &               9 &              27 \\
+		4  &  0.125 &       194 &         2 &               8 &              27 \\
+		5  &  0.150 &       192 &         3 &               7 &              29 \\
+		6  &  0.175 &       184 &         3 &               7 &              37 \\
+		7  &  0.200 &       181 &         4 &               6 &              40 \\
+		8  &  0.225 &       181 &         4 &               6 &              40 \\
+		9  &  0.250 &       179 &         5 &               5 &              42 \\
+		10 &  0.275 &       169 &         5 &               5 &              52 \\
+		11 &  0.300 &       160 &         5 &               5 &              61 \\
+		12 &  0.325 &       157 &         5 &               5 &              64 \\
+		13 &  0.350 &       147 &         5 &               5 &              74 \\
+		14 &  0.375 &       138 &         6 &               4 &              83 \\
+		15 &  0.400 &       125 &         6 &               4 &              96 \\
+		16 &  0.425 &       125 &         6 &               4 &              96 \\
+		17 &  0.450 &       118 &         6 &               4 &             103 \\
+		18 &  0.475 &       114 &         7 &               3 &             107 \\
+		19 &  0.500 &       108 &         7 &               3 &             113 \\
+		20 &  0.525 &       105 &         7 &               3 &             116 \\
+		21 &  0.550 &        99 &         7 &               3 &             122 \\
+		22 &  0.575 &        93 &         7 &               3 &             128 \\
+		23 &  0.600 &        89 &         7 &               3 &             132 \\
+		24 &  0.625 &        88 &         7 &               3 &             133 \\
+		25 &  0.650 &        82 &         8 &               2 &             139 \\
+		26 &  0.675 &        72 &         8 &               2 &             149 \\
+		27 &  0.700 &        69 &         8 &               2 &             152 \\
+		28 &  0.725 &        63 &         8 &               2 &             158 \\
+		29 &  0.750 &        56 &         9 &               1 &             165 \\
+		30 &  0.775 &        47 &        10 &               0 &             174 \\
+		31 &  0.800 &        41 &        10 &               0 &             180 \\
+		32 &  0.825 &        40 &        10 &               0 &             181 \\
+		33 &  0.850 &        37 &        10 &               0 &             184 \\
+		34 &  0.875 &        30 &        10 &               0 &             191 \\
+		35 &  0.900 &        22 &        10 &               0 &             199 \\
+		36 &  0.925 &        18 &        10 &               0 &             203 \\
+		37 &  0.950 &        14 &        10 &               0 &             207 \\
+		38 &  0.975 &         8 &        10 &               0 &             213 \\
 		39 &  1.000 &         0 &        10 &               0 &             221 \\
 		\bottomrule
-	\end{tabular}
+	\end{tabular}		
 \end{table} 
 
 
