@@ -515,7 +515,22 @@ strictly numerical, it is a lot easier to analyze than the qualitative values li
 paths and the loaded DLL's. It is also a lot less impacted by the actions of the normal user when
 compared to the process lifespan values from which it is derived.
 
-% \subsection{Process lifespan}
+\subsection{Process lifespan}
+
+The process lifespan is the ammount of elapsed time from the from the process spawn to its
+termination or the end of data gathering process. Even though the tested average processor utilisation 
+is derived from this data, those values might not necessary convey the same information. In some cases
+the exploitation process performed on the monitored software may result in a premature program
+closure or its prolonged execution due to the program hanging. Such behaviour may manifest in the
+processor utilisation but this does not always has to be the case. 
+
+This feature however has a bigger risk of beeing to strongly impacted by the actions of the user. 
+Each new tab opened in the browser is a separate process and the amount of time for which it remains
+open is highly dependent on many factors. In a single session a user can perform a quick, lasting 
+lasting only a couple of seconds search for a correct spelling of a word and read a article for 
+an hour. The introduce in the process variance may render this feature unusable or cause it to
+require very large quantities of data for proper analysis. Those factors have to be taken 
+under consideration in the conducted experiments.
 
 % \subsection{Exit code}
 
@@ -705,7 +720,7 @@ the "processSummary" and "processModules" files was correlated by the order in w
 stored. Similarly as before this approach was choosen because of the reuse of process id's.
 Three of the stored processes never in testing had any corresponding modules - 
 "Registry", "MemCompression" and the process marked with -1 ProcessId. Obtained data was
-additionally validated with the input information to minimise the risc of introducing error
+additionally validated with the input information to minimise the risk of introducing error
 to the dataset.
 
 The final product of the data processing is a dataset containing information about all the 
@@ -801,7 +816,7 @@ After preprocessing of the data following features are stored in the output file
 	\item The remaining columns contain OneHot encoded information about the dynamically linked 
 	libraries. When a column contains value 1 the process has loaded the dll specified in the 
 	column name. Otherwise the column contains 0. Full list of the captured modules can be 
-	found in the appendix % dodać listę dll
+	found in the appendix % TODO dodać listę dll
 \end{itemize}
 
 The dataset utilised in the thesis can be found in a public repository under the url 
@@ -1349,7 +1364,17 @@ The final test utilised following features:
 \end{itemize}
 
 As in previous experiments the outlier detection was performed by the One Class SVM for a wide range of 'nu' values. The results of 
-this process are displayed in the graph xxx
+this process are displayed in the graph \ref{fig:combinedFinalROC} and the raw data can be accessed in the table 
+\ref{id:tab:OCSVMonCombined} located in the appendix. The graph xxx shows those results compared to the performance
+of anomaly detection applied to the individual component features. As shown in the image the overa 
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/CombinedFinalROC}
+	\caption{The ROC of anomaly detection performed on combined best features.}
+	\label{fig:combinedFinalROC}
+ \end{figure}
+
 
 % można napisać, że więcej parametrów może lepiej działać. 
 
@@ -3058,7 +3083,7 @@ art algorithms based on the artificial neural networks like autoencoders or...
 
 \begin{table}
 	\centering
-	\caption{OCSVM classification on Average Process Utilistaion}
+	\caption{OCSVM classification on choosen features combined.}
 	\label{id:tab:OCSVMonProc}
 	\begin{tabular}{lrrrrr}
 		\toprule
@@ -3108,6 +3133,59 @@ art algorithms based on the artificial neural networks like autoencoders or...
 	\end{tabular}		
 \end{table} 
 
+%%%%%%%%%%%%%%%%%%%%%%Final
+
+\begin{table}
+	\centering
+	\caption{OCSVM classification on Average Process Utilistaion}
+	\label{id:tab:OCSVMonCombined}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &       216 &         3 &               7 &               5 \\
+		1  &  0.050 &       211 &         3 &               7 &              10 \\
+		2  &  0.075 &       205 &         4 &               6 &              16 \\
+		3  &  0.100 &       199 &         5 &               5 &              22 \\
+		4  &  0.125 &       196 &         5 &               5 &              25 \\
+		5  &  0.150 &       192 &         8 &               2 &              29 \\
+		6  &  0.175 &       181 &         9 &               1 &              40 \\
+		7  &  0.200 &       166 &        10 &               0 &              55 \\
+		8  &  0.225 &       170 &        10 &               0 &              51 \\
+		9  &  0.250 &       162 &        10 &               0 &              59 \\
+		10 &  0.275 &       164 &        10 &               0 &              57 \\
+		11 &  0.300 &       160 &        10 &               0 &              61 \\
+		12 &  0.325 &       145 &        10 &               0 &              76 \\
+		13 &  0.350 &       140 &        10 &               0 &              81 \\
+		14 &  0.375 &       137 &        10 &               0 &              84 \\
+		15 &  0.400 &       136 &        10 &               0 &              85 \\
+		16 &  0.425 &       131 &        10 &               0 &              90 \\
+		17 &  0.450 &       125 &        10 &               0 &              96 \\
+		18 &  0.475 &       120 &        10 &               0 &             101 \\
+		19 &  0.500 &       109 &        10 &               0 &             112 \\
+		20 &  0.525 &       109 &        10 &               0 &             112 \\
+		21 &  0.550 &       104 &        10 &               0 &             117 \\
+		22 &  0.575 &        99 &        10 &               0 &             122 \\
+		23 &  0.600 &        93 &        10 &               0 &             128 \\
+		24 &  0.625 &        86 &        10 &               0 &             135 \\
+		25 &  0.650 &        79 &        10 &               0 &             142 \\
+		26 &  0.675 &        78 &        10 &               0 &             143 \\
+		27 &  0.700 &        67 &        10 &               0 &             154 \\
+		28 &  0.725 &        62 &        10 &               0 &             159 \\
+		29 &  0.750 &        59 &        10 &               0 &             162 \\
+		30 &  0.775 &        53 &        10 &               0 &             168 \\
+		31 &  0.800 &        47 &        10 &               0 &             174 \\
+		32 &  0.825 &        40 &        10 &               0 &             181 \\
+		33 &  0.850 &        35 &        10 &               0 &             186 \\
+		34 &  0.875 &        27 &        10 &               0 &             194 \\
+		35 &  0.900 &        24 &        10 &               0 &             197 \\
+		36 &  0.925 &        18 &        10 &               0 &             203 \\
+		37 &  0.950 &        16 &        10 &               0 &             205 \\
+		38 &  0.975 &         8 &        10 &               0 &             213 \\
+		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		\bottomrule
+	\end{tabular}
+\end{table} 
 
 Example of a \lstinline|"exploit.html"| file:
 
