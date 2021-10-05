@@ -1343,6 +1343,77 @@ the One Class SVM and the resulting reciever operating characteristic is present
 The raw values of the anomaly detection performance can be accessed in the table \ref{id:tab:OCSVMonProc} located in the 
 appendix. 
 
+\subsection{Process lifespan}
+%%%%%%%%%%% TODO sprawdzić ponownie
+The analysis of the available data was started with the review of the histogram graph which can be found in the 
+figure \ref{fig:lifespanHist}. This image however shows that the possibility of detecting of the outliers by means of statistical
+analysis is low. This is due to the fact that all outlier samples lay between the most frequent values.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/LifespanHist}
+	\caption{Histogram of the process lifespans.}
+	\label{fig:lifespanHist}
+ \end{figure}
+
+This was also confirmed by the attempted anomaly detection, the results of which are shown in the table \ref{id:tab:OCSVNlifespans}. 
+This data does not indicate any possibility of its successful utilisation for the purposes of this thesis. This idea should however
+be tested in the future with the a bigger and more versatile dataset.
+
+\begin{table}
+	\centering
+	\caption{Results of One Class SVN on the process lifespans}
+	\label{id:tab:OCSVNlifespans}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &         0 &        10 &               0 &             221 \\
+		1  &  0.050 &         0 &        10 &               0 &             221 \\
+		2  &  0.075 &         0 &        10 &               0 &             221 \\
+		3  &  0.100 &         0 &        10 &               0 &             221 \\
+		4  &  0.125 &         0 &        10 &               0 &             221 \\
+		5  &  0.150 &         0 &        10 &               0 &             221 \\
+		6  &  0.175 &         0 &        10 &               0 &             221 \\
+		7  &  0.200 &         0 &        10 &               0 &             221 \\
+		8  &  0.225 &         0 &        10 &               0 &             221 \\
+		9  &  0.250 &         0 &        10 &               0 &             221 \\
+		10 &  0.275 &         0 &        10 &               0 &             221 \\
+		11 &  0.300 &         0 &        10 &               0 &             221 \\
+		12 &  0.325 &         0 &        10 &               0 &             221 \\
+		13 &  0.350 &         0 &        10 &               0 &             221 \\
+		14 &  0.375 &         0 &        10 &               0 &             221 \\
+		15 &  0.400 &         0 &        10 &               0 &             221 \\
+		16 &  0.425 &         0 &        10 &               0 &             221 \\
+		17 &  0.450 &         0 &        10 &               0 &             221 \\
+		18 &  0.475 &         0 &        10 &               0 &             221 \\
+		19 &  0.500 &         0 &        10 &               0 &             221 \\
+		20 &  0.525 &         0 &        10 &               0 &             221 \\
+		21 &  0.550 &         0 &        10 &               0 &             221 \\
+		22 &  0.575 &         0 &        10 &               0 &             221 \\
+		23 &  0.600 &         0 &        10 &               0 &             221 \\
+		24 &  0.625 &         0 &        10 &               0 &             221 \\
+		25 &  0.650 &         0 &        10 &               0 &             221 \\
+		26 &  0.675 &         0 &        10 &               0 &             221 \\
+		27 &  0.700 &         0 &        10 &               0 &             221 \\
+		28 &  0.725 &         0 &        10 &               0 &             221 \\
+		29 &  0.750 &         0 &        10 &               0 &             221 \\
+		30 &  0.775 &         0 &        10 &               0 &             221 \\
+		31 &  0.800 &         0 &        10 &               0 &             221 \\
+		32 &  0.825 &         0 &        10 &               0 &             221 \\
+		33 &  0.850 &         0 &        10 &               0 &             221 \\
+		34 &  0.875 &         0 &        10 &               0 &             221 \\
+		35 &  0.900 &         0 &        10 &               0 &             221 \\
+		36 &  0.925 &         0 &        10 &               0 &             221 \\
+		37 &  0.950 &         0 &        10 &               0 &             221 \\
+		38 &  0.975 &         0 &        10 &               0 &             221 \\
+		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+
 \subsection{Combined performance}
 
 To further analyze the potential of the Event Trace for Windows data in the identification of
@@ -1428,10 +1499,12 @@ software may have a very different behaviour profile which may lead to interesti
 
 \section{Unutilised data}
 
-Due to the limitations imposed in the data gathering process by the limited memory resources and its
+Due to the limitations imposed in the data gathering process by the restricted memory resources and its
 design multiple promissing data features available in the Event Trace for Windows framework had to be
 left out of scope. Those include the information about the memory utilisation, hard drive input/output 
-operations, system registry access, network send/recieve and others. In the further research additional 
+operations, system registry access, network send/recieve and others. All those types of information
+may indicate ongoing exploitation or postexploitation actions like scanning of the available resources
+and data exfiltration. In the further research additional 
 data should be gathered and analysed. This may require a design and implementation of the custom  
 gathering framework.
 
