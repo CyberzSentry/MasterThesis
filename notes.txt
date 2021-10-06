@@ -23,12 +23,9 @@ Poszukać monitorowania podprocessów
 Dodać dataset do publicznego reposytorium
 Dodanie odrzuconych cech i przyczyn z perfview
 Multipage table
-Możliwość wykrywania wcześniej niewykrytych DLL
-Perform x validation with the dll data.
 Plot encoded paths with validation
-Zrobić CV na wszystkich przeprowadzonych analizach. Sprawdzić czy wystawione wnioski się pokrywają.
 
-
+Zamienić wszystkie ROC na takie z przekątną.
 
 #Terminy:
 18.08 (obrona 1-8.09)

@@ -572,7 +572,10 @@ false negative. The proboability of false anomaly detection is crucial because i
 on of the response teams and mechanisms which in turn may result in delayed response or omission
 of actual exploitation. All annomaly detection performance analysis in the thesis is focused
 on those indicators. The ROC curves may however be corrupted by the small available sample size 
-which negatively impacts the performance analysis.
+which negatively impacts the performance analysis. All the graphs in this work which present
+the reciever operating characteristic curve contain a diagonal dashed line representing the
+performance of random anomaly classification. This approach allows to easily identify if the obtained
+performance indicates utility of the tested features.
 
 
 % \begin{itemize}
@@ -1319,8 +1322,8 @@ the detection of all anomalies in the dataset was done with the false negative r
 
 This feature is the easiest to analyze due to its quantitative nature and the fact that it is
 already normalised to the range between 0 and 1. Because of that it does not require virtually 
-any preprocessing. The distribution of the values is presented on the histogram \ref{fig:histavgproc}
-with the bins containing annomaly values marked with red. 
+any preprocessing. The distribution of the values is presented on the 
+histogram \ref{fig:histavgproc} with the bins containing annomaly values marked with red. 
 
 \begin{figure}
 	\centering
@@ -1331,7 +1334,9 @@ with the bins containing annomaly values marked with red.
 
 Obtained values show that anomaly detection with this feature may be feasible. It was attempted with 
 the One Class SVM and the resulting reciever operating characteristic is presented in the figure
-\ref{fig:procroc} and proves the value of the feature. Its ease of utilisation makes it extra valuable.
+\ref{fig:procroc} and proves the value of the feature. Its ease of utilisation may increase its value.
+Additional tests were performed to ruleout the need of preprocessing. Those did not lead to identification
+of any methods capable of improving the data.
 
 \begin{figure}
 	\centering
@@ -1346,8 +1351,8 @@ appendix.
 \subsection{Process lifespan}
 %%%%%%%%%%% TODO sprawdzić ponownie
 The analysis of the available data was started with the review of the histogram graph which can be found in the 
-figure \ref{fig:lifespanHist}. This image however shows that the possibility of detecting of the outliers by means of statistical
-analysis is low. This is due to the fact that all outlier samples lay between the most frequent values.
+figure \ref{fig:lifespanHist}. This image however indicates that the possibility of detecting of the outliers by means of statistical
+analysis is low. This is due to the fact that all outlier samples between the most frequent values. 
 
 \begin{figure}
 	\centering
@@ -1356,63 +1361,24 @@ analysis is low. This is due to the fact that all outlier samples lay between th
 	\label{fig:lifespanHist}
  \end{figure}
 
-This was also confirmed by the attempted anomaly detection, the results of which are shown in the table \ref{id:tab:OCSVNlifespans}. 
-This data does not indicate any possibility of its successful utilisation for the purposes of this thesis. This idea should however
-be tested in the future with the a bigger and more versatile dataset.
+% This was also confirmed by the attempted anomaly detection, the results of which are shown in the table \ref{id:tab:OCSVNlifespans}. 
+% This data does not indicate any possibility of its successful utilisation for the purposes of this thesis. This idea should however
+% be tested in the future with the a bigger and more versatile dataset.
 
-\begin{table}
+Collected values have a very wide range which can have a negative impact of the performance of statistical anomaly detection algorithms.
+Because of that the data was preprocessed to fit the range from 0 to 1. 
+
+The performed attempt of anomaly detection shows however that this feature may have some value. The results visible in the graph
+\ref{fig:lifespanROC} and the raw data from the table \ref{id:tab:OCSVNlifespans} located in the appendix show that achieved accuracy 
+is above average. As stated in the initial analysis of this feature, it might benefit significantly from the increased sample size.
+This idea shuld undergo additional testing in the future on a bigger and more versatile dataset.
+
+\begin{figure}
 	\centering
-	\caption{Results of One Class SVN on the process lifespans}
-	\label{id:tab:OCSVNlifespans}
-	\begin{tabular}{lrrrrr}
-		\toprule
-		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
-		\midrule
-		0  &  0.025 &         0 &        10 &               0 &             221 \\
-		1  &  0.050 &         0 &        10 &               0 &             221 \\
-		2  &  0.075 &         0 &        10 &               0 &             221 \\
-		3  &  0.100 &         0 &        10 &               0 &             221 \\
-		4  &  0.125 &         0 &        10 &               0 &             221 \\
-		5  &  0.150 &         0 &        10 &               0 &             221 \\
-		6  &  0.175 &         0 &        10 &               0 &             221 \\
-		7  &  0.200 &         0 &        10 &               0 &             221 \\
-		8  &  0.225 &         0 &        10 &               0 &             221 \\
-		9  &  0.250 &         0 &        10 &               0 &             221 \\
-		10 &  0.275 &         0 &        10 &               0 &             221 \\
-		11 &  0.300 &         0 &        10 &               0 &             221 \\
-		12 &  0.325 &         0 &        10 &               0 &             221 \\
-		13 &  0.350 &         0 &        10 &               0 &             221 \\
-		14 &  0.375 &         0 &        10 &               0 &             221 \\
-		15 &  0.400 &         0 &        10 &               0 &             221 \\
-		16 &  0.425 &         0 &        10 &               0 &             221 \\
-		17 &  0.450 &         0 &        10 &               0 &             221 \\
-		18 &  0.475 &         0 &        10 &               0 &             221 \\
-		19 &  0.500 &         0 &        10 &               0 &             221 \\
-		20 &  0.525 &         0 &        10 &               0 &             221 \\
-		21 &  0.550 &         0 &        10 &               0 &             221 \\
-		22 &  0.575 &         0 &        10 &               0 &             221 \\
-		23 &  0.600 &         0 &        10 &               0 &             221 \\
-		24 &  0.625 &         0 &        10 &               0 &             221 \\
-		25 &  0.650 &         0 &        10 &               0 &             221 \\
-		26 &  0.675 &         0 &        10 &               0 &             221 \\
-		27 &  0.700 &         0 &        10 &               0 &             221 \\
-		28 &  0.725 &         0 &        10 &               0 &             221 \\
-		29 &  0.750 &         0 &        10 &               0 &             221 \\
-		30 &  0.775 &         0 &        10 &               0 &             221 \\
-		31 &  0.800 &         0 &        10 &               0 &             221 \\
-		32 &  0.825 &         0 &        10 &               0 &             221 \\
-		33 &  0.850 &         0 &        10 &               0 &             221 \\
-		34 &  0.875 &         0 &        10 &               0 &             221 \\
-		35 &  0.900 &         0 &        10 &               0 &             221 \\
-		36 &  0.925 &         0 &        10 &               0 &             221 \\
-		37 &  0.950 &         0 &        10 &               0 &             221 \\
-		38 &  0.975 &         0 &        10 &               0 &             221 \\
-		39 &  1.000 &         0 &        10 &               0 &             221 \\
-		\bottomrule
-	\end{tabular}
-\end{table}
-
-
+	\includegraphics[scale=0.9]{images/ROClifespan.PNG}
+	\caption{ROC of the process lifespan anomaly detection.}
+	\label{fig:lifespanROC}
+ \end{figure}
 
 \subsection{Combined performance}
 
@@ -1432,12 +1398,16 @@ The final test utilised following features:
 	after the first '/msedge' program. The resulting lengths were consequently normalised to the range between 0 and 1.
 	\item Average processor utilisation - Those values due to their percentage based nature require no normalisation. They 
 	were fed directly to the anomaly detection algorithm. 
+	\item Process lifespan - as in the initial experiment the available data was normalised to fit the range from 0 to 1.
 \end{itemize}
 
 As in previous experiments the outlier detection was performed by the One Class SVM for a wide range of 'nu' values. The results of 
 this process are displayed in the graph \ref{fig:combinedFinalROC} and the raw data can be accessed in the table 
-\ref{id:tab:OCSVMonCombined} located in the appendix. The graph xxx shows those results compared to the performance
-of anomaly detection applied to the individual component features. As shown in the image the overa 
+\ref{id:tab:OCSVMonCombined} located in the appendix. The graph \ref{fig:combinedCompFinalROC} shows those results compared to 
+the performance of anomaly detection applied to the individual component features. As shown in this image the peak anomaly
+detection performance has deteriorated which means that the 'nu' values required to detect all outlier samples result in higher
+false positive ratio. There is however a increase in the correctly identified anomalies for the smallest possible FP ration which 
+is an area of significant value in the cyber security space.
 
 \begin{figure}
 	\centering
@@ -1447,7 +1417,14 @@ of anomaly detection applied to the individual component features. As shown in t
  \end{figure}
 
 
-% można napisać, że więcej parametrów może lepiej działać. 
+ \begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/CombinedCompFinalROC}
+	\caption{The ROC of anomaly detection performed on combined best features.}
+	\label{fig:combinedCompFinalROC}
+ \end{figure}
+
+% 
 
 \chapter{Summary}
 
@@ -3205,6 +3182,61 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		\bottomrule
 	\end{tabular}		
 \end{table} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%Process lifespan
+
+\begin{table}
+	\centering
+	\caption{Results of One Class SVN on the process lifespans}
+	\label{id:tab:OCSVNlifespans}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &       213 &         1 &               9 &               8 \\
+		1  &  0.050 &       212 &         4 &               6 &               9 \\
+		2  &  0.075 &       203 &         6 &               4 &              18 \\
+		3  &  0.100 &       200 &         6 &               4 &              21 \\
+		4  &  0.125 &       194 &         6 &               4 &              27 \\
+		5  &  0.150 &       189 &         6 &               4 &              32 \\
+		6  &  0.175 &       183 &         6 &               4 &              38 \\
+		7  &  0.200 &       175 &         6 &               4 &              46 \\
+		8  &  0.225 &       172 &         6 &               4 &              49 \\
+		9  &  0.250 &       170 &         6 &               4 &              51 \\
+		10 &  0.275 &       158 &         6 &               4 &              63 \\
+		11 &  0.300 &       151 &         6 &               4 &              70 \\
+		12 &  0.325 &       145 &         6 &               4 &              76 \\
+		13 &  0.350 &       143 &         6 &               4 &              78 \\
+		14 &  0.375 &       140 &         6 &               4 &              81 \\
+		15 &  0.400 &       131 &         6 &               4 &              90 \\
+		16 &  0.425 &       125 &         6 &               4 &              96 \\
+		17 &  0.450 &       123 &         6 &               4 &              98 \\
+		18 &  0.475 &       119 &         6 &               4 &             102 \\
+		19 &  0.500 &       112 &         6 &               4 &             109 \\
+		20 &  0.525 &       105 &         6 &               4 &             116 \\
+		21 &  0.550 &       100 &         6 &               4 &             121 \\
+		22 &  0.575 &        94 &         6 &               4 &             127 \\
+		23 &  0.600 &        90 &         8 &               2 &             131 \\
+		24 &  0.625 &        87 &         8 &               2 &             134 \\
+		25 &  0.650 &        73 &         8 &               2 &             148 \\
+		26 &  0.675 &        71 &         8 &               2 &             150 \\
+		27 &  0.700 &        67 &        10 &               0 &             154 \\
+		28 &  0.725 &        62 &        10 &               0 &             159 \\
+		29 &  0.750 &        57 &        10 &               0 &             164 \\
+		30 &  0.775 &        50 &        10 &               0 &             171 \\
+		31 &  0.800 &        42 &        10 &               0 &             179 \\
+		32 &  0.825 &        40 &        10 &               0 &             181 \\
+		33 &  0.850 &        36 &        10 &               0 &             185 \\
+		34 &  0.875 &        33 &        10 &               0 &             188 \\
+		35 &  0.900 &        22 &        10 &               0 &             199 \\
+		36 &  0.925 &        17 &        10 &               0 &             204 \\
+		37 &  0.950 &        10 &        10 &               0 &             211 \\
+		38 &  0.975 &         8 &        10 &               0 &             213 \\
+		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%Final
 
