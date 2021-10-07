@@ -325,9 +325,12 @@ Author of the thesis has simulated a 0-day exploitation attack on a web browser 
 the data generated in the process via the Event Trace for Windows mechanism. This process 
 required establishing of the information gathering framework. The acquired 
 information was processed to identify and extract features that could be utilised in an anomaly detection
-methods. This procedure included developing some novel data encoding approaches. Gathered data
-was tested with known classification algorithms and the results of the experiments were analysed.
-Based on the performed actions a conclusion was formed about the usefulness of the ETW data
+methods. This procedure included analysis of the available information from a statistical point of view
+as well as a development of some novel data encoding approaches. Gathered 
+was tested with known classification algorithms and the results of the experiments were thoroughly analysed.
+
+Based on the performed actions a conclusion was formed about the usefulness of specific tested features 
+and of the ETW data
 in potential anomaly detection based security system. Additionally further research directions
 has been established.
 
@@ -533,6 +536,26 @@ require very large quantities of data for proper analysis. Those factors have to
 under consideration in the conducted experiments.
 
 % \subsection{Exit code}
+%% TODO exit code
+
+\section{Omitted features}
+
+%% TODO pozostale cechy
+
+Some of the features from the available data were not utilised in the work performed. This includes
+the following:
+\begin{itemize}
+	\item Bitness - This data type indicating the architecture of the running program takes a single value ('64')
+	in all the available samples which makes it useless for the purposes of this thesis. Additionally the performed
+	work focuses on the detection of a software misbehaviour but not the identification of anomalous software 
+	for which this data may be more well suited. Additional research should be performed on the likelihood of the
+	parameter change in case of the attack. This would allow to determine if the data should should be monitored dispite
+	the lack of variance detected in the symulated attacks.
+	\item Command Line -  This feature contains multitude of data in a very fuzy form. Its correct utilisation
+	requires advanced analysis and possibly development of a custom handling and encoding approach. Due 
+	to the restricted timeframe of the thesis this work has been outlined in the summary as a future research
+	area.
+\end{itemize}
 
 \section{Anomaly detection algorithms}
 In the thesis the main anomaly detection algorithm utilised is the One Class Support 
@@ -1426,8 +1449,20 @@ is an area of significant value in the cyber security space.
 
 The data in the graph \ref{fig:combinedCompFinalROC} shows also that the performance of the OCSVM directly on average process utilisation
 as well as process lifespan is in general below the combined efficiency which might sugest that those components are draging it down. 
-Additional tests were performed on the impact of dropping the worst performing features and its results are presented in the graph xxx. 
-This image shows that while 
+Additional tests were performed on the impact of dropping the worst performing features and its results are presented in the graph \ref{fig:combinedCompFinalROCDroping}. 
+This image shows that while this may improve the false positive ratio when attempting to detect all outliers it comes whith 
+a cost to the number of correct classifications for smallest 'nu' value.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/CombinedFinalROCDroping}
+	\caption{The ROC of anomaly detection performed on selective best features.}
+	\label{fig:combinedCompFinalROCDroping}
+ \end{figure}
+
+In general all conbined features allow for detection of 30\% of the outliers with around 1.3\% false positive ratio. 
+Those results show that the developed approach may provide value for some security related puropses. This is especially
+promissing since the detection of a single process in the attack chain may prevent the entire exploitation process.
 
 
 % dodać odrzucane najgorszej cechy.
@@ -1490,6 +1525,10 @@ may indicate ongoing exploitation or postexploitation actions like scanning of t
 and data exfiltration. In the further research additional 
 data should be gathered and analysed. This may require a design and implementation of the custom  
 gathering framework.
+
+Additional research can also be performed to incorporate in to the developed framework the 
+information included in the 'CommandLine' feature which can be found in the dataset gathered for the purposes
+of this thesis.
 
 Currently the developed framework focuses on the detection of the spawning of new outlier processes.
 Additional low level data could be utilised to attempt the detection of the normal processes that behave

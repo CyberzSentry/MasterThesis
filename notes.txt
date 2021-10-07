@@ -20,7 +20,6 @@ Mark Russinovich, David A. Solomon, Alex Ionescu - Windows Internals, Microsoft 
 https://www.youtube.com/watch?v=b4kRAt4mkB8
 W podsumowaniu możliwość użycia autoencoderów
 Poszukać monitorowania podprocessów
-Dodać dataset do publicznego reposytorium
 Dodanie odrzuconych cech i przyczyn z perfview
 Multipage table
 Plot encoded paths with validation
