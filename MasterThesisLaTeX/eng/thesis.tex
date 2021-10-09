@@ -555,6 +555,13 @@ the following:
 	requires advanced analysis and possibly development of a custom handling and encoding approach. Due 
 	to the restricted timeframe of the thesis this work has been outlined in the summary as a future research
 	area.
+	\item Id and Id Path - Those values by definition are randomly assigned to each process from the available
+	pool. This means that they have no value beyond the identification of the relations between specific programs. 
+	\item Start and End time - This data may be allow to identify specific working patterns for a single user. Such 
+	information could be used to identify behaviour patterns of specific users that could possibly help
+	in detection of some post exploitation actions. This however is outside of the scope for this thesis.
+	\item Name - Those values were rejected because their analysis and blocking is a well known topic. Blacklisting
+	of specific program 
 \end{itemize}
 
 \section{Anomaly detection algorithms}
@@ -739,7 +746,9 @@ reuse of process id's in the operating system. In order to identify which of the
 corresponding to the parent id is the true ancestor a additional check is performed based 
 on the time of spawn and the interval in which the possible parent was alive. This algorithm 
 allows the creation of a spawning process path that tracks the ancestors of a given process, 
-usually to one of multiple root programs in the operating system. 
+usually to one of multiple root programs in the operating system. The described procedure
+required suplementation of the data with the process end time which is a sum of process
+start time and its lifespan. 
 
 Additionally a process of OneHot encoding was performed on the loaded DLL's. The data from 
 the "processSummary" and "processModules" files was correlated by the order in which it was 
@@ -749,22 +758,20 @@ Three of the stored processes never in testing had any corresponding modules -
 additionally validated with the input information to minimise the risk of introducing error
 to the dataset.
 
-The final product of the data processing is a dataset containing information about all the 
-executed processes. Each row represents an individual process and following information is 
-provided in the columns:
-\begin{itemize}
-	\item ProcName - Process name - The name of the process, usually identical to the binary 
-	file name. 
-	\item ProcId - Process Id - The integer number used by the kernel to uniquely identify 
-	an active process \cite{bib:MicrosoftWinInternals}.
-	\item ProcPath - String containing sequence of parent processes separated by "/".
-	\item ProcPathId - String containing sequence of parent process id's separated by "/".
-	\item CommandLine - String containing the shell command used to start the process.
-	\item ParentId - The identifying integer number of the parent process. 
-	\item DLLs - All columns not listed above contain OneHot encoded information about the 
-	dynamically linked libraries. When a column contains value 1 the process has 
-	loaded the dll specified in the column name.
-\end{itemize}
+% The final product of the data processing is a dataset containing information about all the 
+% executed processes. The base data comes from the "processesSummary" file and includes Name, ID,
+% Parent\_ID, Bitness, CPUMsec, AveProcsUsed, DurationMSec, StartMSec, ExitCode, CommandLine.
+% This information is augmented with following columns:
+% \begin{itemize}
+% 	\item Path - String containing sequence of parent processes separated by "/".
+% 	\item PathId - String containing sequence of parent process id's separated by "/".
+% 	\item EndMSec - The end time of the process stored in milliseconds.
+% 	\item DLLs - All columns not listed above contain OneHot encoded information about the 
+% 	dynamically linked libraries. When a column contains value 1 the process has 
+% 	loaded the dll specified in the column name.
+% \end{itemize}
+
+% Each row represents a single unique process.
 
 \chapter{Experiments}
 
