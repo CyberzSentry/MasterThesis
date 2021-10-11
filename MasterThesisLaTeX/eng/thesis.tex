@@ -519,7 +519,8 @@ paths and the loaded DLL's. It is also a lot less impacted by the actions of the
 compared to the process lifespan values from which it is derived.
 
 \subsection{Process lifespan}
-
+% \subsection{Process lifespan and CPUMsec}
+% TODO CPUMsec
 The process lifespan is the ammount of elapsed time from the from the process spawn to its
 termination or the end of data gathering process. Even though the tested average processor utilisation 
 is derived from this data, those values might not necessary convey the same information. In some cases
@@ -535,8 +536,14 @@ an hour. The introduce in the process variance may render this feature unusable 
 require very large quantities of data for proper analysis. Those factors have to be taken 
 under consideration in the conducted experiments.
 
-% \subsection{Exit code}
-%% TODO exit code
+
+\subsection{Exit code}
+
+The program exit code is a small numer passed from the child process to its parent. The main purpose 
+of such mechanism is passing of the information about the execution results. The returned values
+can differ greatly depending on what happens in the monitored software which is a perfect situation
+for the thesis purposes. In some cases the return value can also be missing which should be taken 
+under consideration.
 
 \section{Omitted features}
 
@@ -555,13 +562,15 @@ the following:
 	requires advanced analysis and possibly development of a custom handling and encoding approach. Due 
 	to the restricted timeframe of the thesis this work has been outlined in the summary as a future research
 	area.
-	\item Id and Id Path - Those values by definition are randomly assigned to each process from the available
+	\item Id, Id Path and Parent Id - Those values by definition are randomly assigned to each process from the available
 	pool. This means that they have no value beyond the identification of the relations between specific programs. 
 	\item Start and End time - This data may be allow to identify specific working patterns for a single user. Such 
 	information could be used to identify behaviour patterns of specific users that could possibly help
 	in detection of some post exploitation actions. This however is outside of the scope for this thesis.
-	\item Name - Those values were rejected because their analysis and blocking is a well known topic. Blacklisting
-	of specific program 
+	\item Name - Those values were rejected because their analysis and blocking is a well known topic. Execution 
+	blacklisting of specific programs is a common administrative practice that allows for significant increase
+	of the infrastructure security. This approach is however outside of the thesis scope which focuses on the 
+	misbehaviour of software that can run on monitored system.
 \end{itemize}
 
 \section{Anomaly detection algorithms}
@@ -1409,6 +1418,35 @@ This idea shuld undergo additional testing in the future on a bigger and more ve
 	\caption{ROC of the process lifespan anomaly detection.}
 	\label{fig:lifespanROC}
  \end{figure}
+
+\subsection{Exit code}
+
+The selected tested group of processes has assigned either an 64 bit integer value or a no value representation.
+The missing values are most probably the result of data gathering termination durring the program execution and
+do not correlate to any gathered outlier. This conclusion should however be further tested in the future data gathering.
+The missing values were filled in based on the other identical processes.
+
+After the performed preprocessing of the data there are four main values remaining which are showed in the table \ref{id:tab:exitCodeCounts}
+along with the counts off occurance for each. The most common value returned by the process is '0' with a significant majority. A different 
+value was observed only 5 times which from a statistical point indicates annomalous behaviour. The values '1' and '3221225786' were
+returned for the processes 'ipconfig.exe' and 'powershell.exe' respectively. Those values were %TODO
+
+\begin{table}
+	\centering
+	\caption{Counts of the process exit codes in hexadecimal notation.}
+	\label{id:tab:exitCodeCounts}
+	\begin{tabular}{lr}
+		\toprule
+		{} &  ExitCode \\
+		\midrule
+		0x0        &       226 \\
+		0xc0000005 &         3 \\
+		0x1        &         1 \\
+		0xc000013a &         1 \\
+		\bottomrule
+	\end{tabular}		
+\end{table}
+
 
 \subsection{Combined performance}
 
