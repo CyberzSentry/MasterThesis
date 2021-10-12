@@ -1428,8 +1428,11 @@ The missing values were filled in based on the other identical processes.
 
 After the performed preprocessing of the data there are four main values remaining which are showed in the table \ref{id:tab:exitCodeCounts}
 along with the counts off occurance for each. The most common value returned by the process is '0' with a significant majority. A different 
-value was observed only 5 times which from a statistical point indicates annomalous behaviour. The values '1' and '3221225786' were
-returned for the processes 'ipconfig.exe' and 'powershell.exe' respectively. Those values were %TODO
+value was observed only 5 times which from a statistical point indicates annomalous behaviour. The values '0x1' and '0xc000013a' were
+returned for the processes 'ipconfig.exe' and 'powershell.exe' respectively and were normal execution outcomes. The remaining 
+entries with value '0xc0000005' show however a more interesting story. Those exit codes were obtained for the 'msedge.exe' program
+and a overview of the data shows that the specific instances responsible for the outlier values were in fact the ones on which the 
+exploitation was performed. 
 
 \begin{table}
 	\centering
@@ -1447,6 +1450,16 @@ returned for the processes 'ipconfig.exe' and 'powershell.exe' respectively. Tho
 	\end{tabular}		
 \end{table}
 
+Before anomaly detection the available values were casted to integers and normalised.
+As shown in the figure xxx the One Class Support Vector Machine is capable of easily identifying some of the outlier 
+samples with a very low cost in a form of false negative results. This performance may help to
+significantly boost the performanced of the developed solution. 
+
+Unfortunetely because of the way the data is constructed the information about the outlier return code of the 
+process does not move down the chain to its children. This esspecaly complicated due to the fact that the parent process
+can but does not have to terminate durring its child lifetime.
+
+%TODO że przyszłe badania...
 
 \subsection{Combined performance}
 
