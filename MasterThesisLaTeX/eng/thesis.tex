@@ -289,7 +289,7 @@ transmit it between manny computers around the globe. Any disruption to the work
 systems or unauthorized access to the stored information may refult in significant losses.
 Those may include financial and geopolitical repercussions but also direct losses of human
 lives in situations where the target of a attack is for example a hospital. Since the inception
-and propagation of IT the security of the systens in question is growing concern of corporations, 
+and propagation of IT the security of the systems in question is growing concern of corporations, 
 countries and even inviduals. Because of the constant arms race between adversaries attacking 
 and defending IT systems, anyone who is not proactively handling matters concerning cyber security 
 is instantly falling behind. \cite{bib:articleImportanceOfCybersecurity} 
@@ -300,8 +300,9 @@ abstraction present in current IT systems. Such situtations are extreamaly hard 
 and guard against due to the fact that they were not forsen in the design process. How to guard 
 agains something that is not known to be possible. There are many approaches that aim to 
 increase the security of IT systems. Some popular ones include fingerprinting malware, 
-monitoring software for specific suspicious actions or monitoring software inputs for know 
-malitious values. Those approaches can be very effective but failures are inevitable.
+monitoring software for specific suspicious actions or for know 
+malitious values. Those approaches can be very effective but in some cases their 
+failures are inevitable.
 
 To mitigate this problem multiple studies has been done that attempt to utilise the methods of
 anomaly detection known from the data science fields in order to identify the misbehaviours of 
@@ -309,15 +310,15 @@ the monitored IT systems which could allow for an early detection of novel 0-day
 The past investigations of the problem has focused on analysis of the infromation obtained from 
 multiple sources like system commands sequences \cite{bib:lane1997application} or system calls 
 \cite{bib:rsvm}. There are however still manny mechanisms present in modern operating systems 
-that gather sygnificant quantities of information about inner workings of the processes executed
-on them. 
+that gather sygnificant quantities of information about inner workings of the processes that remain
+untapped. 
 
 The objective of this thesis is to utilise the Event Trace for Windows (ETW) mechanism and it's 
 capability to access low level debugging data on the Microsoft operating systems to attempt
 security anomaly detection. The main focus is placed on identification of 0-day binary process 
-exploitation leading dirrectly to arbitrary code execution. While taken under consideration in
-light of gathered information, other attack types like for example DLL hijacking are not in 
-scope of this work.
+exploitation leading directly to arbitrary code execution and malicious program spawning. While 
+taken under consideration in light of gathered information, other attack types like for example 
+DLL hijacking are not in scope of this work.
 
 \section{Authors contribution}
 
@@ -327,12 +328,12 @@ required establishing of the information gathering framework. The acquired
 information was processed to identify and extract features that could be utilised in an anomaly detection
 methods. This procedure included analysis of the available information from a statistical point of view
 as well as a development of some novel data encoding approaches. Gathered 
-was tested with known classification algorithms and the results of the experiments were thoroughly analysed.
+features were tested with known classification algorithms and the results of the experiments were thoroughly analysed.
 
-Based on the performed actions a conclusion was formed about the usefulness of specific tested features 
+Based on the performed actions a conclusion were formed about the usefulness of specific tested features 
 and of the ETW data
 in potential anomaly detection based security system. Additionally further research directions
-has been established.
+had been established and specified.
 
 \section{Chapters description}
 
@@ -363,17 +364,19 @@ litelature and resources. Additionally it contains analysis of complications pos
 durring the realisation the required work.  
 
 \section{Known problems}
-There are multiple problems that need to be solved to form conclusions to the stated questions.
+There are multiple problems that need to be solved to form conclusions to the questions stated in the
+problem definition.
 There are no commonly available security focused datasets sourced from the Event Trace for 
 Windows mechanism. The data used in the thests has to be generated and gathered as part of the
-performed work. The information processed by the ETW is very broad and can be additionally extended.
+performed work. The information processed by the ETW is very broad and can be additionally extended 
+by tapping into the log sources of specific executables.
 A analysis has to be done in order to identify the features that can prove useful in the security
 anomaly detection scenarios. 
 
-Gathered data might require preprocessing that will adjust it's form to the formats accepted in the
+Gathered data might require preprocessing that will adjust its form to the formats accepted in the
 current classification methods and algorithms. Some types of information present in the computer 
 generated data set might require utilisation of novel processing and encoding frameworks or 
-development of new approaches to them.  
+development of new specific approaches to allow for thier utilisation.  
 
 \section{Literature research}
 
@@ -384,11 +387,11 @@ present in terminal commands \cite{bib:lane1997application} or system calls \cit
 Some researchers attempt to implement novel custom classification methods. An example of such 
 approach is depicted in "An Application of Machine Learning to Anomaly Detection" by Terran Lane 
 and Carla E. Brodley\cite{bib:lane1997application}. The authors gather historical sequences of
-terminal commands and their corresponding utilised command flags. The obtained vectors are utilised
+terminal commands and their corresponding utilised command flags. The obtained vectors are used
 to calculate similarity measures with the incoming data. Those values are utilised to identify 
 whether the user interacting with the system was previously profiled by the algorithm.
 Other approaches classify available data with well known algorithms like various Support Vector 
-Machines (SVM) and K-means like Wenjie Hue, Yihua Liao and V Rao Vemuri in "Robust Support Vector 
+Machines (SVM) and K-means classification like Wenjie Hue, Yihua Liao and V Rao Vemuri in "Robust Support Vector 
 Machines for Anomaly Detection in Computer Security" \cite{bib:rsvm}. Their work compares the 
 performance of Robust Support Vector Machines (RSVM), Support Vector Machines and K-means classifiers
 on the data from 1998 DARPA Intrusion Detection System Evaluation program. Obtained results
@@ -409,7 +412,7 @@ attempted for example in "Anomaly Detection on the Edge" by Joseph Schneible and
 \cite{bib:autoencoderDist}. This method learns to compress and decompress the available feature 
 vectors with the use of artificial neural vectors. Anomaly is detected when the distance 
 between the input and output of the neural net is higher than the specified threshold.
-Neural network based approaches require large amounts of training data.  
+Neural network based approaches require large amounts of high quality training data.  
 
 
 
@@ -437,7 +440,7 @@ transform gathered information to commonly known data storing formats.
 
 Event Trace for Windows handles very granular process and operating system events.
 Because of that when configured to gather all possible types of information ETW can generate
-large quantities of information. Additionally known tools gather data in rotating memory buffer 
+large quantities of information. All known tools gather data in rotating memory buffer 
 before saving it to hard drive. Those two factors combined with limited memory resources 
 available while performing the data gathering process limit the types of information analysed 
 in the thesis. 
@@ -445,22 +448,23 @@ in the thesis.
 
 
 \section{Analysed data}
-Available information has been narrowed down to following features analysed to achieve the thesis
-goal.
+Because of the present limitations all of the available information has been narrowed down and 
+initial analysis has been performed. The resulting anomaly detectuion leads and initial 
+results are presented in this section.
 
 \subsection{Dynamic link libraries}
 
-When attempting to detect misbehaviour of a specific program or its subprocesses a possibility to 
+When attempting to detect misbehaviour of a specific program or its subprocesses a ability to 
 classify binaries by their general purposes could prove very useful. Most methodologies used to 
 compare executable files focus on their binary structures and attempt to find similarities to 
 existing malware samples \cite{bib:malwclass}. This approach, while very useful in detection of 
 iterations of malicious software, is useless when it comes to creating multidimensional spaces 
-based on their functionality. In this thesis an attempt is made to utilise a novel approach of 
-analysing the processes by their imported Dynamically Linked Libraries. A DLL is a library that 
+based on their functionality. In this thesis an attempt was made to establish a novel approach of 
+processes analysis by their imported Dynamically Linked Libraries. A DLL is a library that 
 contains code and data that can be used by more than one program at the same time. For example, 
 in Windows operating systems, the Comdlg32 DLL performs common dialog box related functions. Each 
 program can use the functionality that is contained in this DLL to implement an Open dialog box. 
-It helps promote code reuse and efficient memory usage \cite{bib:dll}. Those code bundles provide 
+It helps promote code reuse as well as efficient memory usage \cite{bib:dll}. Those code bundles provide 
 specific sets of functionality and are commonly used in all programming languages. Possibly 
 overlapping sets of loaded modules from two given processes can indicate their similar purpose. 
 
@@ -469,9 +473,9 @@ overlapping sets of loaded modules from two given processes can indicate their s
 Initial empirical analysis of the impact of the exploit on the behavior of the targeted browser was 
 performed with the use of Windows Performance Analyzer (WPA).  Most browsers give a 
 possibility of spawning a new process for example by opening of a downloaded file in 
-adequate software. This makes it harder to detect when it is exploited. However upon 
-closer look on the way that action is performed we can see that proper child process is 
-spawned from the main browser process.
+adequate software. This functionality makes it harder to detect a possible ongoing exploitation process. 
+Upon a closer look at the way that the spawning action is performed it was possible to establish that proper 
+sub process is spawned from the main browser program as shown in the picture \ref{fig:WPAnormal}.
 
 \begin{figure}
 	\centering
@@ -480,8 +484,8 @@ spawned from the main browser process.
 	\label{fig:WPAnormal}
  \end{figure}
 
-The exploit however generates a new child from the one corresponding to the browser tab 
-in which the exploit was executed. 
+The exploit however generates the new child process from the one corresponding to the browser tab 
+in which the exploit was executed like in the picture \ref{fig:WPAexploit}. 
 
 \begin{figure}
 	\centering
@@ -499,8 +503,8 @@ Encoding of such variables like directory paths is not a well researched topic a
 common consensus on how they should be approached. There are however some novel approaches to 
 handling dirty categorical data. An example of how to handle data like that was featured in the 
 "Similarity encoding for learning with dirty categorical variables" by Patricio Cerda,  Ga{\"e}l 
-Varoquaux and Bal{\'a}zs K{\'e}gl. Where in most literature on encoding categorical variables 
-relies on the idea that the set of categories is finite, known a priori, and composed of mutually 
+Varoquaux and Bal{\'a}zs K{\'e}gl \cite{bib:dirtycat}. Where most of the literature on encoding categorical variables 
+relies on the idea that the set of categories is finite, known priorly, and composed of mutually 
 exclusive elements, the authors of this paper propose a new approach called similarity encoding. 
 It is based on calculation of similarities between string values. Instead of a binary column 
 indicating whether a specific category was set in the input value, a real number indicates how 
@@ -508,11 +512,10 @@ distant it is from the specific previously chosen encoding column. It is a gener
 OneHot method \cite{bib:dirtycat}. The python implementation of this approach utilised in this thesis 
 can be found under \url{https://dirty-cat.github.io/stable/}.
 
-
 \subsection{Average processor utilisation}
 
-This feature represents how processor intensive the given process is. This information can possibly 
-be utilised both the processes that are not usually spawned by the one being analysed as well as
+This feature represents how computationally expensive the given process is. This information can possibly 
+be utilised to detect both the processes that are not usually spawned by the one being monitored as well as
 inlier processes that missbehave due to the performed exploitation. Because this feature is 
 strictly numerical, it is a lot easier to analyze than the qualitative values like the process
 paths and the loaded DLL's. It is also a lot less impacted by the actions of the normal user when
@@ -539,15 +542,13 @@ under consideration in the conducted experiments.
 
 \subsection{Exit code}
 
-The program exit code is a small numer passed from the child process to its parent. The main purpose 
+The program exit code is a numer passed from the child process to its parent. The main purpose 
 of such mechanism is passing of the information about the execution results. The returned values
 can differ greatly depending on what happens in the monitored software which is a perfect situation
 for the thesis purposes. In some cases the return value can also be missing which should be taken 
 under consideration.
 
 \section{Omitted features}
-
-%% TODO pozostale cechy
 
 Some of the features from the available data were not utilised in the work performed. This includes
 the following:
@@ -556,37 +557,39 @@ the following:
 	in all the available samples which makes it useless for the purposes of this thesis. Additionally the performed
 	work focuses on the detection of a software misbehaviour but not the identification of anomalous software 
 	for which this data may be more well suited. Additional research should be performed on the likelihood of the
-	parameter change in case of the attack. This would allow to determine if the data should should be monitored dispite
+	parameter change in case of the attack. This would allow to determine if the data should be monitored dispite
 	the lack of variance detected in the symulated attacks.
 	\item Command Line -  This feature contains multitude of data in a very fuzy form. Its correct utilisation
 	requires advanced analysis and possibly development of a custom handling and encoding approach. Due 
-	to the restricted timeframe of the thesis this work has been outlined in the summary as a future research
-	area.
+	to the restricted timeframe of the thesis this feature has been skipped. Because of the available potential
+	of this specific data type it has been outlined in the summary as a future research area.
 	\item Id, Id Path and Parent Id - Those values by definition are randomly assigned to each process from the available
 	pool. This means that they have no value beyond the identification of the relations between specific programs. 
-	\item Start and End time - This data may be allow to identify specific working patterns for a single user. Such 
-	information could be used to identify behaviour patterns of specific users that could possibly help
-	in detection of some post exploitation actions. This however is outside of the scope for this thesis.
+	\item Start and End time - Such information could be used to identify behaviour patterns of specific users that could possibly help
+	in detection of some post exploitation actions. An example scenario would be attempting to detect a anomalous
+	working hours like the middle of a night in a given users timezone. This approach however is outside of the 
+	scope for this thesis and therefore the start and end time for processes as been omitted.
 	\item Name - Those values were rejected because their analysis and blocking is a well known topic. Execution 
 	blacklisting of specific programs is a common administrative practice that allows for significant increase
 	of the infrastructure security. This approach is however outside of the thesis scope which focuses on the 
-	misbehaviour of software that can run on monitored system.
+	misbehaviour of software that is allowed to run on monitored system.
 \end{itemize}
 
 \section{Anomaly detection algorithms}
 In the thesis the main anomaly detection algorithm utilised is the One Class Support 
-Vector Machine which is a variation on support vector machine. It attempts to minimise 
+Vector Machine which is a variation on support vector machines. It attempts to minimise 
 the radius of the multidimensional hypersphere with the use of Kernel Method \cite{bib:ocsvm}. 
-This algorithm is the main annomaly detection utilised in the thesis due to it's ease of
+This algorithm is the main anomaly detection utilised in the thesis due to it's ease of
 usage. It is also known to be effective in high dimentional spaces and when 
 the number of features is greater then the number of samples \cite{bib:svms}. The training process 
 does not require significant computational and memory resources when compared to the latest
 approaches based on artificial neural networks like autoencoders \cite{bib:autoencoder}. There are
-some approaches to training the can be less demanding in example the distributed architecture
+some approaches to training process that can reduce the hardware requirements like for example the distributed architecture
 \cite{bib:autoencoderDist}. Their complexity might however shift the focus from the core idea 
-of the thesis which is to prove that Windows Event Trace can be utilised to detect security
-anomalies. In the thesis the detection performed by the One Class SVM is tested for multiple 'nu'
-values which is upper bound on the fraction of training errors and a lower bound of the 
+of the thesis which is to prove that data from Windows Event Trace can be utilised to detect security
+anomalies. Additionally the neural network based approaches require large quantities of well labeled
+data which can de very difficoult to generate. In the thesis the detection performed by the One Class SVM 
+is tested for multiple 'nu' values which is upper bound on the fraction of training errors and a lower bound of the 
 fraction of support vectors\cite{bib:skocsvm}. The kernel utilised in all the tests is 'rbf' with
 the gamma parameter set to 'auto'. The detection process is performed 
 on a per process basis and focuses mainly on the web browser Microsoft Edge. 
@@ -599,7 +602,8 @@ For all anomaly detections performed in the research following parameters were q
 	\item False negative (FN) - number of samples misclassified as outliers.
 \end{itemize}
 
-Those values may be also expressed in percentages. Detection accuracy for axample is the ratio
+%TODO weryfikacja poprawności poniższego
+Those values may be also expressed in percentages. Detection accuracy for example is the ratio
 of detected anomalies (Negative) to all marked in the dataset. False positive probability is 
 the number of misclassified samples (False negative) divided by the known count of inliers.  
 
@@ -609,7 +613,7 @@ positive ratio. In this document the detected outliers are classified as negativ
 of that the reciever operating characteristic curves are ploted as true negative ratio agains the 
 false negative. The proboability of false anomaly detection is crucial because it may cause overload
 on of the response teams and mechanisms which in turn may result in delayed response or omission
-of actual exploitation. All annomaly detection performance analysis in the thesis is focused
+of response to real exploitation alert. All anomaly detection performance analysis in the thesis is focused
 on those indicators. The ROC curves may however be corrupted by the small available sample size 
 which negatively impacts the performance analysis. All the graphs in this work which present
 the reciever operating characteristic curve contain a diagonal dashed line representing the
@@ -624,10 +628,9 @@ performance indicates utility of the tested features.
 % \end{itemize}
 
 \chapter{Data gathering}
-
-This chapter describes the process of gathering data utilised in the experiments and 
+This chapter describes the process of data gathering which was subsequently utilised in the experiments and 
 analysed in this thesis. This procedure is necessary due to the lack of commonly available 
-datasets that would fit the requirements of the work that had to be performed. 
+datasets that would fit all of the necessary requirements. 
 
 \section{Exploit emulation}
 
@@ -638,7 +641,7 @@ Automatic updates were interrupted by changing the name of the binary responsibl
 keeping the software up to date. It is commonly located under 
 "C:\textbackslash Program Files (x86)\textbackslash Microsoft\textbackslash 
 EdgeUpdate\textbackslash MicrosoftEdgeUpdate.exe". 
-The atack simulated in the data takes advantage of the vulnerability CVE-2021-21224. It 
+The atack simulated in the data set takes advantage of the vulnerability CVE-2021-21224. It 
 targets a type confusion flaw in the V8 JavaScript engine. This allows the attacker to 
 execute arbitrary code inside a sandbox via a specially crafted HTML page \cite{bib:CVE21224}. 
 The vulnerability affects the Google Chrome browser prior to the version 90.0.4430.85 as 
@@ -653,11 +656,11 @@ perform a successful attack. To simulate such conditions the browser used in tes
 run with the "--no-sandbox" flag which disables the builtin safeguard.
 
 The sample of the exploit code was obtained from a public GitHub repository 
-\cite{bib:sampleExploit} and it's code can be found in the listing \lstinline|"exploit.html"|. 
-It was adjusted to result in the start of the PowerShell.exe process. Execution of this 
+\cite{bib:sampleExploit} and its code can be found in the listing \lstinline|"exploit.html"|. 
+It was adjusted to result in the spawning of the PowerShell.exe process. Execution of this 
 cross-platform task automation solution made up of a command-line shell, a scripting 
 language, and a configuration management framework is usually one of the first steps in 
-the process of gaining persistent access to a given machine. Some actors implement advanced 
+the process of gaining persistent access to a given windows machine. Some actors implement advanced 
 code and logic into the exploit. This is however very uncommon due to the high complexity 
 of such a task.
 
@@ -694,7 +697,7 @@ gathered about the executed processes and their loaded dll's to Excel executable
 on the system. This can be performed by opening the desired file in the builtin explorer 
 and selecting its "Processes" option. This opens a separate window containing information 
 about processes executed during data gathering and two possible export options - 
-"View Process Data in Excel" and View Process Modules in Excel". The Excel executable 
+"View Process Data in Excel" and "View Process Modules in Excel". The Excel executable 
 opened by choosing either of the options allows to save the data to multiple easily 
 accessible file formats like .csv, .xml or xlsx. Loaded data and the export options are 
 presented in figure \ref{fig:PerfViewexport}.
@@ -764,8 +767,11 @@ the "processSummary" and "processModules" files was correlated by the order in w
 stored. Similarly as before this approach was choosen because of the reuse of process id's.
 Three of the stored processes never in testing had any corresponding modules - 
 "Registry", "MemCompression" and the process marked with -1 ProcessId. Obtained data was
-additionally validated with the input information to minimise the risk of introducing error
-to the dataset.
+additionally validated with the with the used input information to minimise the risk of 
+introducing error to the dataset.
+
+Further preprocessing was performed on a per feature basis and is described in corresponding
+experiment chapter sections.
 
 % The final product of the data processing is a dataset containing information about all the 
 % executed processes. The base data comes from the "processesSummary" file and includes Name, ID,
@@ -820,15 +826,14 @@ unless stated otherwise.
 
 \section{Data sets}
 
-Main datased utilised in the thesis is called 
-
+Main dataset utilised in the thesis is called "combined\_ETW\_data.csv".
 Data is stored in a CSV format which is a text based file for tabular information.  
 Each entry in the file is separated by the new line character and it's features are divided 
 by commas. This simple, non-proprietary format is very accessible and supported by most 
 known data handling programs and frameworks. 
 
-The dataset was acquired in 4 user sessions. In one of those a simulated 0-day attack was 
-performed. The processes spawned in result have been marked as anomalies. 
+The dataset was acquired in 4 user sessions. In two of those a simulated 0-day attack was 
+performed. The attacked processes and the ones spawned in result have been marked as anomalies. 
 
 After preprocessing of the data following features are stored in the output file:
 \begin{itemize}
@@ -856,13 +861,13 @@ After preprocessing of the data following features are stored in the output file
 	\item Y - This binary column indicates whether the corresponding entry is a anomaly. Value "1" corresponds
 	inliers and "-1" to outliers. Processes marked as "-1" were spawned as a result of 0-day explotation.
 	\item The remaining columns contain OneHot encoded information about the dynamically linked 
-	libraries. When a column contains value 1 the process has loaded the dll specified in the 
+	libraries. When a column contains value 1 the process has loaded the DLL specified in the 
 	column name. Otherwise the column contains 0. Full list of the captured modules can be 
 	found in the appendix % TODO dodać listę dll
 \end{itemize}
 
 The dataset utilised in the thesis can be found in a public repository under the url 
-\url{https://github.com/maxDoesHacking/MasterThesis/blob/master/data/combined_data.csv}
+\url{https://github.com/maxDoesHacking/MasterThesis/blob/master/data/combined_ETW_data.csv}
 
 
 \section{Results}
@@ -871,23 +876,27 @@ In all of the experiments performed the focus was placed on 'msedge' binary and 
 The dataset was filtered with the use of 'ProcessPath' feature. Any string value containing the 'msedge'
 substring indicated that the coresponding process is either Microsoft Edge browser or was spawned by it. 
 
+
+
 \subsection{Dynamic link libraries}
 To obtain baseline results to which any developed frameworks can be compared a one class SVM anomaly 
 detection was performed on the raw one hot encoded DLL data. The results of this process can be found
 in the figure \ref{fig:DLLBaselineROC} and show that singling out of the outliers is possible with this type 
-of information. The raw results can be found in the table \ref{id:tab:rawDlls} located in the appendix. 
+of information. The resulting ROC shows however that this method is not stable as presented by the sudden spikes
+and drops of performance even though the 'nu' values is gradualy increased. 
+The raw results can be found in the table \ref{id:tab:rawDlls} located in the appendix. 
 
 \begin{figure}
 	\centering
 	\includegraphics{images/DLLBaselineROCKF}
-	\caption{The receiver operating characteristic of the baseline annomaly detection.}
+	\caption{The receiver operating characteristic of the baseline anomaly detection.}
 	\label{fig:DLLBaselineROC}
  \end{figure}
 	
 In the initial analysis of the data we can look at the counts of DLL's loaded by specific 
 processes. The distribution of those values can be found in the histogram \ref{fig:dllCounts}. 
-From depiction we can clearly see that some of the outlier samples lie distant from other 
-samples. This pattern may be detectable. 
+From this depiction we can clearly see that some of the outlier samples lie distant from other 
+samples with high count. This pattern may be detectable. 
 
 
 \begin{figure}
@@ -900,8 +909,8 @@ samples. This pattern may be detectable.
 To test the hypothesis the DLL counts were normalised to fit the range from 0 to 1 and a anomaly 
 detection was performed. The ROC of the process is visible in the figure \ref{fig:DLLcountsROC} and
 raw outputs are presented in the table \ref{id:tab:countOCSVM}. Both of those show that 
-negative samples were at least partialy correctly labled for some classifier configurations. In 
-some cases 100\% of anomalies was detected with a relatively low false negative ratio.
+negative samples were at least partialy correctly labled for some classifier configurations. A 100\%
+detection rate requires however a significant false negative ratio.
 
 \begin{figure}
 	\centering
@@ -938,7 +947,7 @@ dimention cutoff to utilise only the first one or all three.
  \end{figure}
 
 To validate that the MCA can extract valiable information from the available data, it's results for all
-the processes were compared to the actual purpose for each 'msedge' subprocess. The location of the
+the processes were compared to the actual purpose for each 'msedge' relared process. The location of the
 binaries in the obtained multidimentional space can be found in the figures \ref{fig:mca01} which 
 depicts dimentions 0 and 1 as well as figure \ref{fig:mca12} for dimentions 1 and 2. The raw numerical 
 values utilised to generate those visualizations are located in the table \ref{id:tab:MCAValues} placed 
@@ -959,13 +968,12 @@ in the appendix of this document.
 	\label{fig:mca12}
  \end{figure}
 
-From the distributions we can clearly see that MCA process has managed to group closely identical processes.
-It is also very apprent that the outlier 'powershell' is significantly distant from all remaining samples. 
+From the distributions we can clearly see that MCA processing has managed to group closely some of the
+identical processes. It is also very apprent that the outlier 'powershell' is significantly distant from all remaining samples. 
 This pattern can be spoted in both figure \ref{fig:mca01} and \ref{fig:mca12}. Those results are very 
-promissing and indicate that at least partial detection of anomalies is possible and the peak performance
-has improved when compared to the raw data baseline. 
+promissing and indicate that at least partial detection of anomalies should be possible with the obtained MCA results.
 
-Additionally to this strategy a simple annomaly detector based on the detection of any previously not loaded
+Additionally to this strategy a simple anomaly detector based on the detection of any previously not loaded
 DLL can be utilised. This method could be a solid intrusion detection system on its own and it's performance
 would not be dependent on the proper adjustment of parameters as in the more sofisticated approaches. The 
 DLL's present only in the outliers can be found in table \ref{id:tab:outlierDLLs}.
@@ -974,54 +982,55 @@ DLL's present only in the outliers can be found in table \ref{id:tab:outlierDLLs
 	\centering
 	\caption{DLL's present only in outliers}
 	\label{id:tab:outlierDLLs}
-\begin{tabular}{l}
-	\toprule
-											   0 \\
-	\midrule
-							  system.numerics.ni \\
-								  system.data.ni \\
-										   psapi \\
-										  clrjit \\
-								 system.numerics \\
-			 microsoft.powershell.consolehost.ni \\
-										 napinsp \\
-										mpclient \\
-						 system.configuration.ni \\
-									 mscorlib.ni \\
-										  winrnr \\
-				 system.management.automation.ni \\
-				 microsoft.powershell.psreadline \\
-										mscoreei \\
-							vcruntime140\_clr0400 \\
-				microsoft.powershell.security.ni \\
-	 microsoft.powershell.commands.management.ni \\
-							system.management.ni \\
-		microsoft.powershell.commands.utility.ni \\
-											 atl \\
-								   system.xml.ni \\
-								  system.core.ni \\
-				 system.configuration.install.ni \\
-								  system.dynamic \\
-								ucrtbase\_clr0400 \\
-							 microsoft.csharp.ni \\
-										 mscoree \\
-									   system.ni \\
-					 system.directoryservices.ni \\
-							 system.transactions \\
-										  wshbth \\
-									 system.data \\
-											 clr \\
-						  system.transactions.ni \\
-										 pnrpnsp \\
-		  microsoft.management.infrastructure.ni \\
-										   authz \\
-								microsoft.csharp \\
-	\bottomrule
-\end{tabular}
+	\begin{tabular}{l}
+		\toprule
+										system.core.ni \\
+												psapi \\
+										system.dynamic \\
+								system.management.ni \\
+										system.xml.ni \\
+			microsoft.powershell.commands.management.ni \\
+						microsoft.powershell.psreadline \\
+						system.configuration.install.ni \\
+							system.directoryservices.ni \\
+									microsoft.csharp.ni \\
+					microsoft.powershell.security.ni \\
+												clrjit \\
+											system.ni \\
+													atl \\
+									microsoft.csharp \\
+								system.configuration.ni \\
+													wer \\
+												pnrpnsp \\
+											mscorlib.ni \\
+									system.transactions \\
+			microsoft.powershell.commands.utility.ni \\
+												mscoree \\
+												dbgcore \\
+									system.numerics.ni \\
+												winrnr \\
+						system.management.automation.ni \\
+												napinsp \\
+								system.transactions.ni \\
+											system.data \\
+													clr \\
+											faultrep \\
+										system.numerics \\
+												authz \\
+											mpclient \\
+					microsoft.powershell.consolehost.ni \\
+											mscoreei \\
+								vcruntime140\_clr0400 \\
+												wshbth \\
+										system.data.ni \\
+									ucrtbase\_clr0400 \\
+				microsoft.management.infrastructure.ni \\
+		\bottomrule
+	\end{tabular}
 \end{table}
 
-The proof of possible classification is ilustrated in the figure \ref{fig:mcaroc} which shows the 
-results One Class Support Vector Machine annomaly detection performed directly on the first two dimentions 
+The proof of possible classification with the MCA data is ilustrated in the figure \ref{fig:mcaroc} which shows the 
+results One Class Support Vector Machine anomaly detection performed directly on the first two dimentions 
 of the data from multiple component analysis. The raw data used to obtain the ROC can be found in the table
 \ref{id:tab:OCSVMonMCA} located in the appendix. The obtained results have however some erroneous qualities that
 present as sudden spikes and drops of the false negative ratio. Those characteristics are not present in the 
@@ -1032,12 +1041,6 @@ production enviroment due to the full dataset required prior to classification. 
 utilised to develop and train a custom encoder capable of positioning the new input data in the previously 
 analysed DLL space.  
 
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.9]{images/MCAROCbothKFandNot.PNG}
-	\caption{ROC curve of OCSVM directly on MCA data with and without cross validation}
-	\label{fig:mcaroc}
- \end{figure}
 
  \begin{figure}
 	\centering
@@ -1055,8 +1058,8 @@ performed for four classes is showed in the figure \ref{fig:kmeanmca}. The resul
 $\mathit{O_{i}}$ sets of unique DLL's, each set of the size $\mathit{S_{i}}$  where 
 $\mathit{i\in\{1, 2, 3,..., N\}}$  can be utilised to create a 
 vector $\mathit{Y_{k}}$ of $\mathit{k\in\{1, 2, 3, ..., N + 1\}}$ features for any new 
-data sample $\mathit{X}$ which is a set of DLL's of a size $\mathit{M}$ with the equations
-\ref{enc_eqn} and \ref{enc_new_eqn}. 
+data sample $\mathit{X}$ which is a set of DLL's of a size $\mathit{M}$ with the algorithm
+described in equations \ref{enc_eqn} and \ref{enc_new_eqn}. 
 
 \begin{equation} \label{enc_eqn}
 	Y_{l} = 
@@ -1077,7 +1080,7 @@ data sample $\mathit{X}$ which is a set of DLL's of a size $\mathit{M}$ with the
 \end{equation}
 
 The encoder can be adjusted with parameters like the number of classes in the unsupervised 
-classifier as well as the number of dimentions utilised from the multiple component analysis. 
+classifier as well as the number of dimentions utilised from the multiple component analysis results. 
 This approach combines the detection of previously unknown DLL's with the attempt to dynamically
  assign specific DLL's to groups by their location in the MCA space. 
 
@@ -1094,15 +1097,14 @@ as all the possible ones.
 This solution was tested for multiple sets of possible parameters. The number of utilised MCA 
 dimentions was equal 2 as in the detection performed directly on the MCA data. This was done to 
 allow for just comparison of the results. The anomaly detection was performed
-both with the last dimention corresponding to the occurance of previously unknown DLL's. Those
-values for the encoder trained on all the samples are always equal to zero untill new data sampoles
+both with and without the last dimention corresponding to the occurance of previously unknown DLL's. Those
+values for the encoder trained on all the samples are always equal to zero untill new data samples
 are gathered.
 The results of this experiment are presented in the figure \ref{fig:EncROCwLab} for 
 the encoder trained only on the inlier data and \ref{fig:EncROCwoLab} for all samples. The raw data
 can be found in the tables \ref{id:tab:SVMencWLab} and \ref{id:tab:SVMencWoLab} located in the 
 appendix. The weight p for the unique DLL's was set to 0.1.
 
-%HERE dodać tabele
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/EncROCwLabKF.PNG}
@@ -1118,7 +1120,7 @@ appendix. The weight p for the unique DLL's was set to 0.1.
  \end{figure}
 
 Differently trained encoders display various characteristics. The best performance is shown by
-the one with single cluster n the k-means classification and taught only on the inlier samples.
+the one with single cluster in the k-means classification and taught only on the inlier samples.
 The resulting encoded data is in reality a DLL count normalised to the range from 0 to 1 and a
 additional new DLL detection. When trained on the all samples the best characteristics are 
 obtained for the two classes in the k-means algorithm. This configuration allows the algorithm
@@ -1151,7 +1153,9 @@ and the attempts of identifing their sources did not bring any results.
 
 \subsection{Process paths}
 
-We can see in our data that some paths contain the "msedge" parent process and some start with the first 
+
+
+We can see in our data that some child process paths contain the "explorer" parent process and some start with the first 
 edge browser. This may be a result of a specific case in the data gathering process or the result of wrong 
 processing. In the future some logs may contain even more complex prefixes to the actually investigated
 process. For those reasons the first step in the process path analysis should be their normalisation which
@@ -1159,8 +1163,7 @@ would result in them starting with the process of intrest in the first place. In
 be achieved by cutting off any prefix values before the first "msedge".  
 
 All paths corresponding to the researched process consist of elements presented in the table 
-\ref{id:tab:pathElems}. The uniqe values obtained after normalisation are presented in the table 
-\ref{if:tab:uniqPaths}. The full list normalised paths can be found in the appendix \ref{id:tab:fullPaths}.
+\ref{id:tab:pathElems}. The full list of normalised paths can be found in the appendix \ref{id:tab:fullPaths}.
 
 \begin{table}
 \centering
@@ -1207,7 +1210,7 @@ All paths corresponding to the researched process consist of elements presented 
 \end{table}
 
 This data cannot be fed directly to the classification algorithm because of it's 
-qualitative nature. Because of that no baseline can be obtained. The basic feature
+qualitative nature. In result no baseline can be obtained. The basic feature
 of the path it's size - the number of processes contained in it. The distribution
 of the path lengths is presented in the graph \ref{fig:pathLenHist}. Those values
 extracted can be scaled and used to detect anomalies.
@@ -1219,11 +1222,21 @@ extracted can be scaled and used to detect anomalies.
 	\label{fig:pathLenHist}
  \end{figure}
 
-Those values extracted can be scaled and used to detect anomalies and the performance
-of this approach is depicted in the table \ref{id:tab:pathLenOcSVM}. Obtained values show that outliers can be
-detected with a managable false positive ratio. This behavior is visible for wide range of 'nu' values. 
+After normalisation the count values were used in the one class SVM and the performance
+of this approach is depicted in the table \ref{id:tab:pathLenOcSVM} and the graph \ref{fig:pathLenROC}. 
+Obtained values show that outliers can be detected with a managable false positive ratio. This 
+behavior is visible for wide range of 'nu' values. 
 
-In order to attempt recognision of more complex patterns in the data it was encoded with
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/PathLenROC}
+	\caption{ROC of the anomaly detection on path lengths.}
+	\label{fig:pathLenROC}
+ \end{figure}
+
+%TODO ostatnio czytane
+
+In order to attempt identification of more complex patterns in the data it was encoded with
 the use of a Similarity Encoder which assignes values to the input based on its similarity 
 to the known char strings obtained in the training process. The outputs are calculated with 
 one the available algorithms like "N-gram", "Levenshtein-ratio" and other. This encoder is
@@ -1362,7 +1375,7 @@ the detection of all anomalies in the dataset was done with the false negative r
 This feature is the easiest to analyze due to its quantitative nature and the fact that it is
 already normalised to the range between 0 and 1. Because of that it does not require virtually 
 any preprocessing. The distribution of the values is presented on the 
-histogram \ref{fig:histavgproc} with the bins containing annomaly values marked with red. 
+histogram \ref{fig:histavgproc} with the bins containing anomaly values marked with red. 
 
 \begin{figure}
 	\centering
@@ -1451,15 +1464,22 @@ exploitation was performed.
 \end{table}
 
 Before anomaly detection the available values were casted to integers and normalised.
-As shown in the figure xxx the One Class Support Vector Machine is capable of easily identifying some of the outlier 
+As shown in the figure \ref{fig:exitCodeROC} and the raw data from table \ref{id:tab:OCSVMexitCode},  
+the One Class Support Vector Machine is capable of easily identifying some of the outlier 
 samples with a very low cost in a form of false negative results. This performance may help to
 significantly boost the performanced of the developed solution. 
 
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.9]{images/ExitCodeROC}
+	\caption{ROC of the exit code anomaly detection.}
+	\label{fig:exitCodeROC}
+ \end{figure}
+
 Unfortunetely because of the way the data is constructed the information about the outlier return code of the 
 process does not move down the chain to its children. This esspecaly complicated due to the fact that the parent process
-can but does not have to terminate durring its child lifetime.
-
-%TODO że przyszłe badania...
+can but does not have to terminate durring its child lifetime. In the future research the topic of anomalous exit
+code correlation with spawned child processes can be further elaborated.
 
 \subsection{Combined performance}
 
@@ -1682,46 +1702,46 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		\toprule
 		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
 		\midrule
-		0  &  0.025 &       212 &         3 &               7 &               9 \\
-		1  &  0.050 &       210 &         3 &               7 &              11 \\
-		2  &  0.075 &       205 &         4 &               6 &              16 \\
-		3  &  0.100 &       197 &         4 &               6 &              24 \\
-		4  &  0.125 &       197 &         6 &               4 &              24 \\
-		5  &  0.150 &       190 &         8 &               2 &              31 \\
-		6  &  0.175 &       186 &         8 &               2 &              35 \\
-		7  &  0.200 &       182 &         9 &               1 &              39 \\
-		8  &  0.225 &       177 &        10 &               0 &              44 \\
-		9  &  0.250 &       170 &        10 &               0 &              51 \\
-		10 &  0.275 &       124 &        10 &               0 &              97 \\
-		11 &  0.300 &        20 &        10 &               0 &             201 \\
-		12 &  0.325 &        60 &        10 &               0 &             161 \\
-		13 &  0.350 &        19 &        10 &               0 &             202 \\
-		14 &  0.375 &        35 &        10 &               0 &             186 \\
-		15 &  0.400 &        63 &        10 &               0 &             158 \\
-		16 &  0.425 &       135 &        10 &               0 &              86 \\
-		17 &  0.450 &       164 &        10 &               0 &              57 \\
-		18 &  0.475 &       157 &        10 &               0 &              64 \\
-		19 &  0.500 &       147 &        10 &               0 &              74 \\
-		20 &  0.525 &       145 &        10 &               0 &              76 \\
-		21 &  0.550 &       145 &        10 &               0 &              76 \\
-		22 &  0.575 &       145 &        10 &               0 &              76 \\
-		23 &  0.600 &       145 &        10 &               0 &              76 \\
-		24 &  0.625 &       145 &        10 &               0 &              76 \\
-		25 &  0.650 &       145 &        10 &               0 &              76 \\
-		26 &  0.675 &       145 &        10 &               0 &              76 \\
-		27 &  0.700 &       145 &        10 &               0 &              76 \\
-		28 &  0.725 &       145 &        10 &               0 &              76 \\
-		29 &  0.750 &       145 &        10 &               0 &              76 \\
-		30 &  0.775 &       145 &        10 &               0 &              76 \\
-		31 &  0.800 &       145 &        10 &               0 &              76 \\
-		32 &  0.825 &       145 &        10 &               0 &              76 \\
-		33 &  0.850 &       145 &        10 &               0 &              76 \\
-		34 &  0.875 &       145 &        10 &               0 &              76 \\
-		35 &  0.900 &       145 &        10 &               0 &              76 \\
-		36 &  0.925 &       145 &        10 &               0 &              76 \\
-		37 &  0.950 &       145 &        10 &               0 &              76 \\
-		38 &  0.975 &       145 &        10 &               0 &              76 \\
-		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		0  &  0.025 &       209 &         3 &              10 &               9 \\
+		1  &  0.050 &       207 &         3 &              10 &              11 \\
+		2  &  0.075 &       202 &         4 &               9 &              16 \\
+		3  &  0.100 &       194 &         4 &               9 &              24 \\
+		4  &  0.125 &       194 &         6 &               7 &              24 \\
+		5  &  0.150 &       187 &         8 &               5 &              31 \\
+		6  &  0.175 &       183 &         8 &               5 &              35 \\
+		7  &  0.200 &       179 &         9 &               4 &              39 \\
+		8  &  0.225 &       174 &        10 &               3 &              44 \\
+		9  &  0.250 &       167 &        10 &               3 &              51 \\
+		10 &  0.275 &       121 &        10 &               3 &              97 \\
+		11 &  0.300 &        20 &        13 &               0 &             198 \\
+		12 &  0.325 &        60 &        13 &               0 &             158 \\
+		13 &  0.350 &        19 &        13 &               0 &             199 \\
+		14 &  0.375 &        35 &        13 &               0 &             183 \\
+		15 &  0.400 &        63 &        13 &               0 &             155 \\
+		16 &  0.425 &       132 &        10 &               3 &              86 \\
+		17 &  0.450 &       161 &        10 &               3 &              57 \\
+		18 &  0.475 &       154 &        10 &               3 &              64 \\
+		19 &  0.500 &       144 &        10 &               3 &              74 \\
+		20 &  0.525 &       142 &        10 &               3 &              76 \\
+		21 &  0.550 &       142 &        10 &               3 &              76 \\
+		22 &  0.575 &       142 &        10 &               3 &              76 \\
+		23 &  0.600 &       142 &        10 &               3 &              76 \\
+		24 &  0.625 &       142 &        10 &               3 &              76 \\
+		25 &  0.650 &       142 &        10 &               3 &              76 \\
+		26 &  0.675 &       142 &        10 &               3 &              76 \\
+		27 &  0.700 &       142 &        10 &               3 &              76 \\
+		28 &  0.725 &       142 &        10 &               3 &              76 \\
+		29 &  0.750 &       142 &        10 &               3 &              76 \\
+		30 &  0.775 &       142 &        10 &               3 &              76 \\
+		31 &  0.800 &       142 &        10 &               3 &              76 \\
+		32 &  0.825 &       142 &        10 &               3 &              76 \\
+		33 &  0.850 &       142 &        10 &               3 &              76 \\
+		34 &  0.875 &       142 &        10 &               3 &              76 \\
+		35 &  0.900 &       142 &        10 &               3 &              76 \\
+		36 &  0.925 &       142 &        10 &               3 &              76 \\
+		37 &  0.950 &       142 &        10 &               3 &              76 \\
+		38 &  0.975 &       142 &        10 &               3 &              76 \\
+		39 &  1.000 &         0 &        13 &               0 &             218 \\
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -1734,82 +1754,82 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		\toprule
 		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
 		\midrule
-		0  &  0.025 &       216 &         1 &               9 &               5 \\
-		1  &  0.050 &       214 &         3 &               7 &               7 \\
-		2  &  0.075 &       204 &         4 &               6 &              17 \\
-		3  &  0.100 &       202 &         6 &               4 &              19 \\
-		4  &  0.125 &       189 &         8 &               2 &              32 \\
-		5  &  0.150 &       184 &        10 &               0 &              37 \\
-		6  &  0.175 &       171 &        10 &               0 &              50 \\
-		7  &  0.200 &       167 &        10 &               0 &              54 \\
-		8  &  0.225 &       176 &        10 &               0 &              45 \\
-		9  &  0.250 &       174 &        10 &               0 &              47 \\
-		10 &  0.275 &       173 &        10 &               0 &              48 \\
-		11 &  0.300 &       162 &        10 &               0 &              59 \\
-		12 &  0.325 &       162 &        10 &               0 &              59 \\
-		13 &  0.350 &       173 &        10 &               0 &              48 \\
-		14 &  0.375 &       172 &        10 &               0 &              49 \\
-		15 &  0.400 &       171 &        10 &               0 &              50 \\
-		16 &  0.425 &       170 &        10 &               0 &              51 \\
-		17 &  0.450 &       170 &        10 &               0 &              51 \\
-		18 &  0.475 &       180 &        10 &               0 &              41 \\
-		19 &  0.500 &       180 &        10 &               0 &              41 \\
-		20 &  0.525 &       180 &        10 &               0 &              41 \\
-		21 &  0.550 &       167 &        10 &               0 &              54 \\
-		22 &  0.575 &       167 &        10 &               0 &              54 \\
-		23 &  0.600 &       166 &        10 &               0 &              55 \\
-		24 &  0.625 &       166 &        10 &               0 &              55 \\
-		25 &  0.650 &       166 &        10 &               0 &              55 \\
-		26 &  0.675 &       166 &        10 &               0 &              55 \\
-		27 &  0.700 &       166 &        10 &               0 &              55 \\
-		28 &  0.725 &       178 &        10 &               0 &              43 \\
-		29 &  0.750 &       177 &        10 &               0 &              44 \\
-		30 &  0.775 &       167 &        10 &               0 &              54 \\
-		31 &  0.800 &       165 &        10 &               0 &              56 \\
-		32 &  0.825 &       165 &        10 &               0 &              56 \\
-		33 &  0.850 &       165 &        10 &               0 &              56 \\
-		34 &  0.875 &        73 &        10 &               0 &             148 \\
-		35 &  0.900 &        52 &        10 &               0 &             169 \\
-		36 &  0.925 &        28 &        10 &               0 &             193 \\
-		37 &  0.950 &        28 &        10 &               0 &             193 \\
-		38 &  0.975 &        10 &        10 &               0 &             211 \\
-		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		0  &  0.025 &       213 &         1 &              12 &               5 \\
+		1  &  0.050 &       211 &         3 &              10 &               7 \\
+		2  &  0.075 &       201 &         4 &               9 &              17 \\
+		3  &  0.100 &       199 &         6 &               7 &              19 \\
+		4  &  0.125 &       186 &         8 &               5 &              32 \\
+		5  &  0.150 &       181 &        10 &               3 &              37 \\
+		6  &  0.175 &       168 &        10 &               3 &              50 \\
+		7  &  0.200 &       164 &        10 &               3 &              54 \\
+		8  &  0.225 &       173 &        10 &               3 &              45 \\
+		9  &  0.250 &       171 &        10 &               3 &              47 \\
+		10 &  0.275 &       170 &        10 &               3 &              48 \\
+		11 &  0.300 &       159 &        10 &               3 &              59 \\
+		12 &  0.325 &       159 &        10 &               3 &              59 \\
+		13 &  0.350 &       170 &        10 &               3 &              48 \\
+		14 &  0.375 &       169 &        10 &               3 &              49 \\
+		15 &  0.400 &       168 &        10 &               3 &              50 \\
+		16 &  0.425 &       167 &        10 &               3 &              51 \\
+		17 &  0.450 &       167 &        10 &               3 &              51 \\
+		18 &  0.475 &       177 &        10 &               3 &              41 \\
+		19 &  0.500 &       177 &        10 &               3 &              41 \\
+		20 &  0.525 &       177 &        10 &               3 &              41 \\
+		21 &  0.550 &       164 &        10 &               3 &              54 \\
+		22 &  0.575 &       164 &        10 &               3 &              54 \\
+		23 &  0.600 &       163 &        10 &               3 &              55 \\
+		24 &  0.625 &       163 &        10 &               3 &              55 \\
+		25 &  0.650 &       163 &        10 &               3 &              55 \\
+		26 &  0.675 &       163 &        10 &               3 &              55 \\
+		27 &  0.700 &       163 &        10 &               3 &              55 \\
+		28 &  0.725 &       175 &        10 &               3 &              43 \\
+		29 &  0.750 &       174 &        10 &               3 &              44 \\
+		30 &  0.775 &       164 &        10 &               3 &              54 \\
+		31 &  0.800 &       162 &        10 &               3 &              56 \\
+		32 &  0.825 &       162 &        10 &               3 &              56 \\
+		33 &  0.850 &       162 &        10 &               3 &              56 \\
+		34 &  0.875 &        73 &        13 &               0 &             145 \\
+		35 &  0.900 &        52 &        13 &               0 &             166 \\
+		36 &  0.925 &        28 &        13 &               0 &             190 \\
+		37 &  0.950 &        28 &        13 &               0 &             190 \\
+		38 &  0.975 &        10 &        13 &               0 &             208 \\
+		39 &  1.000 &         0 &        13 &               0 &             218 \\
 		\bottomrule
-		\end{tabular}		
+	\end{tabular}
 \end{table}
 
 \begin{table}
 \centering
 \caption{Eigenvalues of the multiple correspondance analysis.}
 \label{id:tab:MCAEigenvalues}
-	\begin{tabular}{rr}
-		\toprule
-		Dimentions &  Eigenvalues \\
-		\midrule
-				0 &     0.278652 \\
-				1 &     0.126788 \\
-				2 &     0.108930 \\
-				3 &     0.067005 \\
-				4 &     0.058106 \\
-				5 &     0.046981 \\
-				6 &     0.022424 \\
-				7 &     0.014908 \\
-				8 &     0.011448 \\
-				9 &     0.008646 \\
-				10 &     0.007569 \\
-				11 &     0.004358 \\
-				12 &     0.003819 \\
-				13 &     0.003075 \\
-				14 &     0.002759 \\
-				15 &     0.001986 \\
-				16 &     0.001220 \\
-				17 &     0.000840 \\
-				18 &     0.000622 \\
-				19 &     0.000473 \\
-				20 &     0.000428 \\
-				21 &     0.000297 \\
-				22 &     0.000208 \\
-		\bottomrule
+\begin{tabular}{rr}
+	\toprule
+	 Dimentions &  Eigenvalues \\
+	\midrule
+			  0 &     0.278652 \\
+			  1 &     0.126788 \\
+			  2 &     0.108930 \\
+			  3 &     0.067005 \\
+			  4 &     0.058106 \\
+			  5 &     0.046981 \\
+			  6 &     0.022424 \\
+			  7 &     0.014908 \\
+			  8 &     0.011448 \\
+			  9 &     0.008646 \\
+			 10 &     0.007569 \\
+			 11 &     0.004358 \\
+			 12 &     0.003819 \\
+			 13 &     0.003075 \\
+			 14 &     0.002759 \\
+			 15 &     0.001986 \\
+			 16 &     0.001220 \\
+			 17 &     0.000840 \\
+			 18 &     0.000622 \\
+			 19 &     0.000473 \\
+			 20 &     0.000428 \\
+			 21 &     0.000297 \\
+			 22 &     0.000208 \\
+	\bottomrule
 	\end{tabular}
 \end{table} 
 
@@ -2064,88 +2084,88 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		\toprule
 		{} &     nu &  Positive &  Negative &  False positive &  False negative & K-fold \\
 		\midrule
-		0  &  0.025 &       205 &         2 &               8 &              16 &    Yes \\
-		1  &  0.050 &       217 &         3 &               7 &               4 &    Yes \\
-		2  &  0.075 &       201 &         3 &               7 &              20 &    Yes \\
-		3  &  0.100 &       212 &         3 &               7 &               9 &    Yes \\
-		4  &  0.125 &       209 &         3 &               7 &              12 &    Yes \\
-		5  &  0.150 &       208 &         3 &               7 &              13 &    Yes \\
-		6  &  0.175 &       208 &         3 &               7 &              13 &    Yes \\
-		7  &  0.200 &       204 &         4 &               6 &              17 &    Yes \\
-		8  &  0.225 &       204 &         4 &               6 &              17 &    Yes \\
-		9  &  0.250 &       204 &         5 &               5 &              17 &    Yes \\
-		10 &  0.275 &       202 &         5 &               5 &              19 &    Yes \\
-		11 &  0.300 &       200 &         5 &               5 &              21 &    Yes \\
-		12 &  0.325 &       198 &         5 &               5 &              23 &    Yes \\
-		13 &  0.350 &       186 &         6 &               4 &              35 &    Yes \\
-		14 &  0.375 &       146 &         6 &               4 &              75 &    Yes \\
-		15 &  0.400 &       176 &         6 &               4 &              45 &    Yes \\
-		16 &  0.425 &       196 &         6 &               4 &              25 &    Yes \\
-		17 &  0.450 &       194 &         7 &               3 &              27 &    Yes \\
-		18 &  0.475 &       192 &         7 &               3 &              29 &    Yes \\
-		19 &  0.500 &       192 &         7 &               3 &              29 &    Yes \\
-		20 &  0.525 &       179 &         8 &               2 &              42 &    Yes \\
-		21 &  0.550 &       159 &        10 &               0 &              62 &    Yes \\
-		22 &  0.575 &       114 &        10 &               0 &             107 &    Yes \\
-		23 &  0.600 &       114 &        10 &               0 &             107 &    Yes \\
-		24 &  0.625 &       153 &        10 &               0 &              68 &    Yes \\
-		25 &  0.650 &       164 &        10 &               0 &              57 &    Yes \\
-		26 &  0.675 &       164 &        10 &               0 &              57 &    Yes \\
-		27 &  0.700 &       175 &        10 &               0 &              46 &    Yes \\
-		28 &  0.725 &       183 &        10 &               0 &              38 &    Yes \\
-		29 &  0.750 &       180 &        10 &               0 &              41 &    Yes \\
-		30 &  0.775 &       180 &        10 &               0 &              41 &    Yes \\
-		31 &  0.800 &       180 &        10 &               0 &              41 &    Yes \\
-		32 &  0.825 &       180 &        10 &               0 &              41 &    Yes \\
-		33 &  0.850 &        77 &        10 &               0 &             144 &    Yes \\
-		34 &  0.875 &        29 &        10 &               0 &             192 &    Yes \\
-		35 &  0.900 &        10 &        10 &               0 &             211 &    Yes \\
-		36 &  0.925 &        10 &        10 &               0 &             211 &    Yes \\
-		37 &  0.950 &        10 &        10 &               0 &             211 &    Yes \\
-		38 &  0.975 &         7 &        10 &               0 &             214 &    Yes \\
-		39 &  1.000 &         0 &        10 &               0 &             221 &    Yes \\
-		0  &  0.025 &       218 &         2 &               8 &               3 &     No \\
-		1  &  0.050 &       217 &         2 &               8 &               4 &     No \\
-		2  &  0.075 &       213 &         3 &               7 &               8 &     No \\
-		3  &  0.100 &       211 &         3 &               7 &              10 &     No \\
-		4  &  0.125 &       209 &         3 &               7 &              12 &     No \\
-		5  &  0.150 &       208 &         3 &               7 &              13 &     No \\
-		6  &  0.175 &       204 &         3 &               7 &              17 &     No \\
-		7  &  0.200 &       204 &         3 &               7 &              17 &     No \\
-		8  &  0.225 &       204 &         5 &               5 &              17 &     No \\
-		9  &  0.250 &       204 &         5 &               5 &              17 &     No \\
-		10 &  0.275 &       200 &         5 &               5 &              21 &     No \\
-		11 &  0.300 &       198 &         5 &               5 &              23 &     No \\
-		12 &  0.325 &       197 &         6 &               4 &              24 &     No \\
-		13 &  0.350 &       196 &         6 &               4 &              25 &     No \\
-		14 &  0.375 &       196 &         6 &               4 &              25 &     No \\
-		15 &  0.400 &       194 &         6 &               4 &              27 &     No \\
-		16 &  0.425 &       193 &         7 &               3 &              28 &     No \\
-		17 &  0.450 &       191 &         7 &               3 &              30 &     No \\
-		18 &  0.475 &       190 &         7 &               3 &              31 &     No \\
-		19 &  0.500 &       189 &        10 &               0 &              32 &     No \\
-		20 &  0.525 &       189 &        10 &               0 &              32 &     No \\
-		21 &  0.550 &       188 &        10 &               0 &              33 &     No \\
-		22 &  0.575 &       188 &        10 &               0 &              33 &     No \\
-		23 &  0.600 &       188 &        10 &               0 &              33 &     No \\
-		24 &  0.625 &       184 &        10 &               0 &              37 &     No \\
-		25 &  0.650 &       184 &        10 &               0 &              37 &     No \\
-		26 &  0.675 &       180 &        10 &               0 &              41 &     No \\
-		27 &  0.700 &       180 &        10 &               0 &              41 &     No \\
-		28 &  0.725 &       180 &        10 &               0 &              41 &     No \\
-		29 &  0.750 &       180 &        10 &               0 &              41 &     No \\
-		30 &  0.775 &       180 &        10 &               0 &              41 &     No \\
-		31 &  0.800 &       180 &        10 &               0 &              41 &     No \\
-		32 &  0.825 &       179 &        10 &               0 &              42 &     No \\
-		33 &  0.850 &        30 &        10 &               0 &             191 &     No \\
-		34 &  0.875 &        27 &        10 &               0 &             194 &     No \\
-		35 &  0.900 &         8 &        10 &               0 &             213 &     No \\
-		36 &  0.925 &         8 &        10 &               0 &             213 &     No \\
-		37 &  0.950 &         8 &        10 &               0 &             213 &     No \\
-		38 &  0.975 &         7 &        10 &               0 &             214 &     No \\
-		39 &  1.000 &         0 &        10 &               0 &             221 &     No \\
+		0  &  0.025 &       202 &         2 &              11 &              16 &    Yes \\
+		1  &  0.050 &       214 &         3 &              10 &               4 &    Yes \\
+		2  &  0.075 &       198 &         3 &              10 &              20 &    Yes \\
+		3  &  0.100 &       209 &         3 &              10 &               9 &    Yes \\
+		4  &  0.125 &       206 &         3 &              10 &              12 &    Yes \\
+		5  &  0.150 &       205 &         3 &              10 &              13 &    Yes \\
+		6  &  0.175 &       205 &         3 &              10 &              13 &    Yes \\
+		7  &  0.200 &       201 &         4 &               9 &              17 &    Yes \\
+		8  &  0.225 &       201 &         4 &               9 &              17 &    Yes \\
+		9  &  0.250 &       201 &         5 &               8 &              17 &    Yes \\
+		10 &  0.275 &       199 &         5 &               8 &              19 &    Yes \\
+		11 &  0.300 &       197 &         5 &               8 &              21 &    Yes \\
+		12 &  0.325 &       195 &         5 &               8 &              23 &    Yes \\
+		13 &  0.350 &       183 &         6 &               7 &              35 &    Yes \\
+		14 &  0.375 &       144 &         7 &               6 &              74 &    Yes \\
+		15 &  0.400 &       173 &         6 &               7 &              45 &    Yes \\
+		16 &  0.425 &       193 &         6 &               7 &              25 &    Yes \\
+		17 &  0.450 &       191 &         7 &               6 &              27 &    Yes \\
+		18 &  0.475 &       189 &         7 &               6 &              29 &    Yes \\
+		19 &  0.500 &       189 &         7 &               6 &              29 &    Yes \\
+		20 &  0.525 &       176 &         8 &               5 &              42 &    Yes \\
+		21 &  0.550 &       157 &        11 &               2 &              61 &    Yes \\
+		22 &  0.575 &       112 &        11 &               2 &             106 &    Yes \\
+		23 &  0.600 &       112 &        11 &               2 &             106 &    Yes \\
+		24 &  0.625 &       150 &        10 &               3 &              68 &    Yes \\
+		25 &  0.650 &       161 &        10 &               3 &              57 &    Yes \\
+		26 &  0.675 &       161 &        10 &               3 &              57 &    Yes \\
+		27 &  0.700 &       172 &        10 &               3 &              46 &    Yes \\
+		28 &  0.725 &       180 &        10 &               3 &              38 &    Yes \\
+		29 &  0.750 &       177 &        10 &               3 &              41 &    Yes \\
+		30 &  0.775 &       177 &        10 &               3 &              41 &    Yes \\
+		31 &  0.800 &       177 &        10 &               3 &              41 &    Yes \\
+		32 &  0.825 &       177 &        10 &               3 &              41 &    Yes \\
+		33 &  0.850 &        77 &        13 &               0 &             141 &    Yes \\
+		34 &  0.875 &        29 &        13 &               0 &             189 &    Yes \\
+		35 &  0.900 &        10 &        13 &               0 &             208 &    Yes \\
+		36 &  0.925 &        10 &        13 &               0 &             208 &    Yes \\
+		37 &  0.950 &        10 &        13 &               0 &             208 &    Yes \\
+		38 &  0.975 &         7 &        13 &               0 &             211 &    Yes \\
+		39 &  1.000 &         0 &        13 &               0 &             218 &    Yes \\
+		0  &  0.025 &       215 &         2 &              11 &               3 &     No \\
+		1  &  0.050 &       214 &         2 &              11 &               4 &     No \\
+		2  &  0.075 &       210 &         3 &              10 &               8 &     No \\
+		3  &  0.100 &       209 &         3 &              10 &               9 &     No \\
+		4  &  0.125 &       206 &         3 &              10 &              12 &     No \\
+		5  &  0.150 &       205 &         3 &              10 &              13 &     No \\
+		6  &  0.175 &       205 &         3 &              10 &              13 &     No \\
+		7  &  0.200 &       201 &         3 &              10 &              17 &     No \\
+		8  &  0.225 &       201 &         5 &               8 &              17 &     No \\
+		9  &  0.250 &       201 &         5 &               8 &              17 &     No \\
+		10 &  0.275 &       197 &         5 &               8 &              21 &     No \\
+		11 &  0.300 &       195 &         5 &               8 &              23 &     No \\
+		12 &  0.325 &       195 &         6 &               7 &              23 &     No \\
+		13 &  0.350 &       193 &         6 &               7 &              25 &     No \\
+		14 &  0.375 &       193 &         6 &               7 &              25 &     No \\
+		15 &  0.400 &       191 &         6 &               7 &              27 &     No \\
+		16 &  0.425 &       190 &         7 &               6 &              28 &     No \\
+		17 &  0.450 &       188 &         7 &               6 &              30 &     No \\
+		18 &  0.475 &       187 &         7 &               6 &              31 &     No \\
+		19 &  0.500 &       187 &        10 &               3 &              31 &     No \\
+		20 &  0.525 &       186 &        10 &               3 &              32 &     No \\
+		21 &  0.550 &       185 &        10 &               3 &              33 &     No \\
+		22 &  0.575 &       185 &        10 &               3 &              33 &     No \\
+		23 &  0.600 &       185 &        10 &               3 &              33 &     No \\
+		24 &  0.625 &       185 &        10 &               3 &              33 &     No \\
+		25 &  0.650 &       181 &        10 &               3 &              37 &     No \\
+		26 &  0.675 &       177 &        10 &               3 &              41 &     No \\
+		27 &  0.700 &       177 &        10 &               3 &              41 &     No \\
+		28 &  0.725 &       177 &        10 &               3 &              41 &     No \\
+		29 &  0.750 &       177 &        10 &               3 &              41 &     No \\
+		30 &  0.775 &       177 &        10 &               3 &              41 &     No \\
+		31 &  0.800 &       177 &        10 &               3 &              41 &     No \\
+		32 &  0.825 &       177 &        10 &               3 &              41 &     No \\
+		33 &  0.850 &        30 &        13 &               0 &             188 &     No \\
+		34 &  0.875 &        27 &        13 &               0 &             191 &     No \\
+		35 &  0.900 &         8 &        13 &               0 &             210 &     No \\
+		36 &  0.925 &         8 &        13 &               0 &             210 &     No \\
+		37 &  0.950 &         8 &        13 &               0 &             210 &     No \\
+		38 &  0.975 &         7 &        13 &               0 &             211 &     No \\
+		39 &  1.000 &         0 &        13 &               0 &             218 &     No \\
 		\bottomrule
-		\end{tabular}		
+	\end{tabular}
 \end{table} 
 
 \begin{table}
@@ -2156,168 +2176,168 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		\toprule
 		{} &  index &  Positive &  Negative &  False positive &  False negative &  clusters \\
 		\midrule
-		0   &     40 &       217 &         3 &               7 &               4 &         1 \\
-		1   &     41 &       215 &         7 &               3 &               6 &         1 \\
-		2   &     42 &       206 &         7 &               3 &              15 &         1 \\
-		3   &     43 &       203 &         8 &               2 &              18 &         1 \\
-		4   &     44 &       200 &         8 &               2 &              21 &         1 \\
-		5   &     45 &       194 &        10 &               0 &              27 &         1 \\
-		6   &     46 &       174 &        10 &               0 &              47 &         1 \\
-		7   &     47 &        76 &        10 &               0 &             145 &         1 \\
-		8   &     48 &        67 &        10 &               0 &             154 &         1 \\
-		9   &     49 &        52 &        10 &               0 &             169 &         1 \\
-		10  &     50 &        50 &        10 &               0 &             171 &         1 \\
-		11  &     51 &        50 &        10 &               0 &             171 &         1 \\
-		12  &     52 &        39 &        10 &               0 &             182 &         1 \\
-		13  &     53 &        51 &        10 &               0 &             170 &         1 \\
-		14  &     54 &        46 &        10 &               0 &             175 &         1 \\
-		15  &     55 &        36 &        10 &               0 &             185 &         1 \\
-		16  &     56 &        36 &        10 &               0 &             185 &         1 \\
-		17  &     57 &        35 &        10 &               0 &             186 &         1 \\
-		18  &     58 &        35 &        10 &               0 &             186 &         1 \\
-		19  &     59 &        35 &        10 &               0 &             186 &         1 \\
-		20  &     60 &        35 &        10 &               0 &             186 &         1 \\
-		21  &     61 &        35 &        10 &               0 &             186 &         1 \\
-		22  &     62 &        35 &        10 &               0 &             186 &         1 \\
-		23  &     63 &        34 &        10 &               0 &             187 &         1 \\
-		24  &     64 &        33 &        10 &               0 &             188 &         1 \\
-		25  &     65 &        33 &        10 &               0 &             188 &         1 \\
-		26  &     66 &        33 &        10 &               0 &             188 &         1 \\
-		27  &     67 &        33 &        10 &               0 &             188 &         1 \\
-		28  &     68 &        33 &        10 &               0 &             188 &         1 \\
-		29  &     69 &        58 &        10 &               0 &             163 &         1 \\
-		30  &     70 &        43 &        10 &               0 &             178 &         1 \\
-		31  &     71 &        65 &        10 &               0 &             156 &         1 \\
-		32  &     72 &        65 &        10 &               0 &             156 &         1 \\
-		33  &     73 &        64 &        10 &               0 &             157 &         1 \\
-		34  &     74 &        64 &        10 &               0 &             157 &         1 \\
-		35  &     75 &        42 &        10 &               0 &             179 &         1 \\
-		36  &     76 &        29 &        10 &               0 &             192 &         1 \\
-		37  &     77 &        28 &        10 &               0 &             193 &         1 \\
-		38  &     78 &         9 &        10 &               0 &             212 &         1 \\
-		39  &     79 &         0 &        10 &               0 &             221 &         1 \\
-		40  &    120 &       217 &         3 &               7 &               4 &         2 \\
-		41  &    121 &       212 &         4 &               6 &               9 &         2 \\
-		42  &    122 &       209 &         7 &               3 &              12 &         2 \\
-		43  &    123 &       202 &         8 &               2 &              19 &         2 \\
-		44  &    124 &       198 &         8 &               2 &              23 &         2 \\
-		45  &    125 &       193 &         9 &               1 &              28 &         2 \\
-		46  &    126 &       187 &        10 &               0 &              34 &         2 \\
-		47  &    127 &       170 &        10 &               0 &              51 &         2 \\
-		48  &    128 &       172 &        10 &               0 &              49 &         2 \\
-		49  &    129 &       151 &        10 &               0 &              70 &         2 \\
-		50  &    130 &       150 &        10 &               0 &              71 &         2 \\
-		51  &    131 &       150 &        10 &               0 &              71 &         2 \\
-		52  &    132 &       148 &        10 &               0 &              73 &         2 \\
-		53  &    133 &       147 &        10 &               0 &              74 &         2 \\
-		54  &    134 &       147 &        10 &               0 &              74 &         2 \\
-		55  &    135 &       178 &        10 &               0 &              43 &         2 \\
-		56  &    136 &       178 &        10 &               0 &              43 &         2 \\
-		57  &    137 &       178 &        10 &               0 &              43 &         2 \\
-		58  &    138 &       178 &        10 &               0 &              43 &         2 \\
-		59  &    139 &       164 &        10 &               0 &              57 &         2 \\
-		60  &    140 &       177 &        10 &               0 &              44 &         2 \\
-		61  &    141 &       155 &        10 &               0 &              66 &         2 \\
-		62  &    142 &       175 &        10 &               0 &              46 &         2 \\
-		63  &    143 &       174 &        10 &               0 &              47 &         2 \\
-		64  &    144 &       137 &        10 &               0 &              84 &         2 \\
-		65  &    145 &       174 &        10 &               0 &              47 &         2 \\
-		66  &    146 &       174 &        10 &               0 &              47 &         2 \\
-		67  &    147 &       174 &        10 &               0 &              47 &         2 \\
-		68  &    148 &       173 &        10 &               0 &              48 &         2 \\
-		69  &    149 &       173 &        10 &               0 &              48 &         2 \\
-		70  &    150 &       173 &        10 &               0 &              48 &         2 \\
-		71  &    151 &       173 &        10 &               0 &              48 &         2 \\
-		72  &    152 &       172 &        10 &               0 &              49 &         2 \\
-		73  &    153 &       172 &        10 &               0 &              49 &         2 \\
-		74  &    154 &       104 &        10 &               0 &             117 &         2 \\
-		75  &    155 &        46 &        10 &               0 &             175 &         2 \\
-		76  &    156 &        24 &        10 &               0 &             197 &         2 \\
-		77  &    157 &        24 &        10 &               0 &             197 &         2 \\
-		78  &    158 &         8 &        10 &               0 &             213 &         2 \\
-		79  &    159 &         0 &        10 &               0 &             221 &         2 \\
-		80  &    200 &       216 &         2 &               8 &               5 &         3 \\
-		81  &    201 &       212 &         3 &               7 &               9 &         3 \\
-		82  &    202 &       207 &         7 &               3 &              14 &         3 \\
-		83  &    203 &       204 &         8 &               2 &              17 &         3 \\
-		84  &    204 &       197 &         8 &               2 &              24 &         3 \\
-		85  &    205 &       193 &         8 &               2 &              28 &         3 \\
-		86  &    206 &       188 &         8 &               2 &              33 &         3 \\
-		87  &    207 &       181 &        10 &               0 &              40 &         3 \\
-		88  &    208 &       159 &        10 &               0 &              62 &         3 \\
-		89  &    209 &        90 &        10 &               0 &             131 &         3 \\
-		90  &    210 &        89 &        10 &               0 &             132 &         3 \\
-		91  &    211 &        98 &        10 &               0 &             123 &         3 \\
-		92  &    212 &        99 &        10 &               0 &             122 &         3 \\
-		93  &    213 &        99 &        10 &               0 &             122 &         3 \\
-		94  &    214 &       117 &        10 &               0 &             104 &         3 \\
-		95  &    215 &       117 &        10 &               0 &             104 &         3 \\
-		96  &    216 &       126 &        10 &               0 &              95 &         3 \\
-		97  &    217 &        85 &        10 &               0 &             136 &         3 \\
-		98  &    218 &        85 &        10 &               0 &             136 &         3 \\
-		99  &    219 &       104 &        10 &               0 &             117 &         3 \\
-		100 &    220 &        53 &        10 &               0 &             168 &         3 \\
-		101 &    221 &        53 &        10 &               0 &             168 &         3 \\
-		102 &    222 &        38 &        10 &               0 &             183 &         3 \\
-		103 &    223 &        28 &        10 &               0 &             193 &         3 \\
-		104 &    224 &        28 &        10 &               0 &             193 &         3 \\
-		105 &    225 &        28 &        10 &               0 &             193 &         3 \\
-		106 &    226 &        27 &        10 &               0 &             194 &         3 \\
-		107 &    227 &        27 &        10 &               0 &             194 &         3 \\
-		108 &    228 &        27 &        10 &               0 &             194 &         3 \\
-		109 &    229 &        26 &        10 &               0 &             195 &         3 \\
-		110 &    230 &        26 &        10 &               0 &             195 &         3 \\
-		111 &    231 &        24 &        10 &               0 &             197 &         3 \\
-		112 &    232 &        21 &        10 &               0 &             200 &         3 \\
-		113 &    233 &        21 &        10 &               0 &             200 &         3 \\
-		114 &    234 &        20 &        10 &               0 &             201 &         3 \\
-		115 &    235 &        10 &        10 &               0 &             211 &         3 \\
-		116 &    236 &        18 &        10 &               0 &             203 &         3 \\
-		117 &    237 &        11 &        10 &               0 &             210 &         3 \\
-		118 &    238 &        11 &        10 &               0 &             210 &         3 \\
-		119 &    239 &         0 &        10 &               0 &             221 &         3 \\
-		120 &    280 &       217 &         2 &               8 &               4 &         4 \\
-		121 &    281 &       211 &         4 &               6 &              10 &         4 \\
-		122 &    282 &       204 &         5 &               5 &              17 &         4 \\
-		123 &    283 &       202 &         5 &               5 &              19 &         4 \\
-		124 &    284 &       196 &         8 &               2 &              25 &         4 \\
-		125 &    285 &       191 &         8 &               2 &              30 &         4 \\
-		126 &    286 &       174 &         8 &               2 &              47 &         4 \\
-		127 &    287 &       170 &         8 &               2 &              51 &         4 \\
-		128 &    288 &       170 &         8 &               2 &              51 &         4 \\
-		129 &    289 &       174 &         9 &               1 &              47 &         4 \\
-		130 &    290 &       131 &        10 &               0 &              90 &         4 \\
-		131 &    291 &        94 &        10 &               0 &             127 &         4 \\
-		132 &    292 &        16 &        10 &               0 &             205 &         4 \\
-		133 &    293 &        16 &        10 &               0 &             205 &         4 \\
-		134 &    294 &        16 &        10 &               0 &             205 &         4 \\
-		135 &    295 &        16 &        10 &               0 &             205 &         4 \\
-		136 &    296 &        16 &        10 &               0 &             205 &         4 \\
-		137 &    297 &        16 &        10 &               0 &             205 &         4 \\
-		138 &    298 &        15 &        10 &               0 &             206 &         4 \\
-		139 &    299 &        15 &        10 &               0 &             206 &         4 \\
-		140 &    300 &        15 &        10 &               0 &             206 &         4 \\
-		141 &    301 &        15 &        10 &               0 &             206 &         4 \\
-		142 &    302 &        27 &        10 &               0 &             194 &         4 \\
-		143 &    303 &        33 &        10 &               0 &             188 &         4 \\
-		144 &    304 &        12 &        10 &               0 &             209 &         4 \\
-		145 &    305 &        51 &        10 &               0 &             170 &         4 \\
-		146 &    306 &        12 &        10 &               0 &             209 &         4 \\
-		147 &    307 &        12 &        10 &               0 &             209 &         4 \\
-		148 &    308 &        12 &        10 &               0 &             209 &         4 \\
-		149 &    309 &        12 &        10 &               0 &             209 &         4 \\
-		150 &    310 &        12 &        10 &               0 &             209 &         4 \\
-		151 &    311 &        12 &        10 &               0 &             209 &         4 \\
-		152 &    312 &        12 &        10 &               0 &             209 &         4 \\
-		153 &    313 &        12 &        10 &               0 &             209 &         4 \\
-		154 &    314 &        11 &        10 &               0 &             210 &         4 \\
-		155 &    315 &        11 &        10 &               0 &             210 &         4 \\
-		156 &    316 &        11 &        10 &               0 &             210 &         4 \\
-		157 &    317 &        11 &        10 &               0 &             210 &         4 \\
-		158 &    318 &         6 &        10 &               0 &             215 &         4 \\
-		159 &    319 &         0 &        10 &               0 &             221 &         4 \\
+		0   &     40 &       214 &         3 &              10 &               4 &         1 \\
+		1   &     41 &       212 &         7 &               6 &               6 &         1 \\
+		2   &     42 &       203 &         7 &               6 &              15 &         1 \\
+		3   &     43 &       200 &         8 &               5 &              18 &         1 \\
+		4   &     44 &       197 &         8 &               5 &              21 &         1 \\
+		5   &     45 &       191 &        10 &               3 &              27 &         1 \\
+		6   &     46 &       171 &        10 &               3 &              47 &         1 \\
+		7   &     47 &        76 &        13 &               0 &             142 &         1 \\
+		8   &     48 &        67 &        13 &               0 &             151 &         1 \\
+		9   &     49 &        52 &        13 &               0 &             166 &         1 \\
+		10  &     50 &        50 &        13 &               0 &             168 &         1 \\
+		11  &     51 &        50 &        13 &               0 &             168 &         1 \\
+		12  &     52 &        39 &        13 &               0 &             179 &         1 \\
+		13  &     53 &        51 &        13 &               0 &             167 &         1 \\
+		14  &     54 &        46 &        13 &               0 &             172 &         1 \\
+		15  &     55 &        36 &        13 &               0 &             182 &         1 \\
+		16  &     56 &        36 &        13 &               0 &             182 &         1 \\
+		17  &     57 &        35 &        13 &               0 &             183 &         1 \\
+		18  &     58 &        35 &        13 &               0 &             183 &         1 \\
+		19  &     59 &        35 &        13 &               0 &             183 &         1 \\
+		20  &     60 &        35 &        13 &               0 &             183 &         1 \\
+		21  &     61 &        35 &        13 &               0 &             183 &         1 \\
+		22  &     62 &        35 &        13 &               0 &             183 &         1 \\
+		23  &     63 &        34 &        13 &               0 &             184 &         1 \\
+		24  &     64 &        33 &        13 &               0 &             185 &         1 \\
+		25  &     65 &        33 &        13 &               0 &             185 &         1 \\
+		26  &     66 &        33 &        13 &               0 &             185 &         1 \\
+		27  &     67 &        33 &        13 &               0 &             185 &         1 \\
+		28  &     68 &        33 &        13 &               0 &             185 &         1 \\
+		29  &     69 &        58 &        13 &               0 &             160 &         1 \\
+		30  &     70 &        43 &        13 &               0 &             175 &         1 \\
+		31  &     71 &        65 &        13 &               0 &             153 &         1 \\
+		32  &     72 &        65 &        13 &               0 &             153 &         1 \\
+		33  &     73 &        64 &        13 &               0 &             154 &         1 \\
+		34  &     74 &        64 &        13 &               0 &             154 &         1 \\
+		35  &     75 &        42 &        13 &               0 &             176 &         1 \\
+		36  &     76 &        29 &        13 &               0 &             189 &         1 \\
+		37  &     77 &        28 &        13 &               0 &             190 &         1 \\
+		38  &     78 &         9 &        13 &               0 &             209 &         1 \\
+		39  &     79 &         0 &        13 &               0 &             218 &         1 \\
+		40  &    120 &       214 &         3 &              10 &               4 &         2 \\
+		41  &    121 &       209 &         4 &               9 &               9 &         2 \\
+		42  &    122 &       206 &         7 &               6 &              12 &         2 \\
+		43  &    123 &       199 &         8 &               5 &              19 &         2 \\
+		44  &    124 &       195 &         8 &               5 &              23 &         2 \\
+		45  &    125 &       190 &         9 &               4 &              28 &         2 \\
+		46  &    126 &       184 &        10 &               3 &              34 &         2 \\
+		47  &    127 &       167 &        10 &               3 &              51 &         2 \\
+		48  &    128 &       169 &        10 &               3 &              49 &         2 \\
+		49  &    129 &       148 &        10 &               3 &              70 &         2 \\
+		50  &    130 &       147 &        10 &               3 &              71 &         2 \\
+		51  &    131 &       147 &        10 &               3 &              71 &         2 \\
+		52  &    132 &       145 &        10 &               3 &              73 &         2 \\
+		53  &    133 &       144 &        10 &               3 &              74 &         2 \\
+		54  &    134 &       144 &        10 &               3 &              74 &         2 \\
+		55  &    135 &       175 &        10 &               3 &              43 &         2 \\
+		56  &    136 &       175 &        10 &               3 &              43 &         2 \\
+		57  &    137 &       175 &        10 &               3 &              43 &         2 \\
+		58  &    138 &       175 &        10 &               3 &              43 &         2 \\
+		59  &    139 &       161 &        10 &               3 &              57 &         2 \\
+		60  &    140 &       174 &        10 &               3 &              44 &         2 \\
+		61  &    141 &       152 &        10 &               3 &              66 &         2 \\
+		62  &    142 &       172 &        10 &               3 &              46 &         2 \\
+		63  &    143 &       171 &        10 &               3 &              47 &         2 \\
+		64  &    144 &       136 &        12 &               1 &              82 &         2 \\
+		65  &    145 &       171 &        10 &               3 &              47 &         2 \\
+		66  &    146 &       171 &        10 &               3 &              47 &         2 \\
+		67  &    147 &       171 &        10 &               3 &              47 &         2 \\
+		68  &    148 &       170 &        10 &               3 &              48 &         2 \\
+		69  &    149 &       170 &        10 &               3 &              48 &         2 \\
+		70  &    150 &       170 &        10 &               3 &              48 &         2 \\
+		71  &    151 &       170 &        10 &               3 &              48 &         2 \\
+		72  &    152 &       169 &        10 &               3 &              49 &         2 \\
+		73  &    153 &       169 &        10 &               3 &              49 &         2 \\
+		74  &    154 &       104 &        13 &               0 &             114 &         2 \\
+		75  &    155 &        46 &        13 &               0 &             172 &         2 \\
+		76  &    156 &        24 &        13 &               0 &             194 &         2 \\
+		77  &    157 &        24 &        13 &               0 &             194 &         2 \\
+		78  &    158 &         8 &        13 &               0 &             210 &         2 \\
+		79  &    159 &         0 &        13 &               0 &             218 &         2 \\
+		80  &    200 &       213 &         2 &              11 &               5 &         3 \\
+		81  &    201 &       209 &         3 &              10 &               9 &         3 \\
+		82  &    202 &       204 &         7 &               6 &              14 &         3 \\
+		83  &    203 &       201 &         8 &               5 &              17 &         3 \\
+		84  &    204 &       194 &         8 &               5 &              24 &         3 \\
+		85  &    205 &       190 &         8 &               5 &              28 &         3 \\
+		86  &    206 &       185 &         8 &               5 &              33 &         3 \\
+		87  &    207 &       178 &        10 &               3 &              40 &         3 \\
+		88  &    208 &       156 &        10 &               3 &              62 &         3 \\
+		89  &    209 &        90 &        13 &               0 &             128 &         3 \\
+		90  &    210 &        89 &        13 &               0 &             129 &         3 \\
+		91  &    211 &        98 &        13 &               0 &             120 &         3 \\
+		92  &    212 &        99 &        13 &               0 &             119 &         3 \\
+		93  &    213 &        99 &        13 &               0 &             119 &         3 \\
+		94  &    214 &       117 &        13 &               0 &             101 &         3 \\
+		95  &    215 &       117 &        13 &               0 &             101 &         3 \\
+		96  &    216 &       126 &        13 &               0 &              92 &         3 \\
+		97  &    217 &        85 &        13 &               0 &             133 &         3 \\
+		98  &    218 &        85 &        13 &               0 &             133 &         3 \\
+		99  &    219 &       103 &        12 &               1 &             115 &         3 \\
+		100 &    220 &        53 &        13 &               0 &             165 &         3 \\
+		101 &    221 &        53 &        13 &               0 &             165 &         3 \\
+		102 &    222 &        38 &        13 &               0 &             180 &         3 \\
+		103 &    223 &        28 &        13 &               0 &             190 &         3 \\
+		104 &    224 &        28 &        13 &               0 &             190 &         3 \\
+		105 &    225 &        28 &        13 &               0 &             190 &         3 \\
+		106 &    226 &        27 &        13 &               0 &             191 &         3 \\
+		107 &    227 &        27 &        13 &               0 &             191 &         3 \\
+		108 &    228 &        27 &        13 &               0 &             191 &         3 \\
+		109 &    229 &        26 &        13 &               0 &             192 &         3 \\
+		110 &    230 &        26 &        13 &               0 &             192 &         3 \\
+		111 &    231 &        24 &        13 &               0 &             194 &         3 \\
+		112 &    232 &        21 &        13 &               0 &             197 &         3 \\
+		113 &    233 &        21 &        13 &               0 &             197 &         3 \\
+		114 &    234 &        20 &        13 &               0 &             198 &         3 \\
+		115 &    235 &        10 &        13 &               0 &             208 &         3 \\
+		116 &    236 &        18 &        13 &               0 &             200 &         3 \\
+		117 &    237 &        11 &        13 &               0 &             207 &         3 \\
+		118 &    238 &        11 &        13 &               0 &             207 &         3 \\
+		119 &    239 &         0 &        13 &               0 &             218 &         3 \\
+		120 &    280 &       214 &         2 &              11 &               4 &         4 \\
+		121 &    281 &       208 &         4 &               9 &              10 &         4 \\
+		122 &    282 &       201 &         5 &               8 &              17 &         4 \\
+		123 &    283 &       199 &         5 &               8 &              19 &         4 \\
+		124 &    284 &       193 &         8 &               5 &              25 &         4 \\
+		125 &    285 &       188 &         8 &               5 &              30 &         4 \\
+		126 &    286 &       171 &         8 &               5 &              47 &         4 \\
+		127 &    287 &       167 &         8 &               5 &              51 &         4 \\
+		128 &    288 &       167 &         8 &               5 &              51 &         4 \\
+		129 &    289 &       171 &         9 &               4 &              47 &         4 \\
+		130 &    290 &       128 &        10 &               3 &              90 &         4 \\
+		131 &    291 &        91 &        10 &               3 &             127 &         4 \\
+		132 &    292 &        16 &        13 &               0 &             202 &         4 \\
+		133 &    293 &        16 &        13 &               0 &             202 &         4 \\
+		134 &    294 &        16 &        13 &               0 &             202 &         4 \\
+		135 &    295 &        16 &        13 &               0 &             202 &         4 \\
+		136 &    296 &        16 &        13 &               0 &             202 &         4 \\
+		137 &    297 &        16 &        13 &               0 &             202 &         4 \\
+		138 &    298 &        15 &        13 &               0 &             203 &         4 \\
+		139 &    299 &        15 &        13 &               0 &             203 &         4 \\
+		140 &    300 &        15 &        13 &               0 &             203 &         4 \\
+		141 &    301 &        15 &        13 &               0 &             203 &         4 \\
+		142 &    302 &        27 &        13 &               0 &             191 &         4 \\
+		143 &    303 &        33 &        13 &               0 &             185 &         4 \\
+		144 &    304 &        12 &        13 &               0 &             206 &         4 \\
+		145 &    305 &        50 &        12 &               1 &             168 &         4 \\
+		146 &    306 &        12 &        13 &               0 &             206 &         4 \\
+		147 &    307 &        12 &        13 &               0 &             206 &         4 \\
+		148 &    308 &        12 &        13 &               0 &             206 &         4 \\
+		149 &    309 &        12 &        13 &               0 &             206 &         4 \\
+		150 &    310 &        12 &        13 &               0 &             206 &         4 \\
+		151 &    311 &        12 &        13 &               0 &             206 &         4 \\
+		152 &    312 &        12 &        13 &               0 &             206 &         4 \\
+		153 &    313 &        12 &        13 &               0 &             206 &         4 \\
+		154 &    314 &        11 &        13 &               0 &             207 &         4 \\
+		155 &    315 &        11 &        13 &               0 &             207 &         4 \\
+		156 &    316 &        11 &        13 &               0 &             207 &         4 \\
+		157 &    317 &        11 &        13 &               0 &             207 &         4 \\
+		158 &    318 &         6 &        13 &               0 &             212 &         4 \\
+		159 &    319 &         0 &        13 &               0 &             218 &         4 \\
 		\bottomrule
-		\end{tabular}				
+	\end{tabular}				
 \end{table}	
 
 \begin{table}
@@ -2328,166 +2348,166 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		\toprule
 		{} &  index &  Positive &  Negative &  False positive &  False negative &  clusters \\
 		\midrule
-		0   &     40 &       216 &         1 &               9 &               5 &         1 \\
-		1   &     41 &       212 &         3 &               7 &               9 &         1 \\
-		2   &     42 &       203 &         3 &               7 &              18 &         1 \\
-		3   &     43 &       200 &         4 &               6 &              21 &         1 \\
-		4   &     44 &       188 &         8 &               2 &              33 &         1 \\
-		5   &     45 &       151 &        10 &               0 &              70 &         1 \\
-		6   &     46 &        49 &        10 &               0 &             172 &         1 \\
-		7   &     47 &        47 &        10 &               0 &             174 &         1 \\
-		8   &     48 &        52 &        10 &               0 &             169 &         1 \\
-		9   &     49 &        55 &        10 &               0 &             166 &         1 \\
-		10  &     50 &        42 &        10 &               0 &             179 &         1 \\
-		11  &     51 &        50 &        10 &               0 &             171 &         1 \\
-		12  &     52 &        52 &        10 &               0 &             169 &         1 \\
-		13  &     53 &        39 &        10 &               0 &             182 &         1 \\
-		14  &     54 &        39 &        10 &               0 &             182 &         1 \\
-		15  &     55 &        46 &        10 &               0 &             175 &         1 \\
-		16  &     56 &        37 &        10 &               0 &             184 &         1 \\
-		17  &     57 &        36 &        10 &               0 &             185 &         1 \\
-		18  &     58 &        36 &        10 &               0 &             185 &         1 \\
-		19  &     59 &        35 &        10 &               0 &             186 &         1 \\
-		20  &     60 &        35 &        10 &               0 &             186 &         1 \\
-		21  &     61 &        35 &        10 &               0 &             186 &         1 \\
-		22  &     62 &        35 &        10 &               0 &             186 &         1 \\
-		23  &     63 &        35 &        10 &               0 &             186 &         1 \\
-		24  &     64 &        35 &        10 &               0 &             186 &         1 \\
-		25  &     65 &        35 &        10 &               0 &             186 &         1 \\
-		26  &     66 &        34 &        10 &               0 &             187 &         1 \\
-		27  &     67 &        33 &        10 &               0 &             188 &         1 \\
-		28  &     68 &        33 &        10 &               0 &             188 &         1 \\
-		29  &     69 &        33 &        10 &               0 &             188 &         1 \\
-		30  &     70 &        33 &        10 &               0 &             188 &         1 \\
-		31  &     71 &        33 &        10 &               0 &             188 &         1 \\
-		32  &     72 &        33 &        10 &               0 &             188 &         1 \\
-		33  &     73 &        33 &        10 &               0 &             188 &         1 \\
-		34  &     74 &        32 &        10 &               0 &             189 &         1 \\
-		35  &     75 &        11 &        10 &               0 &             210 &         1 \\
-		36  &     76 &        11 &        10 &               0 &             210 &         1 \\
-		37  &     77 &         9 &        10 &               0 &             212 &         1 \\
-		38  &     78 &         8 &        10 &               0 &             213 &         1 \\
-		39  &     79 &         0 &        10 &               0 &             221 &         1 \\
-		40  &    120 &       217 &         2 &               8 &               4 &         2 \\
-		41  &    121 &       213 &         5 &               5 &               8 &         2 \\
-		42  &    122 &       203 &         5 &               5 &              18 &         2 \\
-		43  &    123 &       203 &         6 &               4 &              18 &         2 \\
-		44  &    124 &       200 &         8 &               2 &              21 &         2 \\
-		45  &    125 &       194 &        10 &               0 &              27 &         2 \\
-		46  &    126 &       192 &        10 &               0 &              29 &         2 \\
-		47  &    127 &       168 &        10 &               0 &              53 &         2 \\
-		48  &    128 &       188 &        10 &               0 &              33 &         2 \\
-		49  &    129 &       175 &        10 &               0 &              46 &         2 \\
-		50  &    130 &       160 &        10 &               0 &              61 &         2 \\
-		51  &    131 &       139 &        10 &               0 &              82 &         2 \\
-		52  &    132 &       111 &        10 &               0 &             110 &         2 \\
-		53  &    133 &        93 &        10 &               0 &             128 &         2 \\
-		54  &    134 &        87 &        10 &               0 &             134 &         2 \\
-		55  &    135 &        86 &        10 &               0 &             135 &         2 \\
-		56  &    136 &        75 &        10 &               0 &             146 &         2 \\
-		57  &    137 &        75 &        10 &               0 &             146 &         2 \\
-		58  &    138 &        74 &        10 &               0 &             147 &         2 \\
-		59  &    139 &        74 &        10 &               0 &             147 &         2 \\
-		60  &    140 &        74 &        10 &               0 &             147 &         2 \\
-		61  &    141 &        74 &        10 &               0 &             147 &         2 \\
-		62  &    142 &        74 &        10 &               0 &             147 &         2 \\
-		63  &    143 &        74 &        10 &               0 &             147 &         2 \\
-		64  &    144 &        64 &        10 &               0 &             157 &         2 \\
-		65  &    145 &        63 &        10 &               0 &             158 &         2 \\
-		66  &    146 &        63 &        10 &               0 &             158 &         2 \\
-		67  &    147 &        63 &        10 &               0 &             158 &         2 \\
-		68  &    148 &        63 &        10 &               0 &             158 &         2 \\
-		69  &    149 &        63 &        10 &               0 &             158 &         2 \\
-		70  &    150 &        63 &        10 &               0 &             158 &         2 \\
-		71  &    151 &        62 &        10 &               0 &             159 &         2 \\
-		72  &    152 &        62 &        10 &               0 &             159 &         2 \\
-		73  &    153 &        41 &        10 &               0 &             180 &         2 \\
-		74  &    154 &        41 &        10 &               0 &             180 &         2 \\
-		75  &    155 &        29 &        10 &               0 &             192 &         2 \\
-		76  &    156 &        29 &        10 &               0 &             192 &         2 \\
-		77  &    157 &        29 &        10 &               0 &             192 &         2 \\
-		78  &    158 &        11 &        10 &               0 &             210 &         2 \\
-		79  &    159 &         0 &        10 &               0 &             221 &         2 \\
-		80  &    200 &       216 &         2 &               8 &               5 &         3 \\
-		81  &    201 &       212 &         3 &               7 &               9 &         3 \\
-		82  &    202 &       207 &         5 &               5 &              14 &         3 \\
-		83  &    203 &       202 &         5 &               5 &              19 &         3 \\
-		84  &    204 &       194 &         5 &               5 &              27 &         3 \\
-		85  &    205 &       189 &         7 &               3 &              32 &         3 \\
-		86  &    206 &       186 &        10 &               0 &              35 &         3 \\
-		87  &    207 &       179 &        10 &               0 &              42 &         3 \\
-		88  &    208 &       170 &        10 &               0 &              51 &         3 \\
-		89  &    209 &       163 &        10 &               0 &              58 &         3 \\
-		90  &    210 &       163 &        10 &               0 &              58 &         3 \\
-		91  &    211 &       161 &        10 &               0 &              60 &         3 \\
-		92  &    212 &       159 &        10 &               0 &              62 &         3 \\
-		93  &    213 &       159 &        10 &               0 &              62 &         3 \\
-		94  &    214 &       159 &        10 &               0 &              62 &         3 \\
-		95  &    215 &       159 &        10 &               0 &              62 &         3 \\
-		96  &    216 &       159 &        10 &               0 &              62 &         3 \\
-		97  &    217 &       159 &        10 &               0 &              62 &         3 \\
-		98  &    218 &       159 &        10 &               0 &              62 &         3 \\
-		99  &    219 &       159 &        10 &               0 &              62 &         3 \\
-		100 &    220 &       159 &        10 &               0 &              62 &         3 \\
-		101 &    221 &       159 &        10 &               0 &              62 &         3 \\
-		102 &    222 &       156 &        10 &               0 &              65 &         3 \\
-		103 &    223 &       156 &        10 &               0 &              65 &         3 \\
-		104 &    224 &       156 &        10 &               0 &              65 &         3 \\
-		105 &    225 &       156 &        10 &               0 &              65 &         3 \\
-		106 &    226 &       156 &        10 &               0 &              65 &         3 \\
-		107 &    227 &       156 &        10 &               0 &              65 &         3 \\
-		108 &    228 &       155 &        10 &               0 &              66 &         3 \\
-		109 &    229 &       155 &        10 &               0 &              66 &         3 \\
-		110 &    230 &       155 &        10 &               0 &              66 &         3 \\
-		111 &    231 &       155 &        10 &               0 &              66 &         3 \\
-		112 &    232 &       155 &        10 &               0 &              66 &         3 \\
-		113 &    233 &       155 &        10 &               0 &              66 &         3 \\
-		114 &    234 &       153 &        10 &               0 &              68 &         3 \\
-		115 &    235 &       151 &        10 &               0 &              70 &         3 \\
-		116 &    236 &       151 &        10 &               0 &              70 &         3 \\
-		117 &    237 &       151 &        10 &               0 &              70 &         3 \\
-		118 &    238 &        27 &        10 &               0 &             194 &         3 \\
-		119 &    239 &         0 &        10 &               0 &             221 &         3 \\
-		120 &    280 &       216 &         2 &               8 &               5 &         4 \\
-		121 &    281 &       212 &         3 &               7 &               9 &         4 \\
-		122 &    282 &       208 &         5 &               5 &              13 &         4 \\
-		123 &    283 &       199 &         5 &               5 &              22 &         4 \\
-		124 &    284 &       194 &         5 &               5 &              27 &         4 \\
-		125 &    285 &       190 &         7 &               3 &              31 &         4 \\
-		126 &    286 &       172 &         8 &               2 &              49 &         4 \\
-		127 &    287 &       179 &        10 &               0 &              42 &         4 \\
-		128 &    288 &       170 &        10 &               0 &              51 &         4 \\
-		129 &    289 &       163 &         8 &               2 &              58 &         4 \\
-		130 &    290 &       163 &        10 &               0 &              58 &         4 \\
-		131 &    291 &       106 &        10 &               0 &             115 &         4 \\
-		132 &    292 &        16 &        10 &               0 &             205 &         4 \\
-		133 &    293 &        16 &        10 &               0 &             205 &         4 \\
-		134 &    294 &        16 &        10 &               0 &             205 &         4 \\
-		135 &    295 &        16 &        10 &               0 &             205 &         4 \\
-		136 &    296 &        16 &        10 &               0 &             205 &         4 \\
-		137 &    297 &        16 &        10 &               0 &             205 &         4 \\
-		138 &    298 &        15 &        10 &               0 &             206 &         4 \\
-		139 &    299 &        35 &        10 &               0 &             186 &         4 \\
-		140 &    300 &        33 &        10 &               0 &             188 &         4 \\
-		141 &    301 &        15 &        10 &               0 &             206 &         4 \\
-		142 &    302 &        27 &        10 &               0 &             194 &         4 \\
-		143 &    303 &        15 &        10 &               0 &             206 &         4 \\
-		144 &    304 &        45 &        10 &               0 &             176 &         4 \\
-		145 &    305 &        15 &        10 &               0 &             206 &         4 \\
-		146 &    306 &        14 &        10 &               0 &             207 &         4 \\
-		147 &    307 &        14 &        10 &               0 &             207 &         4 \\
-		148 &    308 &        13 &        10 &               0 &             208 &         4 \\
-		149 &    309 &        55 &        10 &               0 &             166 &         4 \\
-		150 &    310 &        11 &        10 &               0 &             210 &         4 \\
-		151 &    311 &        11 &        10 &               0 &             210 &         4 \\
-		152 &    312 &        30 &        10 &               0 &             191 &         4 \\
-		153 &    313 &        11 &        10 &               0 &             210 &         4 \\
-		154 &    314 &        41 &        10 &               0 &             180 &         4 \\
-		155 &    315 &        30 &        10 &               0 &             191 &         4 \\
-		156 &    316 &        10 &        10 &               0 &             211 &         4 \\
-		157 &    317 &        10 &        10 &               0 &             211 &         4 \\
-		158 &    318 &         7 &        10 &               0 &             214 &         4 \\
-		159 &    319 &         0 &        10 &               0 &             221 &         4 \\
+		0   &     40 &       213 &         1 &              12 &               5 &         1 \\
+		1   &     41 &       209 &         3 &              10 &               9 &         1 \\
+		2   &     42 &       200 &         3 &              10 &              18 &         1 \\
+		3   &     43 &       197 &         4 &               9 &              21 &         1 \\
+		4   &     44 &       185 &         8 &               5 &              33 &         1 \\
+		5   &     45 &       148 &        10 &               3 &              70 &         1 \\
+		6   &     46 &        49 &        13 &               0 &             169 &         1 \\
+		7   &     47 &        47 &        13 &               0 &             171 &         1 \\
+		8   &     48 &        52 &        13 &               0 &             166 &         1 \\
+		9   &     49 &        55 &        13 &               0 &             163 &         1 \\
+		10  &     50 &        42 &        13 &               0 &             176 &         1 \\
+		11  &     51 &        50 &        13 &               0 &             168 &         1 \\
+		12  &     52 &        52 &        13 &               0 &             166 &         1 \\
+		13  &     53 &        39 &        13 &               0 &             179 &         1 \\
+		14  &     54 &        39 &        13 &               0 &             179 &         1 \\
+		15  &     55 &        46 &        13 &               0 &             172 &         1 \\
+		16  &     56 &        37 &        13 &               0 &             181 &         1 \\
+		17  &     57 &        36 &        13 &               0 &             182 &         1 \\
+		18  &     58 &        36 &        13 &               0 &             182 &         1 \\
+		19  &     59 &        35 &        13 &               0 &             183 &         1 \\
+		20  &     60 &        35 &        13 &               0 &             183 &         1 \\
+		21  &     61 &        35 &        13 &               0 &             183 &         1 \\
+		22  &     62 &        35 &        13 &               0 &             183 &         1 \\
+		23  &     63 &        35 &        13 &               0 &             183 &         1 \\
+		24  &     64 &        35 &        13 &               0 &             183 &         1 \\
+		25  &     65 &        35 &        13 &               0 &             183 &         1 \\
+		26  &     66 &        34 &        13 &               0 &             184 &         1 \\
+		27  &     67 &        33 &        13 &               0 &             185 &         1 \\
+		28  &     68 &        33 &        13 &               0 &             185 &         1 \\
+		29  &     69 &        33 &        13 &               0 &             185 &         1 \\
+		30  &     70 &        33 &        13 &               0 &             185 &         1 \\
+		31  &     71 &        33 &        13 &               0 &             185 &         1 \\
+		32  &     72 &        33 &        13 &               0 &             185 &         1 \\
+		33  &     73 &        33 &        13 &               0 &             185 &         1 \\
+		34  &     74 &        32 &        13 &               0 &             186 &         1 \\
+		35  &     75 &        11 &        13 &               0 &             207 &         1 \\
+		36  &     76 &        11 &        13 &               0 &             207 &         1 \\
+		37  &     77 &         9 &        13 &               0 &             209 &         1 \\
+		38  &     78 &         8 &        13 &               0 &             210 &         1 \\
+		39  &     79 &         0 &        13 &               0 &             218 &         1 \\
+		40  &    120 &       214 &         2 &              11 &               4 &         2 \\
+		41  &    121 &       210 &         5 &               8 &               8 &         2 \\
+		42  &    122 &       200 &         5 &               8 &              18 &         2 \\
+		43  &    123 &       200 &         6 &               7 &              18 &         2 \\
+		44  &    124 &       197 &         8 &               5 &              21 &         2 \\
+		45  &    125 &       191 &        10 &               3 &              27 &         2 \\
+		46  &    126 &       189 &        10 &               3 &              29 &         2 \\
+		47  &    127 &       165 &        10 &               3 &              53 &         2 \\
+		48  &    128 &       185 &        10 &               3 &              33 &         2 \\
+		49  &    129 &       172 &        10 &               3 &              46 &         2 \\
+		50  &    130 &       157 &        10 &               3 &              61 &         2 \\
+		51  &    131 &       136 &        10 &               3 &              82 &         2 \\
+		52  &    132 &       109 &        11 &               2 &             109 &         2 \\
+		53  &    133 &        91 &        11 &               2 &             127 &         2 \\
+		54  &    134 &        85 &        11 &               2 &             133 &         2 \\
+		55  &    135 &        84 &        11 &               2 &             134 &         2 \\
+		56  &    136 &        73 &        11 &               2 &             145 &         2 \\
+		57  &    137 &        73 &        11 &               2 &             145 &         2 \\
+		58  &    138 &        72 &        11 &               2 &             146 &         2 \\
+		59  &    139 &        72 &        11 &               2 &             146 &         2 \\
+		60  &    140 &        72 &        11 &               2 &             146 &         2 \\
+		61  &    141 &        72 &        11 &               2 &             146 &         2 \\
+		62  &    142 &        72 &        11 &               2 &             146 &         2 \\
+		63  &    143 &        72 &        11 &               2 &             146 &         2 \\
+		64  &    144 &        62 &        11 &               2 &             156 &         2 \\
+		65  &    145 &        61 &        11 &               2 &             157 &         2 \\
+		66  &    146 &        61 &        11 &               2 &             157 &         2 \\
+		67  &    147 &        61 &        11 &               2 &             157 &         2 \\
+		68  &    148 &        61 &        11 &               2 &             157 &         2 \\
+		69  &    149 &        61 &        11 &               2 &             157 &         2 \\
+		70  &    150 &        61 &        11 &               2 &             157 &         2 \\
+		71  &    151 &        60 &        11 &               2 &             158 &         2 \\
+		72  &    152 &        60 &        11 &               2 &             158 &         2 \\
+		73  &    153 &        41 &        13 &               0 &             177 &         2 \\
+		74  &    154 &        41 &        13 &               0 &             177 &         2 \\
+		75  &    155 &        29 &        13 &               0 &             189 &         2 \\
+		76  &    156 &        29 &        13 &               0 &             189 &         2 \\
+		77  &    157 &        29 &        13 &               0 &             189 &         2 \\
+		78  &    158 &        11 &        13 &               0 &             207 &         2 \\
+		79  &    159 &         0 &        13 &               0 &             218 &         2 \\
+		80  &    200 &       213 &         2 &              11 &               5 &         3 \\
+		81  &    201 &       209 &         3 &              10 &               9 &         3 \\
+		82  &    202 &       204 &         5 &               8 &              14 &         3 \\
+		83  &    203 &       199 &         5 &               8 &              19 &         3 \\
+		84  &    204 &       191 &         5 &               8 &              27 &         3 \\
+		85  &    205 &       186 &         7 &               6 &              32 &         3 \\
+		86  &    206 &       183 &        10 &               3 &              35 &         3 \\
+		87  &    207 &       176 &        10 &               3 &              42 &         3 \\
+		88  &    208 &       167 &        10 &               3 &              51 &         3 \\
+		89  &    209 &       160 &        10 &               3 &              58 &         3 \\
+		90  &    210 &       160 &        10 &               3 &              58 &         3 \\
+		91  &    211 &       158 &        10 &               3 &              60 &         3 \\
+		92  &    212 &       156 &        10 &               3 &              62 &         3 \\
+		93  &    213 &       156 &        10 &               3 &              62 &         3 \\
+		94  &    214 &       156 &        10 &               3 &              62 &         3 \\
+		95  &    215 &       156 &        10 &               3 &              62 &         3 \\
+		96  &    216 &       156 &        10 &               3 &              62 &         3 \\
+		97  &    217 &       156 &        10 &               3 &              62 &         3 \\
+		98  &    218 &       156 &        10 &               3 &              62 &         3 \\
+		99  &    219 &       156 &        10 &               3 &              62 &         3 \\
+		100 &    220 &       156 &        10 &               3 &              62 &         3 \\
+		101 &    221 &       156 &        10 &               3 &              62 &         3 \\
+		102 &    222 &       153 &        10 &               3 &              65 &         3 \\
+		103 &    223 &       153 &        10 &               3 &              65 &         3 \\
+		104 &    224 &       153 &        10 &               3 &              65 &         3 \\
+		105 &    225 &       153 &        10 &               3 &              65 &         3 \\
+		106 &    226 &       153 &        10 &               3 &              65 &         3 \\
+		107 &    227 &       153 &        10 &               3 &              65 &         3 \\
+		108 &    228 &       152 &        10 &               3 &              66 &         3 \\
+		109 &    229 &       152 &        10 &               3 &              66 &         3 \\
+		110 &    230 &       152 &        10 &               3 &              66 &         3 \\
+		111 &    231 &       152 &        10 &               3 &              66 &         3 \\
+		112 &    232 &       152 &        10 &               3 &              66 &         3 \\
+		113 &    233 &       152 &        10 &               3 &              66 &         3 \\
+		114 &    234 &       150 &        10 &               3 &              68 &         3 \\
+		115 &    235 &       148 &        10 &               3 &              70 &         3 \\
+		116 &    236 &       148 &        10 &               3 &              70 &         3 \\
+		117 &    237 &       148 &        10 &               3 &              70 &         3 \\
+		118 &    238 &        27 &        13 &               0 &             191 &         3 \\
+		119 &    239 &         0 &        13 &               0 &             218 &         3 \\
+		120 &    280 &       213 &         2 &              11 &               5 &         4 \\
+		121 &    281 &       209 &         3 &              10 &               9 &         4 \\
+		122 &    282 &       205 &         5 &               8 &              13 &         4 \\
+		123 &    283 &       196 &         5 &               8 &              22 &         4 \\
+		124 &    284 &       191 &         5 &               8 &              27 &         4 \\
+		125 &    285 &       187 &         7 &               6 &              31 &         4 \\
+		126 &    286 &       169 &         8 &               5 &              49 &         4 \\
+		127 &    287 &       176 &        10 &               3 &              42 &         4 \\
+		128 &    288 &       167 &        10 &               3 &              51 &         4 \\
+		129 &    289 &       160 &         8 &               5 &              58 &         4 \\
+		130 &    290 &       160 &        10 &               3 &              58 &         4 \\
+		131 &    291 &       103 &        10 &               3 &             115 &         4 \\
+		132 &    292 &        16 &        13 &               0 &             202 &         4 \\
+		133 &    293 &        16 &        13 &               0 &             202 &         4 \\
+		134 &    294 &        16 &        13 &               0 &             202 &         4 \\
+		135 &    295 &        16 &        13 &               0 &             202 &         4 \\
+		136 &    296 &        16 &        13 &               0 &             202 &         4 \\
+		137 &    297 &        16 &        13 &               0 &             202 &         4 \\
+		138 &    298 &        15 &        13 &               0 &             203 &         4 \\
+		139 &    299 &        35 &        13 &               0 &             183 &         4 \\
+		140 &    300 &        33 &        13 &               0 &             185 &         4 \\
+		141 &    301 &        15 &        13 &               0 &             203 &         4 \\
+		142 &    302 &        27 &        13 &               0 &             191 &         4 \\
+		143 &    303 &        15 &        13 &               0 &             203 &         4 \\
+		144 &    304 &        44 &        12 &               1 &             174 &         4 \\
+		145 &    305 &        15 &        13 &               0 &             203 &         4 \\
+		146 &    306 &        14 &        13 &               0 &             204 &         4 \\
+		147 &    307 &        14 &        13 &               0 &             204 &         4 \\
+		148 &    308 &        13 &        13 &               0 &             205 &         4 \\
+		149 &    309 &        54 &        12 &               1 &             164 &         4 \\
+		150 &    310 &        11 &        13 &               0 &             207 &         4 \\
+		151 &    311 &        11 &        13 &               0 &             207 &         4 \\
+		152 &    312 &        29 &        12 &               1 &             189 &         4 \\
+		153 &    313 &        11 &        13 &               0 &             207 &         4 \\
+		154 &    314 &        39 &        11 &               2 &             179 &         4 \\
+		155 &    315 &        28 &        11 &               2 &             190 &         4 \\
+		156 &    316 &        10 &        13 &               0 &             208 &         4 \\
+		157 &    317 &        10 &        13 &               0 &             208 &         4 \\
+		158 &    318 &         7 &        13 &               0 &             211 &         4 \\
+		159 &    319 &         0 &        13 &               0 &             218 &         4 \\
 		\bottomrule
 	\end{tabular}		
 \end{table}
@@ -3339,6 +3359,60 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		39 &  1.000 &         0 &        10 &               0 &             221 \\
 		\bottomrule
 	\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%Exit Code
+
+\begin{table}
+	\centering
+	\caption{Results of One Class SVN on the process lifespans}
+	\label{id:tab:OCSVMexitCode}
+	\begin{tabular}{lrrrrr}
+		\toprule
+		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
+		\midrule
+		0  &  0.025 &       218 &         3 &              10 &               0 \\
+		1  &  0.050 &       218 &         4 &               9 &               0 \\
+		2  &  0.075 &       218 &         4 &               9 &               0 \\
+		3  &  0.100 &       218 &         4 &               9 &               0 \\
+		4  &  0.125 &       218 &         4 &               9 &               0 \\
+		5  &  0.150 &       218 &         4 &               9 &               0 \\
+		6  &  0.175 &       218 &         4 &               9 &               0 \\
+		7  &  0.200 &       218 &         4 &               9 &               0 \\
+		8  &  0.225 &       218 &         4 &               9 &               0 \\
+		9  &  0.250 &       218 &         4 &               9 &               0 \\
+		10 &  0.275 &       218 &         4 &               9 &               0 \\
+		11 &  0.300 &       218 &         4 &               9 &               0 \\
+		12 &  0.325 &       218 &         4 &               9 &               0 \\
+		13 &  0.350 &       218 &         4 &               9 &               0 \\
+		14 &  0.375 &       218 &         4 &               9 &               0 \\
+		15 &  0.400 &       218 &         4 &               9 &               0 \\
+		16 &  0.425 &       218 &         4 &               9 &               0 \\
+		17 &  0.450 &       218 &         4 &               9 &               0 \\
+		18 &  0.475 &       218 &         4 &               9 &               0 \\
+		19 &  0.500 &       218 &         4 &               9 &               0 \\
+		20 &  0.525 &       218 &         4 &               9 &               0 \\
+		21 &  0.550 &       218 &         4 &               9 &               0 \\
+		22 &  0.575 &       218 &         4 &               9 &               0 \\
+		23 &  0.600 &       218 &         4 &               9 &               0 \\
+		24 &  0.625 &       218 &         4 &               9 &               0 \\
+		25 &  0.650 &       218 &         4 &               9 &               0 \\
+		26 &  0.675 &       218 &         4 &               9 &               0 \\
+		27 &  0.700 &       218 &         4 &               9 &               0 \\
+		28 &  0.725 &       218 &         4 &               9 &               0 \\
+		29 &  0.750 &       218 &         4 &               9 &               0 \\
+		30 &  0.775 &       218 &         4 &               9 &               0 \\
+		31 &  0.800 &       218 &         4 &               9 &               0 \\
+		32 &  0.825 &       218 &         4 &               9 &               0 \\
+		33 &  0.850 &       218 &         4 &               9 &               0 \\
+		34 &  0.875 &       218 &         4 &               9 &               0 \\
+		35 &  0.900 &       218 &         4 &               9 &               0 \\
+		36 &  0.925 &       218 &         4 &               9 &               0 \\
+		37 &  0.950 &       218 &         4 &               9 &               0 \\
+		38 &  0.975 &       218 &         4 &               9 &               0 \\
+		39 &  1.000 &         0 &        13 &               0 &             218 \\
+		\bottomrule
+	\end{tabular}		
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%Final

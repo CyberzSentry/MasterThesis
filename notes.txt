@@ -24,6 +24,7 @@ Dodanie odrzuconych cech i przyczyn z perfview
 Multipage table
 Plot encoded paths with validation
 
+
 Zamienić wszystkie ROC na takie z przekątną.
 
 #Terminy:
