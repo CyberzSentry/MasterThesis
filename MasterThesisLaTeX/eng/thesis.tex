@@ -1504,7 +1504,6 @@ can but does not have to terminated durring its child lifetime. In the future re
 code correlation with spawned child processes can be further elaborated.
 
 \subsection{Combined performance}
-%TODO ostatnio czytane
 
 To further analyze the potential of the Event Trace for Windows data in the identification of
 anomalous processes spawned with zero day exploitation, all identified valuable features were
@@ -1515,23 +1514,27 @@ The final test utilised following features:
 \begin{itemize}
 	\item Encoded DLL's - The encoder utilised on the DLL's was trained on all of the collected samples. The MCA 
 	threshold was limited to obtain only two dimentions of multiple component analysis and number of clusters was set 
-	to two. In this case where the entier available data set was utilised in the training process the 'New DLL'
+	to two. In this case where the entire available data set was utilised in the training process the 'New DLL'
 	coefficient has no impact on the result.  
 	\item Path lengths - In the previous tests the number of processes in the path proved to be the most robust feature
 	based on the path variable. Because of this it was choosen for the final experiment. All paths were normalised to start
 	after the first '/msedge' program. The resulting lengths were consequently normalised to the range between 0 and 1.
 	\item Average processor utilisation - Those values due to their percentage based nature require no normalisation. They 
 	were fed directly to the anomaly detection algorithm. 
-	\item Process lifespan - as in the initial experiment the available data was normalised to fit the range from 0 to 1.
+	\item Process lifespan - As in the initial lifespan experiment the available data was normalised to fit the range from 0 to 1.
 \end{itemize}
 
-As in previous experiments the outlier detection was performed by the One Class SVM for a wide range of 'nu' values. The results of 
+The outlier detection was performed by the One Class SVM for a wide range of 'nu' values. The results of 
 this process are displayed in the graph \ref{fig:combinedFinalROC} and the raw data can be accessed in the table 
 \ref{id:tab:OCSVMonCombined} located in the appendix. The graph \ref{fig:combinedCompFinalROC} shows those results compared to 
-the performance of anomaly detection applied to the individual component features. As shown in this image the peak anomaly
-detection performance has deteriorated which means that the 'nu' values required to detect all outlier samples result in higher
-false positive ratio. There is however a increase in the correctly identified anomalies for the smallest possible FP ration which 
-is an area of significant value in the cyber security space.
+the performance of anomaly detection applied to the individual component features. As shown in the comparison image all of the 
+developed approaches have different characteristics which might make the better in different conditions. The anomaly detection
+performed only on the process exit codes is capable of detecting anomalies with zero false negative ratio. This is probably
+due to a very low variance present in the collected samples. Monitoring of those values only might be the best solution when
+the manpower available for investigating anomalies is limited. The combined approach has the second best performance when
+the priority is put on the false negative minimisation. At the same time it is capable of 100\% anomaly detection with the lowest
+(17.8\%) FN ratio.
+
 
 \begin{figure}
 	\centering
@@ -1550,39 +1553,38 @@ is an area of significant value in the cyber security space.
 
 The data in the graph \ref{fig:combinedCompFinalROC} shows also that the performance of the OCSVM directly on average process utilisation
 as well as process lifespan is in general below the combined efficiency which might sugest that those components are draging it down. 
-Additional tests were performed on the impact of dropping the worst performing features and its results are presented in the graph \ref{fig:combinedCompFinalROCDroping}. 
-This image shows that while this may improve the false positive ratio when attempting to detect all outliers it comes whith 
-a cost to the number of correct classifications for smallest 'nu' value.
+Additional tests were performed on the impact of dropping the worst performing features and its results are presented in the
+graph \ref{fig:combinedCompFinalROCDroping}. This image shows that overall improvement can be achieved by skipping worst performing features.
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.9]{images/CombinedFinalROCDroping}
+	\includegraphics[scale=0.9]{images/CombinedFinalROCDroping2}
 	\caption{The ROC of anomaly detection performed on selective best features.}
 	\label{fig:combinedCompFinalROCDroping}
  \end{figure}
 
-In general all conbined features allow for detection of 30\% of the outliers with around 1.3\% false positive ratio. 
-Those results show that the developed approach may provide value for some security related puropses. This is especially
-promissing since the detection of a single process in the attack chain may prevent the entire exploitation process.
-
-
-% dodać odrzucane najgorszej cechy.
+In general best performing conbined features (path lengths, encoded DLL's, exit codes) allow for detection of 38\% of the 
+outliers with around 1.7\% false positive ratio. Those results show that the developed approach may provide value for some 
+security related puropses. This is especially promissing since the detection of a single process in the attack chain may 
+prevent the entire exploitation process.
 
 \chapter{Summary}
 
+ %TODO ostatnio czytane
+
 There can be multiple conclusions drawn from the performed work. This chapter descripes them in 
-detail.
+detail and highlights possible future areas of research.
 
 \section{Security anomaly detection}
 
 The results obtained in the experiments show that with all of the selected features allow 
 to perform a security anomaly detection with the above average success ratio. For the tested
-data it was possible to obtain a 30\% detection rate with a 2.2\% false positive ratio while
+data it was possible to obtain a 38\% detection rate with a 1.7\% false negative ratio while
 utilising all of the best performing features at once. This obtained score may be significantly 
 improved by the increase in the dataset size. This approach to the monitoring of the programs 
 running on the operating systems may be utilised in a honeypot traps which are "a sacrificial 
 computer systems that are intended to attract cyberattacks, like a decoy" \cite{bib:Honeypot}. 
-The best use case for the system would be a deployment on the detector on the servers and 
+The best use case for the system would be a deployment of the detector system on the servers and 
 computers for the individual users to learn their specific patterns and identify the exploitation
 attempts.
 
@@ -1612,7 +1614,7 @@ facing programs like databases, web servers etc.
 
 Since the start of the work on this thesis there has been reports of new 0-day vulnerabilities that were
 utilised by the advanced persistent threat groups to target security researchers. Exploitation of the
-software flaw in some versions of the Adobe Acrobat and Reader can lead to arbitraty code execution\cite{bib:AdobeExploit}.
+software flaws in some versions of the Adobe Acrobat and Reader can lead to arbitraty code execution\cite{bib:AdobeExploit}.
 This developed framework could be further researched and tested on this latest atack vector. This 
 software may have a very different behaviour profile which may lead to interesting discoveries.
 
@@ -1649,7 +1651,7 @@ Example of this data is presented in the figure x.
 \section{Software classification via multiple correspondance analysis}
 
 The correlation of software by the loaded DLL's is a interesting idea that has not been
-found in the previously written literature. This idea may be worth further research. It maybe worth
+found in the known literature. This idea may be worth further research. It maybe worth
 the effort to perform the multiple correspondance analysis on the DLL's loaded by a wide range 
 of programs and to analyze how the obtained results correspond to their functionalities. It may also
 be useful to check where passible malware samples lay in the obtained feature space. This would also
@@ -1662,7 +1664,7 @@ data obtained from the Event Trace for Windows framework is possible and whether
 can be obtained. For this purpose a single classification algorithm was utilised. In the future work 
 additional tests can be performed with multiple anomaly detection methods to establish how well each 
 of them performs on the available data. This may include the utilisation of the latest state of the 
-art algorithms based on the artificial neural networks like autoencoders or...
+art algorithms based on the artificial neural networks like autoencoders.
 
 %jak się robi rsvm w scikit
 
@@ -3510,46 +3512,46 @@ art algorithms based on the artificial neural networks like autoencoders or...
 		\toprule
 		{} &     nu &  Positive &  Negative &  False positive &  False negative \\
 		\midrule
-		0  &  0.025 &       216 &         3 &               7 &               5 \\
-		1  &  0.050 &       211 &         3 &               7 &              10 \\
-		2  &  0.075 &       205 &         4 &               6 &              16 \\
-		3  &  0.100 &       199 &         5 &               5 &              22 \\
-		4  &  0.125 &       196 &         5 &               5 &              25 \\
-		5  &  0.150 &       192 &         8 &               2 &              29 \\
-		6  &  0.175 &       181 &         9 &               1 &              40 \\
-		7  &  0.200 &       166 &        10 &               0 &              55 \\
-		8  &  0.225 &       170 &        10 &               0 &              51 \\
-		9  &  0.250 &       162 &        10 &               0 &              59 \\
-		10 &  0.275 &       164 &        10 &               0 &              57 \\
-		11 &  0.300 &       160 &        10 &               0 &              61 \\
-		12 &  0.325 &       145 &        10 &               0 &              76 \\
-		13 &  0.350 &       140 &        10 &               0 &              81 \\
-		14 &  0.375 &       137 &        10 &               0 &              84 \\
-		15 &  0.400 &       136 &        10 &               0 &              85 \\
-		16 &  0.425 &       131 &        10 &               0 &              90 \\
-		17 &  0.450 &       125 &        10 &               0 &              96 \\
-		18 &  0.475 &       120 &        10 &               0 &             101 \\
-		19 &  0.500 &       109 &        10 &               0 &             112 \\
-		20 &  0.525 &       109 &        10 &               0 &             112 \\
-		21 &  0.550 &       104 &        10 &               0 &             117 \\
-		22 &  0.575 &        99 &        10 &               0 &             122 \\
-		23 &  0.600 &        93 &        10 &               0 &             128 \\
-		24 &  0.625 &        86 &        10 &               0 &             135 \\
-		25 &  0.650 &        79 &        10 &               0 &             142 \\
-		26 &  0.675 &        78 &        10 &               0 &             143 \\
-		27 &  0.700 &        67 &        10 &               0 &             154 \\
-		28 &  0.725 &        62 &        10 &               0 &             159 \\
-		29 &  0.750 &        59 &        10 &               0 &             162 \\
-		30 &  0.775 &        53 &        10 &               0 &             168 \\
-		31 &  0.800 &        47 &        10 &               0 &             174 \\
-		32 &  0.825 &        40 &        10 &               0 &             181 \\
-		33 &  0.850 &        35 &        10 &               0 &             186 \\
-		34 &  0.875 &        27 &        10 &               0 &             194 \\
-		35 &  0.900 &        24 &        10 &               0 &             197 \\
-		36 &  0.925 &        18 &        10 &               0 &             203 \\
-		37 &  0.950 &        16 &        10 &               0 &             205 \\
-		38 &  0.975 &         8 &        10 &               0 &             213 \\
-		39 &  1.000 &         0 &        10 &               0 &             221 \\
+		0  &  0.025 &       214 &         4 &               9 &               4 \\
+		1  &  0.050 &       211 &         6 &               7 &               7 \\
+		2  &  0.075 &       203 &         6 &               7 &              15 \\
+		3  &  0.100 &       200 &         6 &               7 &              18 \\
+		4  &  0.125 &       194 &         7 &               6 &              24 \\
+		5  &  0.150 &       186 &         9 &               4 &              32 \\
+		6  &  0.175 &       184 &        10 &               3 &              34 \\
+		7  &  0.200 &       182 &        12 &               1 &              36 \\
+		8  &  0.225 &       179 &        13 &               0 &              39 \\
+		9  &  0.250 &       168 &        13 &               0 &              50 \\
+		10 &  0.275 &       163 &        13 &               0 &              55 \\
+		11 &  0.300 &       160 &        13 &               0 &              58 \\
+		12 &  0.325 &       156 &        13 &               0 &              62 \\
+		13 &  0.350 &       150 &        13 &               0 &              68 \\
+		14 &  0.375 &       139 &        13 &               0 &              79 \\
+		15 &  0.400 &       138 &        13 &               0 &              80 \\
+		16 &  0.425 &       129 &        13 &               0 &              89 \\
+		17 &  0.450 &       125 &        13 &               0 &              93 \\
+		18 &  0.475 &       123 &        13 &               0 &              95 \\
+		19 &  0.500 &       115 &        13 &               0 &             103 \\
+		20 &  0.525 &       109 &        13 &               0 &             109 \\
+		21 &  0.550 &        98 &        13 &               0 &             120 \\
+		22 &  0.575 &        94 &        13 &               0 &             124 \\
+		23 &  0.600 &        86 &        13 &               0 &             132 \\
+		24 &  0.625 &        84 &        13 &               0 &             134 \\
+		25 &  0.650 &        75 &        13 &               0 &             143 \\
+		26 &  0.675 &        69 &        13 &               0 &             149 \\
+		27 &  0.700 &        66 &        13 &               0 &             152 \\
+		28 &  0.725 &        64 &        13 &               0 &             154 \\
+		29 &  0.750 &        57 &        13 &               0 &             161 \\
+		30 &  0.775 &        49 &        13 &               0 &             169 \\
+		31 &  0.800 &        44 &        13 &               0 &             174 \\
+		32 &  0.825 &        38 &        13 &               0 &             180 \\
+		33 &  0.850 &        35 &        13 &               0 &             183 \\
+		34 &  0.875 &        30 &        13 &               0 &             188 \\
+		35 &  0.900 &        25 &        13 &               0 &             193 \\
+		36 &  0.925 &        16 &        13 &               0 &             202 \\
+		37 &  0.950 &        13 &        13 &               0 &             205 \\
+		38 &  0.975 &         9 &        13 &               0 &             209 \\
+		39 &  1.000 &         0 &        13 &               0 &             218 \\
 		\bottomrule
 	\end{tabular}
 \end{table} 
