@@ -517,7 +517,7 @@ can be found under \url{https://dirty-cat.github.io/stable/}.
 This feature represents how computationally expensive the given process is. This information can possibly 
 be utilised to detect both the processes that are not usually spawned by the one being monitored as well as
 inlier processes that missbehave due to the performed exploitation. Because this feature is 
-strictly numerical, it is a lot easier to analyze than the qualitative values like the process
+strictly numerical, it is a lot easier to analyse than the qualitative values like the process
 paths and the loaded DLL's. It is also a lot less impacted by the actions of the normal user when
 compared to the process lifespan values from which it is derived.
 
@@ -613,13 +613,13 @@ the number of misclassified samples (False negative) divided by the known count 
 Based on the studied literature one of the well-suited result presentation methods is the Receiver 
 Operating Characteristic (ROC) curve which is a plot of the detection accuracy against the false 
 positive ratio. In this document the detected outliers are classified as negative samples. Because 
-of that the reciever operating characteristic curves are ploted as true negative ratio agains the 
+of that the receiver operating characteristic curves are ploted as true negative ratio agains the 
 false negative. The proboability of false anomaly detection is crucial because it may cause overload
 on of the response teams and mechanisms which in turn may result in delayed response or omission
 of response to real exploitation alert. All anomaly detection performance analysis in the thesis is focused
 on those indicators. The ROC curves may however be corrupted by the small available sample size 
 which negatively impacts the performance analysis. All the graphs in this work which present
-the reciever operating characteristic curve contain a diagonal dashed line representing the
+the receiver operating characteristic curve contain a diagonal dashed line representing the
 performance of random anomaly classification. This approach allows to easily identify if the obtained
 performance indicates utility of the tested features.
 
@@ -644,7 +644,7 @@ Automatic updates were interrupted by changing the name of the binary responsibl
 keeping the software up to date. It is commonly located under 
 "C:\textbackslash Program Files (x86)\textbackslash Microsoft\textbackslash 
 EdgeUpdate\textbackslash MicrosoftEdgeUpdate.exe". 
-The atack simulated in the data set takes advantage of the vulnerability CVE-2021-21224. It 
+The attack simulated in the data set takes advantage of the vulnerability CVE-2021-21224. It 
 targets a type confusion flaw in the V8 JavaScript engine. This allows the attacker to 
 execute arbitrary code inside a sandbox via a specially crafted HTML page \cite{bib:CVE21224}. 
 The vulnerability affects the Google Chrome browser prior to the version 90.0.4430.85 as 
@@ -676,7 +676,7 @@ research in wider domain.
 
 The initial data was gathered by the PerfView.exe tool which is "a free performance-analysis 
 tool that helps isolate CPU and memory-related performance issues. It is a Windows tool, 
-but it also has some support for analyzing data collected on Linux machines. It works for 
+but it also has some support for analysing data collected on Linux machines. It works for 
 a wide variety of scenarios, but has a number of special features for investigating 
 performance issues in code written for the .NET runtime"\cite{bib:PerfView}. It is capable of 
 tapping into many ETW logging sessions and storing the gathered data into output files. It also 
@@ -924,7 +924,7 @@ There are over 1400 different DLL's gathered in the data set created. A single p
 even upto 287 modules. This extremely high dimensionality of the information might be too complex 
 to analyse efficiently, even for the algorithms that can handle well datasets where features 
 outnumber samples. To better understand the gathered information a multiple component 
-analysis (MCA) was performed. This extension of correspondance analysis allows us to analyze the 
+analysis (MCA) was performed. This extension of correspondance analysis allows us to analyse the 
 pattern of relationships of multiple categorical dependent variables \cite{bib:mca}. It was performed 
 with a python mca 1.0.3 library \cite{bib:pymca}. The result of this process is a set of points in a 
 low-dimensional map corresponding either to columns or rows of the input data frame. Their 
@@ -934,7 +934,7 @@ each other.
 The principal inertias (eigenvalues) obtained as the result of the algorithm can help us better 
 understand how well the resulting dimentions express the relations between the input samples. 
 The values calculated were normalised and can be found in the figure \ref{fig:mcaInertias} and 
-the table \ref{id:tab:MCAEigenvalues} located in the appendix. Those results sugest that the 
+the table \ref{id:tab:MCAEigenvalues} located in the appendix. Those results suggest that the 
 usefulness of the dimentions in the data analysis significantly drops after the first one. The two
 following values are however very similar which indicates that it might be good to adjust the 
 dimention cutoff to utilise only the first one or all three.
@@ -972,7 +972,7 @@ in the appendix of this document.
 From the distributions we can clearly see that MCA processing has managed to group closely some of the
 identical processes. It is also very apprent that the outlier 'powershell' is significantly distant from all remaining samples. 
 This pattern can be spoted in both figure \ref{fig:mca01} and \ref{fig:mca12}. Those results are very 
-promissing and indicate that at least partial detection of anomalies should be possible with the obtained MCA results.
+promising and indicate that at least partial detection of anomalies should be possible with the obtained MCA results.
 
 Additionally to this strategy a simple anomaly detector based on the detection of any previously not loaded
 DLL can be utilised. This method could be a solid intrusion detection system on its own and it's performance
@@ -1331,7 +1331,7 @@ subprocess of the msedge because it is always identical and does not introduce a
 to the classification process. The values coresponfing to the empty strings were manualy adjusted
 to be equal 1 in the cases of exact match. Corected data was once again used to in anomaly detection
 and the results can be found in the table \ref{id:tab:ocsvmOnDirtyCatGood} and the chart \ref{fig:ocsvmOnDirtyCatGood}. 
-A look at the performance for the low 'nu' values sugests that this approach may be successful but 
+A look at the performance for the low 'nu' values suggests that this approach may be successful but 
 the results on the entre spectrum show that it is most probably equal to the random classification.
 % Those values show  improvement in the performance which is especially visible in the entry number 1 for the 'nu' 
 % value equal 0.05.
@@ -1376,7 +1376,7 @@ greatly reduces the usefulness of this approach.
 
 \subsection{Average processor utilisation}
 
-This feature is the easiest to analyze due to its quantitative nature and the fact that it is
+This feature is the easiest to analyse due to its quantitative nature and the fact that it is
 already normalised to the range between 0 and 1. Because of that it does not require virtually 
 any preprocessing. The distribution of the values is presented on the 
 histogram \ref{fig:histavgproc} with the bins containing anomaly values marked with red. 
@@ -1389,7 +1389,7 @@ histogram \ref{fig:histavgproc} with the bins containing anomaly values marked w
  \end{figure}
 
 Obtained values show that anomaly detection with this feature may be feasible. It was attempted with 
-the One Class SVM and the resulting reciever operating characteristic is presented in the figure
+the One Class SVM and the resulting receiver operating characteristic is presented in the figure
 \ref{fig:procroc} and proves the value of the feature. Its ease of utilisation may increase its value.
 Additional tests were performed to ruleout the need of preprocessing. Those did not lead to identification
 of any methods capable of improving the data.
@@ -1505,7 +1505,7 @@ code correlation with spawned child processes can be further elaborated.
 
 \subsection{Combined performance}
 
-To further analyze the potential of the Event Trace for Windows data in the identification of
+To further analyse the potential of the Event Trace for Windows data in the identification of
 anomalous processes spawned with zero day exploitation, all identified valuable features were
 combined in a single experiment and their parameters were adjusted based on the prevoiusly drawn 
 conclusions. The developed approach was tested with the 10-fold cross validation.
@@ -1552,9 +1552,9 @@ the priority is put on the false negative minimisation. At the same time it is c
  \end{figure}
 
 The data in the graph \ref{fig:combinedCompFinalROC} shows also that the performance of the OCSVM directly on average process utilisation
-as well as process lifespan is in general below the combined efficiency which might sugest that those components are draging it down. 
+as well as process lifespan is in general below the combined efficiency which might suggest that those components are dragging it down. 
 Additional tests were performed on the impact of dropping the worst performing features and its results are presented in the
-graph \ref{fig:combinedCompFinalROCDroping}. This image shows that overall improvement can be achieved by skipping worst performing features.
+graph \ref{fig:combinedCompFinalROCDroping}. This image shows that overall improvement can be achieved this way.
 
 \begin{figure}
 	\centering
@@ -1563,16 +1563,16 @@ graph \ref{fig:combinedCompFinalROCDroping}. This image shows that overall impro
 	\label{fig:combinedCompFinalROCDroping}
  \end{figure}
 
-In general best performing conbined features (path lengths, encoded DLL's, exit codes) allow for detection of 38\% of the 
+In general best performing combined features (path lengths, encoded DLL's, exit codes) allow for detection of 38\% of the 
 outliers with around 1.7\% false positive ratio. Those results show that the developed approach may provide value for some 
-security related puropses. This is especially promissing since the detection of a single process in the attack chain may 
+security related puropses. This is especially promising since the detection of a single process in the attack chain may 
 prevent the entire exploitation process.
 
 \chapter{Summary}
 
  %TODO ostatnio czytane
 
-There can be multiple conclusions drawn from the performed work. This chapter descripes them in 
+There can be multiple conclusions drawn from the performed work. This chapter describes them in 
 detail and highlights possible future areas of research.
 
 \section{Security anomaly detection}
@@ -1592,11 +1592,11 @@ attempts.
 
 The dataset used in the experiments and analysis performed in the thesis can be significantly 
 improved. Its main drawback is the available sample size. Gathering additional data would have
-positive impact on the reliability of the drawed conclusions. Additionally an improvement 
+positive impact on the reliability of the drawn conclusions. Additionally an improvement 
 can be performed in the data gathering process. Simulated utilisation of the monitored system
 is a subpar system when compared to a deployment of the datagathering agents on the hosts of 
 multiple real users. Obtaining the data from multiple sources would also allow for the cross
-analysis of the algorithms performance. 
+analysis of the algorithm's performance. 
 
 A very interesting aspect would be also how the developed methods perform on the samples from 
 different exploit. Exploit CVE-2021-40444 allows for arbitrary code execution in the same 'msedge'
@@ -1608,22 +1608,22 @@ Browsers as programs are highly impacted by the actions of the users. They are c
 multiple very distant in the purpose subprocesses. In the same session a single user can open start
 a notepad to view a text file as well as starting an installation process which in turn starts a 
 video game under the same umbrella of the browser subprocesses. This characteristic significantly
-complicates the anomaly detection process. This also sugests that methods and approaches developed
+complicates the anomaly detection process. This also suggests that methods and approaches developed
 for the application with the browsers may be highly effective when utilised with other outward 
 facing programs like databases, web servers etc.
 
 Since the start of the work on this thesis there has been reports of new 0-day vulnerabilities that were
 utilised by the advanced persistent threat groups to target security researchers. Exploitation of the
-software flaws in some versions of the Adobe Acrobat and Reader can lead to arbitraty code execution\cite{bib:AdobeExploit}.
-This developed framework could be further researched and tested on this latest atack vector. This 
+software flaws in some versions of the Adobe Acrobat and Reader can lead to arbitrary code execution\cite{bib:AdobeExploit}.
+This developed framework could be further researched and tested on this latest attack vector. This 
 software may have a very different behaviour profile which may lead to interesting discoveries.
 
 \section{Unutilised data}
 
 Due to the limitations imposed in the data gathering process by the restricted memory resources and its
-design multiple promissing data features available in the Event Trace for Windows framework had to be
+design multiple promising data features available in the Event Trace for Windows framework had to be
 left out of scope. Those include the information about the memory utilisation, hard drive input/output 
-operations, system registry access, network send/recieve and others. All those types of information
+operations, system registry access, network send/receive and others. All those types of information
 may indicate ongoing exploitation or postexploitation actions like scanning of the available resources
 and data exfiltration. In the further research additional 
 data should be gathered and analysed. This may require a design and implementation of the custom  
@@ -1640,7 +1640,7 @@ in a suspicious manner due to the ongoing exploitation.
 \section{Possible DLL hijacking detection}
 
 DLL hijacking is a technique of privilege escalation on Windows operating systems by hijacking the 
-search order of the DLL loading. This allows for the execution of arbitray code with the same rights 
+search order of the DLL loading. This allows for the execution of arbitrary code with the same rights 
 as the exploited program. It can also be used as a persistance technique \cite{bib:DLLhijacking}.
 Some aspects of the gathered information were not used in the anomaly detection process but may be
 used to detect this specific type of attack. 
@@ -1653,7 +1653,7 @@ Example of this data is presented in the figure x.
 The correlation of software by the loaded DLL's is a interesting idea that has not been
 found in the known literature. This idea may be worth further research. It maybe worth
 the effort to perform the multiple correspondance analysis on the DLL's loaded by a wide range 
-of programs and to analyze how the obtained results correspond to their functionalities. It may also
+of programs and to analyse how the obtained results correspond to their functionalities. It may also
 be useful to check where passible malware samples lay in the obtained feature space. This would also
 allow to further assess the real value of the custom DLL encoder designed in the thesis. 
 
