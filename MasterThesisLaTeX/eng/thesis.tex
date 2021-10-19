@@ -377,12 +377,11 @@ Gathered data might require preprocessing that will adjust its form to the forma
 current classification methods and algorithms. Some types of information present in the computer 
 generated data set might require utilization of novel processing and encoding frameworks or 
 development of new specific approaches to allow for their utilization.  
-%sprawdzone
 
 \section{Literature research}
 
 The previous attempts of implementing a security anomaly detection frameworks depicted in the 
-literature take many different approaches. Some of those include analysis of specific sequences
+literature take many approaches. Some of those include analysis of specific sequences
 present in terminal commands \cite{bib:lane1997application} or system calls \cite{bib:forest}. 
 
 Some researchers attempt to implement novel custom classification methods. An example of such 
@@ -415,8 +414,6 @@ vectors with the use of artificial neural vectors. Anomaly is detected when the 
 between the input and output of the neural net is higher than the specified threshold.
 Neural network based approaches require large amounts of high quality training data.  
 
-
-
 % \begin{itemize}
 % \item problem analysis, problem statement
 % \item state of the art, literature research (all sources in the thesis have to be referenced \cite{bib:article,bib:book,bib:conference})
@@ -430,13 +427,14 @@ Neural network based approaches require large amounts of high quality training d
 This chapter contains in depth description of the solutions proposed for the thesis problems. 
 
 \section{Data gathering}
+
 To achieve the goal of the thesis a dataset based of the Windows Event Trace has to 
 be created. The ETW framework can be accessed and utilized via API available in multiple
-programing languages like C/C++\cite{bib:etwcpp} or C\#\cite{bib:etwcsharp}. The 
+programming languages like C/C++\cite{bib:etwcpp} or C\#\cite{bib:etwcsharp}. The 
 data gathering process should however be performed with known and tested solutions to
-minimise the chance of data corruption. The default file format used by ETW for storing 
-information is a Event Trace Log (ETL). This archive type is not very well documented in 
-the resources available on the internet. A additional tool might be required in order to 
+minimize the chance of data corruption. Default file format used by ETW for storing 
+information is an Event Trace Log (ETL). This archive type is not very well documented in 
+the resources available on the internet. An additional tool might be required in order to 
 transform gathered information to commonly known data storing formats.
 
 Event Trace for Windows handles very granular process and operating system events.
@@ -446,11 +444,10 @@ before saving it to hard drive. Those two factors combined with limited memory r
 available while performing the data gathering process limit the types of information analysed 
 in the thesis. 
 
-
-
 \section{Analysed data}
-Because of the present limitations all of the available information has been narrowed down and 
-initial analysis has been performed. The resulting anomaly detectuion leads and initial 
+
+Because of the present limitations all the available information has been narrowed down and 
+initial analysis has been performed. The resulting anomaly detection leads and initial 
 results are presented in this section.
 
 \subsection{Dynamic link libraries}
@@ -463,15 +460,15 @@ iterations of malicious software, is useless when it comes to creating multidime
 based on their functionality. In this thesis an attempt was made to establish a novel approach of 
 processes analysis by their imported Dynamically Linked Libraries. A DLL is a library that 
 contains code and data that can be used by more than one program at the same time. For example, 
-in Windows operating systems, the Comdlg32 DLL performs common dialog box related functions. Each 
-program can use the functionality that is contained in this DLL to implement an Open dialog box. 
+in Windows operating systems, the Comdlg32 DLL performs common dialogue box related functions. Each 
+program can use the functionality that is contained in this DLL to implement an Open dialogue box. 
 It helps promote code reuse as well as efficient memory usage \cite{bib:dll}. Those code bundles provide 
 specific sets of functionality and are commonly used in all programming languages. Possibly 
 overlapping sets of loaded modules from two given processes can indicate their similar purpose. 
 
 \subsection{Subprocess paths}
 
-Initial empirical analysis of the impact of the exploit on the behavior of the targeted browser was 
+Initial empirical analysis of the impact of the exploit on the behaviour of the targeted browser was 
 performed with the use of Windows Performance Analyzer (WPA).  Most browsers give a 
 possibility of spawning a new process for example by opening of a downloaded file in 
 adequate software. This functionality makes it harder to detect a possible ongoing exploitation process. 
@@ -497,7 +494,7 @@ in which the exploit was executed like in the picture \ref{fig:WPAexploit}.
 
 Patterns like this might be possible to learn and detect. The obtained data can be transformed
 to create a new feature called "Process Path". It is a string based variable containing names 
-of the consecutive child processeses starting from the root of the system process tree leading to the 
+of the consecutive child processes starting from the root of the system process tree leading to the 
 process for which the feature is constructed. All names are divided by any arbitrary separator. 
 
 Encoding of such variables like directory paths is not a well researched topic and there is no 
@@ -509,7 +506,7 @@ relies on the idea that the set of categories is finite, known priorly, and comp
 exclusive elements, the authors of this paper propose a new approach called similarity encoding. 
 It is based on calculation of similarities between string values. Instead of a binary column 
 indicating whether a specific category was set in the input value, a real number indicates how 
-distant it is from the specific previously chosen encoding column. It is a generalisation of the 
+distant it is from the specific previously chosen encoding column. It is a generalization of the 
 OneHot method \cite{bib:dirtycat}. The python implementation of this approach utilized in this thesis 
 can be found under \url{https://dirty-cat.github.io/stable/}.
 
@@ -517,7 +514,7 @@ can be found under \url{https://dirty-cat.github.io/stable/}.
 
 This feature represents how computationally expensive the given process is. This information can possibly 
 be utilized to detect both the processes that are not usually spawned by the one being monitored as well as
-inlier processes that missbehave due to the performed exploitation. Because this feature is 
+inlier processes that misbehave due to the performed exploitation. Because this feature is 
 strictly numerical, it is a lot easier to analyse than the qualitative values like the process
 paths and the loaded DLL's. It is also a lot less impacted by the actions of the normal user when
 compared to the process lifespan values from which it is derived.
@@ -525,74 +522,74 @@ compared to the process lifespan values from which it is derived.
 % \subsection{Process lifespan}
 \subsection{Process lifespan and CPUMsec}
 
-The process lifespan is the ammount of elapsed time from the from the process spawn to its
+The process lifespan is the amount of elapsed time from the process spawn to its
 termination or the end of data gathering process. Even though the tested average processor utilization 
 is derived from this data, those values might not necessary convey the same information. In some cases
 the exploitation process performed on the monitored software may result in a premature program
 closure or its prolonged execution due to the program hanging. Such behaviour may manifest in the
-processor utilization but this does not always has to be the case. 
+processor utilization but this does not always have to be the case. 
 
-This feature however has a bigger risk of beeing to strongly impacted by the actions of the user. 
+This feature however has a bigger risk of being to strongly impacted by the actions of the user. 
 Each new tab opened in the browser is a separate process and the amount of time for which it remains
 open is highly dependent on many factors. In a single session a user can perform a quick, lasting 
-lasting only a couple of seconds search for a correct spelling of a word and read a article for 
-an hour. The introduce in the process variance may render this feature unusable or cause it to
+only a couple of seconds, search for a correct spelling of a word and read an article for 
+an hour. Introduced in the process variance may render this feature unusable or cause it to
 require very large quantities of data for proper analysis. Those factors have to be taken 
 under consideration in the conducted experiments.
 
 Similar argumentation can be applied the second component of the average processor utilization which is
-the CPU ocupation timespan known in the gathered data as CPUMsec. For example an above average processor utilization
+the CPU occupation timespan known in the gathered data as CPUMsec. For example an above average processor utilization
 resulting from an ongoing exploitation can be hidden by lack of termination commonly known as "program hanging".
 
 \subsection{Exit code}
 
-The program exit code is a numer passed from the child process to its parent. The main purpose 
-of such mechanism is passing of the information about the execution results. The returned values
+The program exit code is a number passed from the child process to its parent. The main purpose 
+of such mechanism is passing of the information about the execution results. Returned values
 can differ greatly depending on what happens in the monitored software which is a perfect situation
 for the thesis purposes. In some cases the return value can also be missing which should be taken 
 under consideration.
 
 \section{Omitted features}
 
-Some of the features from the available data were not utilized in the work performed. This includes
+Some features from the available data were not utilized in the work performed. This includes
 the following:
 \begin{itemize}
 	\item Bitness - This data type indicating the architecture of the running program takes a single value ('64')
-	in all the available samples which makes it useless for the purposes of this thesis. Additionally the performed
+	in all the available samples which makes it useless for the purposes of this thesis. Additionally, the performed
 	work focuses on the detection of a software misbehaviour but not the identification of anomalous software 
 	for which this data may be more well suited. Additional research should be performed on the likelihood of the
-	parameter change in case of the attack. This would allow to determine if the data should be monitored dispite
-	the lack of variance detected in the symulated attacks.
-	\item Command Line -  This feature contains multitude of data in a very fuzy form. Its correct utilization
+	parameter change in case of the attack. This would allow finf out if the data should be monitored despite
+	the lack of variance detected in the simulated attacks.
+	\item Command Line -  This feature contains multitude of data in a very fuzzy form. Its correct utilization
 	requires advanced analysis and possibly development of a custom handling and encoding approach. Due 
-	to the restricted timeframe of the thesis this feature has been skipped. Because of the available potential
+	to the restricted time frame of the thesis this feature has been skipped. Because of the available potential
 	of this specific data type it has been outlined in the summary as a future research area.
 	\item Id, Id Path and Parent Id - Those values by definition are randomly assigned to each process from the available
 	pool. This means that they have no value beyond the identification of the relations between specific programs. 
 	\item Start and End time - Such information could be used to identify behaviour patterns of specific users that could possibly help
 	in detection of some post exploitation actions. An example scenario would be attempting to detect a anomalous
-	working hours like the middle of a night in a given users timezone. This approach however is outside of the 
+	working hours like the middle of a night in a given users time zone. This approach however is outside the 
 	scope for this thesis and therefore the start and end time for processes as been omitted.
 	\item Name - Those values were rejected because their analysis and blocking is a well known topic. Execution 
 	blacklisting of specific programs is a common administrative practice that allows for significant increase
-	of the infrastructure security. This approach is however outside of the thesis scope which focuses on the 
+	of the infrastructure security. This approach is however outside the thesis scope which focuses on the 
 	misbehaviour of software that is allowed to run on monitored system.
 \end{itemize}
 
 \section{Anomaly detection algorithms}
 In the thesis the main anomaly detection algorithm utilized is the One Class Support 
-Vector Machine which is a variation on support vector machines. It attempts to minimise 
+Vector Machine which is a variation on support vector machines. It attempts to minimize 
 the radius of the multidimensional hypersphere with the use of Kernel Method \cite{bib:ocsvm}. 
 This algorithm is the main anomaly detection utilized in the thesis due to it's ease of
-usage. It is also known to be effective in high dimentional spaces and when 
-the number of features is greater then the number of samples \cite{bib:svms}. The training process 
+usage. It is also known to be effective in high dimensional spaces and when 
+the number of features is greater than the number of samples \cite{bib:svms}. The training process 
 does not require significant computational and memory resources when compared to the latest
 approaches based on artificial neural networks like autoencoders \cite{bib:autoencoder}. There are
 some approaches to training process that can reduce the hardware requirements like for example the distributed architecture
 \cite{bib:autoencoderDist}. Their complexity might however shift the focus from the core idea 
 of the thesis which is to prove that data from Windows Event Trace can be utilized to detect security
-anomalies. Additionally the neural network based approaches require large quantities of well labeled
-data which can de very difficoult to generate. In the thesis the detection performed by the One Class SVM 
+anomalies. Additionally, the neural network based approaches require large quantities of well labelled
+data which can be very difficult to generate. In the thesis the detection performed by the One Class SVM 
 is tested for multiple 'nu' values which is upper bound on the fraction of training errors and a lower bound of the 
 fraction of support vectors\cite{bib:skocsvm}. The kernel utilized in all the tests is 'rbf' with
 the gamma parameter set to 'auto'. The detection process is performed 
@@ -614,8 +611,8 @@ the number of misclassified samples (False negative) divided by the known count 
 Based on the studied literature one of the well-suited result presentation methods is the Receiver 
 Operating Characteristic (ROC) curve which is a plot of the detection accuracy against the false 
 positive ratio. In this document the detected outliers are classified as negative samples. Because 
-of that the receiver operating characteristic curves are ploted as true negative ratio against the 
-false negative. The proboability of false anomaly detection is crucial because it may cause overload
+of that the receiver operating characteristic curves are plotted as true negative ratio against the 
+false negative. The probability of false anomaly detection is crucial because it may cause overload
 on of the response teams and mechanisms which in turn may result in delayed response or omission
 of response to real exploitation alert. All anomaly detection performance analysis in the thesis is focused
 on those indicators. The ROC curves may however be corrupted by the small available sample size 
@@ -623,7 +620,6 @@ which negatively impacts the performance analysis. All the graphs in this work w
 the receiver operating characteristic curve contain a diagonal dashed line representing the
 performance of random anomaly classification. This approach allows to easily identify if the obtained
 performance indicates utility of the tested features.
-
 
 % \begin{itemize}
 % \item solution to the problem proposed by the author of the thesis
@@ -634,7 +630,7 @@ performance indicates utility of the tested features.
 \chapter{Data gathering}
 This chapter describes the process of data gathering which was subsequently utilized in the experiments and 
 analysed in this thesis. This procedure is necessary due to the lack of commonly available 
-datasets that would fit all of the necessary requirements. 
+datasets that would fit all the necessary requirements. 
 
 \section{Exploit emulation}
 
@@ -650,26 +646,26 @@ targets a type confusion flaw in the V8 JavaScript engine. This allows the attac
 execute arbitrary code inside a sandbox via a specially crafted HTML page \cite{bib:CVE21224}. 
 The vulnerability affects the Google Chrome browser prior to the version 90.0.4430.85 as 
 well as Microsoft Edge prior to 90.0.818.41 \cite{bib:edgeRelease}. Some reports indicate 
-that this vulnerability might have been used by the state backed north korean agents to 
+that this vulnerability might have been used by the state backed North Korean agents to 
 attack security researchers and gain insight into their work. The exact method of
-exploitation is not known since the abuse of CVE-2021-21224 does not not allow to bypass 
-the builtin Chromium sandbox. There are also reports of Russian government-backed actors 
-using CVE-2021-1879 to target western european government officials \cite{bib:googleBlog}. 
+exploitation is not known since the abuse of CVE-2021-21224 does not allow to bypass 
+the built-in Chromium sandbox. There are also reports of Russian government-backed actors 
+using CVE-2021-1879 to target western European government officials \cite{bib:googleBlog}. 
 This method might have been chained with other non-public vulnerabilities in order to 
 perform a successful attack. To simulate such conditions the browser used in testing was 
-run with the "--no-sandbox" flag which disables the builtin safeguard.
+run with the "--no-sandbox" flag which disables the built-in safeguard.
 
 The sample of the exploit code was obtained from a public GitHub repository 
 \cite{bib:sampleExploit} and its code can be found in the listing \lstinline|"exploit.html"|. 
 It was adjusted to result in the spawning of the PowerShell.exe process. Execution of this 
 cross-platform task automation solution made up of a command-line shell, a scripting 
 language, and a configuration management framework is usually one of the first steps in 
-the process of gaining persistent access to a given windows machine. Some actors implement advanced 
+the process of gaining persistent access to a given Windows machine. Some actors implement advanced 
 code and logic into the exploit. This is however very uncommon due to the high complexity 
 of such a task.
 
 All the information was gathered in a context of a single user due to restricted available
-resources and to simplify the task of anomaly detection. Fullfilling the goal of the thesis
+resources and to simplify the task of anomaly detection. Fulfilling the goal of the thesis
 even in those conditions can be a viable proof of concept which would warrant further 
 research in wider domain.  
 
@@ -679,7 +675,7 @@ The initial data was gathered by the PerfView.exe tool which is "a free performa
 tool that helps isolate CPU and memory-related performance issues. It is a Windows tool, 
 but it also has some support for analysing data collected on Linux machines. It works for 
 a wide variety of scenarios, but has a number of special features for investigating 
-performance issues in code written for the .NET runtime"\cite{bib:PerfView}. It is capable of 
+performance issues in code written for the .NET runtime"\cite{bib:PerfView}. This tool is also capable of 
 tapping into many ETW logging sessions and storing the gathered data into output files. It also 
 has functionality that helps in working with the saved information. Main purpose of PerfView 
 in the thesis was data gathering and preprocessing. The software is open source.
@@ -696,9 +692,9 @@ available for the processing. Example PerfView configuration can be found in fig
  \end{figure}
 
 The resulting information is saved to a Microsoft Event Trace Log File (.etl) which can be 
-processed in multiple ways. PerfView has a builtin function of extracting the information 
+processed in multiple ways. PerfView has a built-in function of extracting the information 
 gathered about the executed processes and their loaded dll's to Excel executable installed 
-on the system. This can be performed by opening the desired file in the builtin explorer 
+on the system. This can be performed by opening the desired file in the built-in explorer 
 and selecting its "Processes" option. This opens a separate window containing information 
 about processes executed during data gathering and two possible export options - 
 "View Process Data in Excel" and "View Process Modules in Excel". The Excel executable 
@@ -714,7 +710,7 @@ presented in figure \ref{fig:PerfViewexport}.
  \end{figure}
 
 Resulting from the described process are two files containing correlated information. By 
-default Excel labels those files by including identifying suffixes in their names. The 
+default, Excel labels those files by including identifying suffixes in their names. The 
 first file is marked by the string "processesSummary" and contains general information 
 about the processes which include following columns:
 \begin{itemize}
@@ -727,7 +723,7 @@ about the processes which include following columns:
 	\item Bitness - Whether the process executable is created in 32 or 64 bit architecture.
 	\item CPUMsec - Amount of milliseconds in which the process has occupied the processor. 
 	\item AveProcsUsed - Average processor utilization calculated by dividing the amount
-	of time when process has ocupied the processor by the total process lifespan. 
+	of time when process has occupied the processor by the total process lifespan. 
 	\item DurationMSec - The duration of the process life stored in milliseconds.
 	\item StartMSec - The start time of the process stored in milliseconds.
 	\item ExitCode - Integer value returned after the process execution. Commonly known as 
@@ -758,20 +754,20 @@ directly from the browser. The data was gathered on the span of multiple user se
 
 Gathered data was initially analysed and processed to fit different machine learning 
 frameworks and to simplify its manual analysis. This operation was complicated by the 
-reuse of process id's in the operating system. In order to identify which of the processes 
-corresponding to the parent id is the true ancestor a additional check is performed based 
+reuse of process Ids in the operating system. In order to identify which of the processes 
+corresponding to the parent id is the true ancestor an additional check is performed based 
 on the time of spawn and the interval in which the possible parent was alive. This algorithm 
 allows the creation of a spawning process path that tracks the ancestors of a given process, 
 usually to one of multiple root programs in the operating system. The described procedure
-required suplementation of the data with the process end time which is a sum of process
+required supplementation of the data with the process end time which is a sum of process
 start time and its lifespan. 
 
-Additionally a process of OneHot encoding was performed on the loaded DLL's. The data from 
+Additionally, a process of OneHot encoding was performed on the loaded DLL's. The data from 
 the "processSummary" and "processModules" files was correlated by the order in which it was 
-stored. Similarly as before this approach was choosen because of the reuse of process id's.
+stored. Similarly, as before this approach was chosen because of the reuse of process ids.
 Three of the stored processes never in testing had any corresponding modules - 
 "Registry", "MemCompression" and the process marked with -1 ProcessId. Obtained data was
-additionally validated with the with the used input information to minimise the risk of 
+additionally validated with the used input information to minimize the risk of 
 introducing error to the dataset.
 
 Further preprocessing was performed on a per feature basis and is described in corresponding
@@ -783,7 +779,7 @@ experiment chapter sections.
 % This information is augmented with following columns:
 % \begin{itemize}
 % 	\item Path - String containing sequence of parent processes separated by "/".
-% 	\item PathId - String containing sequence of parent process id's separated by "/".
+% 	\item PathId - String containing sequence of parent process ids separated by "/".
 % 	\item EndMSec - The end time of the process stored in milliseconds.
 % 	\item DLLs - All columns not listed above contain OneHot encoded information about the 
 % 	dynamically linked libraries. When a column contains value 1 the process has 
@@ -793,7 +789,6 @@ experiment chapter sections.
 % Each row represents a single unique process.
 
 \chapter{Experiments}
-
 
 This chapter describes the experiments performed to achieve the purpose of the thesis
 and the underlying methodology. This includes the utilized tools, information about used datasets,
@@ -806,10 +801,10 @@ description of the taken actions and presentation as well as analysis of the obt
 \section{Methodology}
 
 Experiments performed to achieve the goals of the thesis were executed with the use of 
-the Python 3.8.3rc1 programing language. It was executed via the Jupyter framework which is
+the Python 3.8.3rc1 programming language. It was executed via the Jupyter framework which is
 a is "an open-source web application that allows you to create and share documents that 
 contain live code, equations, visualizations and narrative text. Uses include: data cleaning 
-and transformation, numerical simulation, statistical modeling, data visualization, machine 
+and transformation, numerical simulation, statistical modelling, data visualization, machine 
 learning, and much more" \cite{bib:jupyter}. Each experiment was performed in a separate
 Jupyter notebook and obtained results were analysed in the same framework. 
 
@@ -841,52 +836,52 @@ performed. The attacked processes and the ones spawned in result have been marke
 
 After preprocessing of the data following features are stored in the output file:
 \begin{itemize}
-	\item Session - String identificator of the session in which the corresponding process data 
+	\item Session - String identification of the session in which the corresponding process data 
 	was gathered.
 	\item ID -  The integer number used by the kernel to uniquely identify an active process.
 	\item Name -  The name of the process, usually identical to the binary file name. Expressed by a 
 	string data type.
 	\item Path - String containing sequence of parent processes names separated by "/".
-	\item PathId - String containing sequence of parent processes id's separated by "/".
+	\item PathId - String containing sequence of parent processes ids separated by "/".
 	\item CommandLine - String containing the shell command used to start the process.
 	\item ParentID - The identifying integer number of the parent process. 
 	\item CPUMsec - Amount of milliseconds in which the process has occupied the processor. Integer value.
 	\item AveProcsUsed -  Average processor utilization calculated by dividing the amount of time 
-	when a process has occupied the processor by the total process lifespan. Expressed in floating 
-	point numbers. This value is derivative combination of the features "CPUMsec" and "DurationMSec"
+	when a process has occupied the processor by the total process lifespan. Expressed in floating-point 
+	numbers. This value is derivative combination of the features "CPUMsec" and "DurationMSec"
 	but it is still stored for verification purposes.
 	\item Bitness - Integer value indicating whether the process executable is created in 
 	32 or 64 bit architecture.
 	\item DurationMSec - The duration of the process life stored in milliseconds. Expressed in 
-	floating point numbers.
+	floating-point numbers.
 	\item StartMSec -  The start time of the process stored in milliseconds. Expressed in floating 
 	point numbers.
 	\item ExitCode - Integer value returned after the process execution. Commonly known as exit code.
 	\item Y - This binary column indicates whether the corresponding entry is a anomaly. Value "1" corresponds
-	inliers and "-1" to outliers. Processes marked as "-1" were spawned as a result of 0-day explotation.
+	inliers and "-1" to outliers. Processes marked as "-1" were spawned as a result of 0-day exploitation.
 	\item The remaining columns contain OneHot encoded information about the dynamically linked 
-	libraries. When a column contains value 1 the process has loaded the DLL specified in the 
-	column name. Otherwise the column contains 0. Full list of the captured modules can be 
+	libraries. When a column contains value 1, the process has loaded the DLL specified in the 
+	column name. Otherwise, the column contains 0. Full list of the captured modules can be 
 	found in the appendix % TODO dodać listę dll
 \end{itemize}
 
-The dataset utilized in the thesis can be found in a public repository under the url 
+The dataset utilized in the thesis can be found in a public repository under the URL 
 \url{https://github.com/maxDoesHacking/MasterThesis/blob/master/data/combined_ETW_data.csv}
 
 
 \section{Results}
 
-In all of the experiments performed the focus was placed on 'msedge' binary and it's child processes.
+In all the experiments performed the focus was placed on 'msedge' binary and it's child processes.
 The dataset was filtered with the use of 'ProcessPath' feature. Any string value containing the 'msedge'
-substring indicated that the coresponding process is either Microsoft Edge browser or was spawned by it. 
+substring indicated that the corresponding process is either Microsoft Edge browser or was spawned by it. 
 
 \subsection{Dynamic link libraries}
 To obtain baseline results to which any developed frameworks can be compared a one class SVM anomaly 
 detection was performed on the raw one hot encoded DLL data. The results of this process can be found
 in the figure \ref{fig:DLLBaselineROC} and show that singling out of the outliers is possible with this type 
 of information. The resulting ROC shows however that this method is not stable as presented by the sudden spikes
-and drops of performance even though the 'nu' value is gradualy increased. 
-The raw results can be found in the table \ref{id:tab:rawDlls} located in the appendix. 
+and drops of performance even though the 'nu' value is gradually increased. 
+Raw results can be found in the table \ref{id:tab:rawDlls} located in the appendix. 
 
 \begin{figure}
 	\centering
@@ -897,7 +892,7 @@ The raw results can be found in the table \ref{id:tab:rawDlls} located in the ap
 	
 In the initial analysis of the data we can look at the counts of DLL's loaded by specific 
 processes. The distribution of those values can be found in the histogram \ref{fig:dllCounts}. 
-From this depiction we can clearly see that some of the outlier samples lie distant from other 
+From this depiction we can clearly see that some outlier samples lie distant from other 
 samples with high count. This pattern may be detectable. 
 
 
@@ -908,10 +903,10 @@ samples with high count. This pattern may be detectable.
 	\label{fig:dllCounts}
  \end{figure}
 
-To test the hypothesis the DLL counts were normalised to fit the range from 0 to 1 and a anomaly 
+To test the hypothesis the DLL counts were normalized to fit the range from 0 to 1 and a anomaly 
 detection was performed. The ROC of the process is visible in the figure \ref{fig:DLLcountsROC} and
 raw outputs are presented in the table \ref{id:tab:countOCSVM}. Both of those show that 
-negative samples were at least partialy correctly labled for some classifier configurations. A 100\%
+negative samples were at least partially correctly labelled for some classifier configurations. A 100\%
 detection rate requires however a significant false negative ratio.
 
 \begin{figure}
@@ -922,10 +917,10 @@ detection rate requires however a significant false negative ratio.
 \end{figure}
 
 There are over 1400 different DLL's gathered in the data set created. A single process loads 
-even upto 287 modules. This extremely high dimensionality of the information might be too complex 
+even up to 287 modules. This extremely high dimensionality of the information might be too complex 
 to analyse efficiently, even for the algorithms that can handle well datasets where features 
 outnumber samples. To better understand the gathered information a multiple component 
-analysis (MCA) was performed. This extension of correspondance analysis allows us to analyse the 
+analysis (MCA) was performed. This extension of correspondence analysis allows us to analyse the 
 pattern of relationships of multiple categorical dependent variables \cite{bib:mca}. It was performed 
 with a python mca 1.0.3 library \cite{bib:pymca}. The result of this process is a set of points in a 
 low-dimensional map corresponding either to columns or rows of the input data frame. Their 
@@ -933,25 +928,25 @@ distance in the obtained space can be used to classify how strongly they are cor
 each other. 
 
 The principal inertias (eigenvalues) obtained as the result of the algorithm can help us better 
-understand how well the resulting dimentions express the relations between the input samples. 
-The values calculated were normalised and can be found in the figure \ref{fig:mcaInertias} and 
+understand how well the resulting dimensions express the relations between the input samples. 
+The values calculated were normalized and can be found in the figure \ref{fig:mcaInertias} and 
 the table \ref{id:tab:MCAEigenvalues} located in the appendix. Those results suggest that the 
-usefulness of the dimentions in the data analysis significantly drops after the first one. The two
+usefulness of the dimensions in the data analysis significantly drops after the first one. The two
 following values are however very similar which indicates that it might be good to adjust the 
-dimention cutoff to utilize only the first one or all three.
+dimention cut-off to utilize only the first one or all three.
 
 
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/MCAEigenvalues}
-	\caption{Multiple correspondance analysis inertias.}
+	\caption{Multiple correspondence analysis inertias.}
 	\label{fig:mcaInertias}
  \end{figure}
 
-To validate that the MCA can extract valiable information from the available data, it's results for all
-the processes were compared to the actual purpose for each 'msedge' relared process. The location of the
-binaries in the obtained multidimentional space can be found in the figures \ref{fig:mca01} which 
-depicts dimentions 0 and 1 as well as figure \ref{fig:mca12} for dimentions 1 and 2. The raw numerical 
+To validate that the MCA can extract valuable information from the available data, it's results for all
+the processes were compared to the actual purpose for each 'msedge' related process. The location of the
+binaries in the obtained multidimensional space can be found in the figures \ref{fig:mca01} which 
+depicts dimensions 0 and 1 as well as figure \ref{fig:mca12} for dimensions 1 and 2. The raw numerical 
 values utilized to generate those visualizations are located in the table \ref{id:tab:MCAValues} placed 
 in the appendix of this document. 
 
@@ -959,25 +954,25 @@ in the appendix of this document.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/MCA01}
-	\caption{Multiple correspondance analysis distribution in the first and second dimention.}
+	\caption{Multiple correspondence analysis distribution in the first and second dimention.}
 	\label{fig:mca01}
  \end{figure}
 
  \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/MCA12}
-	\caption{Multiple correspondance analysis distribution in the second and third dimention.}
+	\caption{Multiple correspondence analysis distribution in the second and third dimention.}
 	\label{fig:mca12}
  \end{figure}
 
-From the distributions we can clearly see that MCA processing has managed to group closely some of the
-identical processes. It is also very apprent that the outlier 'powershell' is significantly distant from all remaining samples. 
-This pattern can be spoted in both figure \ref{fig:mca01} and \ref{fig:mca12}. Those results are very 
+From the distributions we can clearly see that MCA processing has managed to group closely some
+identical processes. It is also very apparent that the outlier 'powershell' is significantly distant from all remaining samples. 
+This pattern can be spotted in both figure \ref{fig:mca01} and \ref{fig:mca12}. Those results are very 
 promising and indicate that at least partial detection of anomalies should be possible with the obtained MCA results.
 
-Additionally to this strategy a simple anomaly detector based on the detection of any previously not loaded
+Additionally, to this strategy a simple anomaly detector based on the detection of any previously not loaded
 DLL can be utilized. This method could be a solid intrusion detection system on its own and it's performance
-would not be dependent on the proper adjustment of parameters as in the more sofisticated approaches. The 
+would not be dependent on the proper adjustment of parameters as in the more sophisticated approaches. The 
 DLL's present only in the outliers can be found in table \ref{id:tab:outlierDLLs}.
 
 \begin{table}
@@ -1031,15 +1026,15 @@ DLL's present only in the outliers can be found in table \ref{id:tab:outlierDLLs
 	\end{tabular}
 \end{table}
 
-The proof of possible classification with the MCA data is ilustrated in the figure \ref{fig:mcaroc} which shows the 
-results One Class Support Vector Machine anomaly detection performed directly on the first two dimentions 
+The proof of possible classification with the MCA data is illustrated in the figure \ref{fig:mcaroc} which shows the 
+results One Class Support Vector Machine anomaly detection performed directly on the first two dimensions 
 of the data from multiple component analysis. The raw data used to obtain the ROC can be found in the table
-\ref{id:tab:OCSVMonMCA} located in the appendix. The obtained results have however some erroneous qualities that
+\ref{id:tab:OCSVMonMCA} located in the appendix. Obtained results have however some erroneous qualities that
 present as sudden spikes and drops of the false negative ratio. Those characteristics are not present in the 
 anomaly detection performed without K-fold cross validation which can also be found in the graph \ref{fig:mcaroc}. 
-With proper configuration the algorythm has managed to detect 
-two anomalies with zero false negative results. This approach however is very difficoult to apply in the 
-production enviroment due to the full dataset required prior to classification. This data may be however 
+With proper configuration the algorithm has managed to detect 
+two anomalies with zero false negative results. This approach however is very difficult to apply in the 
+production environment due to the full dataset required prior to classification. This data may be however 
 utilized to develop and train a custom encoder capable of positioning the new input data in the previously 
 analysed DLL space.  
 
@@ -1051,7 +1046,7 @@ analysed DLL space.
 	\label{fig:mcaroc}
  \end{figure}
 
-
+%sprawdzone
 The idea behind the custom encoder is to group DLL's by their common occurance and therefore
 conclude common functionality of the programs that share them. This task can be performed
 with the use of unsupervised classification algorithm like K-means with $\mathit{N}$ classes 
@@ -1082,7 +1077,7 @@ described in equations \ref{enc_eqn} and \ref{enc_new_eqn}.
 \end{equation}
 
 The encoder can be adjusted with parameters like the number of classes in the unsupervised 
-classifier as well as the number of dimentions utilized from the multiple component analysis results. 
+classifier as well as the number of dimensions utilized from the multiple component analysis results. 
 This approach combines the detection of previously unknown DLL's with the attempt to dynamically
  assign specific DLL's to groups by their location in the MCA space. 
 
@@ -1097,7 +1092,7 @@ This approach combines the detection of previously unknown DLL's with the attemp
 All 'msedge' samples were tested on the on the encoder trained only with the inlier samples as well
 as all the possible ones.
 This solution was tested for multiple sets of possible parameters. The number of utilized MCA 
-dimentions was equal 2 as in the detection performed directly on the MCA data. This was done to 
+dimensions was equal 2 as in the detection performed directly on the MCA data. This was done to 
 allow for just comparison of the results. The anomaly detection was performed
 both with and without the last dimention corresponding to the occurance of previously unknown DLL's. Those
 values for the encoder trained on all the samples are always equal to zero untill new data samples
@@ -1123,7 +1118,7 @@ appendix. The weight p for the unique DLL's was set to 0.1.
 
 Differently trained encoders display various characteristics. The best performance is shown by
 the one with single cluster in the k-means classification and taught only on the inlier samples.
-The resulting encoded data is in reality a DLL count normalised to the range from 0 to 1 and a
+The resulting encoded data is in reality a DLL count normalized to the range from 0 to 1 and a
 additional new DLL detection. When trained on the all samples the best characteristics are 
 obtained for the two classes in the k-means algorithm. This configuration allows the algorithm
 to detect samples which normaly are not present in the training set. This however does not 
@@ -1134,7 +1129,7 @@ outlier samples.
 The ROC curves for all tested encoding approaches are presented in the graph \ref{fig:GraphComp}.
 Those results show that the classification performed on the encoded data can be more effective
 than the one performed directly on the MCA data. It can also outperform it in the number of 
-correctly labled negative samples with a smaler false negative increase. The anomaly 
+correctly labelled negative samples with a smaler false negative increase. The anomaly 
 detection was most accurate in the negative sample detection when the sample encoding was trained only on the inliers
 for the number of clusters equal to 1. The additive nature of the encoder means that in those cases the 
 detection is actually performed on the DLL counts. This configuration also most effective 
@@ -1165,7 +1160,7 @@ would result in them starting with the process of intrest in the first place. In
 be achieved by cutting off any prefix values before the first "msedge".  
 
 All paths corresponding to the researched process consist of elements presented in the table 
-\ref{id:tab:pathElems}. The full list of normalised paths can be found in the appendix \ref{id:tab:fullPaths}.
+\ref{id:tab:pathElems}. The full list of normalized paths can be found in the appendix \ref{id:tab:fullPaths}.
 
 \begin{table}
 \centering
@@ -1227,7 +1222,7 @@ extracted can be scaled and used to detect anomalies.
 After normalisation the count values were used in the one class SVM and the performance
 of this approach is depicted in the table \ref{id:tab:pathLenOcSVM} and the graph \ref{fig:pathLenROC}. 
 Obtained values show that outliers can be detected with a managable false positive ratio. This 
-behavior is visible for wide range of 'nu' values. 
+behaviour is visible for wide range of 'nu' values. 
 
 \begin{figure}
 	\centering
@@ -1246,7 +1241,7 @@ capable of handling previously unknown values which is a big factor when process
 qualitative features like paths. In a cases where new values occur in the data preprocessing,
 classic encoders like "OneHot" fail. 
 
-In the initial approach the paths were normalised to start with the same initial 'msedge' 
+In the initial approach the paths were normalized to start with the same initial 'msedge' 
 process and split on the separators to obtain a matrix of their components. Each entry in the
 matrix corresponds to a single path and the columns represent segments in the path. The matrix
 width is equal to the maximum path length in the data where path length is equal to the number
@@ -1321,13 +1316,13 @@ path having no similarity of the known previous values.
 
 On the other side of the spectrum is the inlier '/msedge/notepad' value which encoded is equal to
 [1., 1., 0., 0., 0., 0., 0., 0., 0.] which is distant from the 'center of gravity' by 1 (maximum 
-value) in the two of the nine dimentions. 
+value) in the two of the nine dimensions. 
 
 The encoder in this configuration is skewered in its performance to detect low count values that
 are present in the training process and overlook new values that are very different to them. 
 
 This problem might however be solved by fixing encoding of the empty string values. The
-initial analysis showed also that the paths should be normalised to start with the first 
+initial analysis showed also that the paths should be normalized to start with the first 
 subprocess of the msedge because it is always identical and does not introduce any information
 to the classification process. The values coresponfing to the empty strings were manualy adjusted
 to be equal 1 in the cases of exact match. Corected data was once again used to in anomaly detection
@@ -1344,7 +1339,7 @@ the results on the entre spectrum show that it is most probably equal to the ran
 	\label{fig:ocsvmOnDirtyCatGood}
  \end{figure}
 
-The similarity encoder was also tested with the training on normalised paths without splitting 
+The similarity encoder was also tested with the training on normalized paths without splitting 
 them into components as well as only the value '/msedge' and an empty stirng. The idea behind this approach
 is to let the encoder to perform its job without any additional complication of the data. The performance obtained in
 experiments quite similar. The results are presented in the tables \ref{id:tab:ocsvmOnDirtyCatFullPaths} 
@@ -1378,7 +1373,7 @@ greatly reduces the usefulness of this approach.
 \subsection{Average processor utilization}
 
 This feature is the easiest to analyse due to its quantitative nature and the fact that it is
-already normalised to the range between 0 and 1. Because of that it does not require virtually 
+already normalized to the range between 0 and 1. Because of that it does not require virtually 
 any preprocessing. The distribution of the values is presented on the 
 histogram \ref{fig:histavgproc} with the bins containing anomaly values marked with red. 
 
@@ -1486,7 +1481,7 @@ exploitation was performed.
 	\end{tabular}		
 \end{table}
 
-Before anomaly detection the available values were casted to integers and normalised.
+Before anomaly detection the available values were casted to integers and normalized.
 As shown in the figure \ref{fig:exitCodeROC} and the raw data from table \ref{id:tab:OCSVMexitCode},  
 the One Class Support Vector Machine is capable of easily identifying some of the outlier 
 samples with a very low cost in a form of false negative results. This performance may help to
@@ -1514,15 +1509,15 @@ conclusions. The developed approach was tested with the 10-fold cross validation
 The final test utilized following features:
 \begin{itemize}
 	\item Encoded DLL's - The encoder utilized on the DLL's was trained on all of the collected samples. The MCA 
-	threshold was limited to obtain only two dimentions of multiple component analysis and number of clusters was set 
+	threshold was limited to obtain only two dimensions of multiple component analysis and number of clusters was set 
 	to two. In this case where the entire available data set was utilized in the training process the 'New DLL'
 	coefficient has no impact on the result.  
 	\item Path lengths - In the previous tests the number of processes in the path proved to be the most robust feature
-	based on the path variable. Because of this it was choosen for the final experiment. All paths were normalised to start
-	after the first '/msedge' program. The resulting lengths were consequently normalised to the range between 0 and 1.
+	based on the path variable. Because of this it was choosen for the final experiment. All paths were normalized to start
+	after the first '/msedge' program. The resulting lengths were consequently normalized to the range between 0 and 1.
 	\item Average processor utilization - Those values due to their percentage based nature require no normalisation. They 
 	were fed directly to the anomaly detection algorithm. 
-	\item Process lifespan - As in the initial lifespan experiment the available data was normalised to fit the range from 0 to 1.
+	\item Process lifespan - As in the initial lifespan experiment the available data was normalized to fit the range from 0 to 1.
 \end{itemize}
 
 The outlier detection was performed by the One Class SVM for a wide range of 'nu' values. The results of 
@@ -1649,11 +1644,11 @@ used to detect this specific type of attack.
 Those include the "build time" and the "File version" of the loaded modules as well as their paths.
 Example of this data is presented in the figure x.
 
-\section{Software classification via multiple correspondance analysis}
+\section{Software classification via multiple correspondence analysis}
 
 The correlation of software by the loaded DLL's is a interesting idea that has not been
 found in the known literature. This idea may be worth further research. It maybe worth
-the effort to perform the multiple correspondance analysis on the DLL's loaded by a wide range 
+the effort to perform the multiple correspondence analysis on the DLL's loaded by a wide range 
 of programs and to analyse how the obtained results correspond to their functionalities. It may also
 be useful to check where passible malware samples lay in the obtained feature space. This would also
 allow to further assess the real value of the custom DLL encoder designed in the thesis. 
@@ -1774,7 +1769,7 @@ art algorithms based on the artificial neural networks like autoencoders.
 
 \begin{table}
 	\centering
-	\caption{Anomaly detection on normalised DLL counts}
+	\caption{Anomaly detection on normalized DLL counts}
 	\label{id:tab:countOCSVM}
 	\begin{tabular}{lrrrrr}
 		\toprule
@@ -1826,7 +1821,7 @@ art algorithms based on the artificial neural networks like autoencoders.
 
 \begin{table}
 \centering
-\caption{Eigenvalues of the multiple correspondance analysis.}
+\caption{Eigenvalues of the multiple correspondence analysis.}
 \label{id:tab:MCAEigenvalues}
 \begin{tabular}{rr}
 	\toprule
@@ -1861,7 +1856,7 @@ art algorithms based on the artificial neural networks like autoencoders.
 
 \begin{table}
 \centering
-\caption{Values of the multiple correspondance analysis.}
+\caption{Values of the multiple correspondence analysis.}
 \label{id:tab:MCAValues}
 \begin{tabular}{rrr}
 	\toprule
@@ -2542,7 +2537,7 @@ art algorithms based on the artificial neural networks like autoencoders.
 
 \begin{table}
 	\centering
-	\caption{Normalised process paths.}
+	\caption{Normalized process paths.}
 	\label{id:tab:fullPaths}
 	\begin{tabular}{ll}
 		\toprule
