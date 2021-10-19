@@ -304,7 +304,7 @@ monitoring software for specific suspicious actions or for know
 malicious values. Those approaches can be very effective but in some cases their 
 failures are inevitable.
 
-To mitigate this problem multiple studies has been done that attempt to utilize the methods of
+To mitigate this problem multiple studies has been done that attempt to utilise the methods of
 anomaly detection known from the data science fields in order to identify the misbehaviours of 
 the monitored IT systems which could allow for an early detection of novel 0-day based intrusions.
 The past investigations of the problem has focused on analysis of the information obtained from 
@@ -313,7 +313,7 @@ multiple sources like system commands sequences \cite{bib:lane1997application} o
 that gather significant quantities of information about inner workings of the processes that remain
 untapped. 
 
-The objective of this thesis is to utilize the Event Trace for Windows (ETW) mechanism and it's 
+The objective of this thesis is to utilise the Event Trace for Windows (ETW) mechanism and it's 
 capability to access low level debugging data on the Microsoft operating systems to attempt
 security anomaly detection. The main focus is placed on identification of 0-day binary process 
 exploitation leading directly to arbitrary code execution and malicious program spawning. While 
@@ -933,7 +933,7 @@ The values calculated were normalized and can be found in the figure \ref{fig:mc
 the table \ref{id:tab:MCAEigenvalues} located in the appendix. Those results suggest that the 
 usefulness of the dimensions in the data analysis significantly drops after the first one. The two
 following values are however very similar which indicates that it might be good to adjust the 
-dimention cut-off to utilize only the first one or all three.
+dimension cut-off to utilise only the first one or all three.
 
 
 \begin{figure}
@@ -954,14 +954,14 @@ in the appendix of this document.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/MCA01}
-	\caption{Multiple correspondence analysis distribution in the first and second dimention.}
+	\caption{Multiple correspondence analysis distribution in the first and second dimension.}
 	\label{fig:mca01}
  \end{figure}
 
  \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/MCA12}
-	\caption{Multiple correspondence analysis distribution in the second and third dimention.}
+	\caption{Multiple correspondence analysis distribution in the second and third dimension.}
 	\label{fig:mca12}
  \end{figure}
 
@@ -1046,8 +1046,7 @@ analysed DLL space.
 	\label{fig:mcaroc}
  \end{figure}
 
-%sprawdzone
-The idea behind the custom encoder is to group DLL's by their common occurance and therefore
+The idea behind the custom encoder is to group DLL's by their common occurrence and therefore
 conclude common functionality of the programs that share them. This task can be performed
 with the use of unsupervised classification algorithm like K-means with $\mathit{N}$ classes 
 on the results of the MCA. Example of such classification
@@ -1079,7 +1078,7 @@ described in equations \ref{enc_eqn} and \ref{enc_new_eqn}.
 The encoder can be adjusted with parameters like the number of classes in the unsupervised 
 classifier as well as the number of dimensions utilized from the multiple component analysis results. 
 This approach combines the detection of previously unknown DLL's with the attempt to dynamically
- assign specific DLL's to groups by their location in the MCA space. 
+assign specific DLL's to groups by their location in the MCA space. 
 
 
  \begin{figure}
@@ -1089,18 +1088,18 @@ This approach combines the detection of previously unknown DLL's with the attemp
 	\label{fig:kmeanmca}
  \end{figure}
 
-All 'msedge' samples were tested on the on the encoder trained only with the inlier samples as well
+All 'msedge' samples were tested on the encoder trained only with the inlier samples as well
 as all the possible ones.
 This solution was tested for multiple sets of possible parameters. The number of utilized MCA 
 dimensions was equal 2 as in the detection performed directly on the MCA data. This was done to 
 allow for just comparison of the results. The anomaly detection was performed
-both with and without the last dimention corresponding to the occurance of previously unknown DLL's. Those
-values for the encoder trained on all the samples are always equal to zero untill new data samples
+both with and without the last dimension corresponding to the occurrence of previously unknown DLL's. Those
+values for the encoder trained on all the samples are always equal to zero until new data samples
 are gathered.
 The results of this experiment are presented in the figure \ref{fig:EncROCwLab} for 
 the encoder trained only on the inlier data and \ref{fig:EncROCwoLab} for all samples. The raw data
 can be found in the tables \ref{id:tab:SVMencWLab} and \ref{id:tab:SVMencWoLab} located in the 
-appendix. The weight p for the unique DLL's was set to 0.1.
+appendix. Weight p for the unique DLL's was set to 0.1.
 
 \begin{figure}
 	\centering
@@ -1118,10 +1117,10 @@ appendix. The weight p for the unique DLL's was set to 0.1.
 
 Differently trained encoders display various characteristics. The best performance is shown by
 the one with single cluster in the k-means classification and taught only on the inlier samples.
-The resulting encoded data is in reality a DLL count normalized to the range from 0 to 1 and a
+The resulting encoded data is in reality a DLL count normalized to the range from 0 to 1 and an
 additional new DLL detection. When trained on the all samples the best characteristics are 
 obtained for the two classes in the k-means algorithm. This configuration allows the algorithm
-to detect samples which normaly are not present in the training set. This however does not 
+to detect samples which normally are not present in the training set. This however does not 
 fully makeup for the lack of new DLL detection. The data sample is not sufficient to perform
 tests on how the encoder trained on the data containing outliers performs on previously unseen
 outlier samples.
@@ -1129,12 +1128,12 @@ outlier samples.
 The ROC curves for all tested encoding approaches are presented in the graph \ref{fig:GraphComp}.
 Those results show that the classification performed on the encoded data can be more effective
 than the one performed directly on the MCA data. It can also outperform it in the number of 
-correctly labelled negative samples with a smaler false negative increase. The anomaly 
+correctly labelled negative samples with a smaller false negative increase. The anomaly 
 detection was most accurate in the negative sample detection when the sample encoding was trained only on the inliers
 for the number of clusters equal to 1. The additive nature of the encoder means that in those cases the 
 detection is actually performed on the DLL counts. This configuration also most effective 
 when the primary focus is on the reduction of the false negative amount. The drop in performance when 
-trained on data containing outliers is not dramatic so this approach can potencialy handle some 
+trained on data containing outliers is not dramatic so this approach can potentially handle some 
 dirty data.
 
 \begin{figure}
@@ -1145,18 +1144,16 @@ dirty data.
  \end{figure}
 
 The performance of the developed methods was tested with 10 - fold cross validation. In the case of
-the anomaly detection performed on the raw MCA data the ROC was presenting a anomalous characteristics 
-and the attempts of identifing their sources did not bring any results.
+the anomaly detection performed on the raw MCA data the ROC was presenting an anomalous characteristics 
+and the attempts of identifying their sources did not bring any results.
 
 \subsection{Process paths}
-
-
 
 We can see in our data that some child process paths contain the "explorer" parent process and some start with the first 
 edge browser. This may be a result of a specific case in the data gathering process or the result of wrong 
 processing. In the future some logs may contain even more complex prefixes to the actually investigated
-process. For those reasons the first step in the process path analysis should be their normalisation which
-would result in them starting with the process of intrest in the first place. In our dataset this can 
+process. For those reasons the first step in the process path analysis should be their normalization which
+would result in them starting with the process of interest in the first place. In our dataset this can 
 be achieved by cutting off any prefix values before the first "msedge".  
 
 All paths corresponding to the researched process consist of elements presented in the table 
@@ -1206,7 +1203,7 @@ All paths corresponding to the researched process consist of elements presented 
 	\end{tabular}
 \end{table}
 
-This data cannot be fed directly to the classification algorithm because of it's 
+This data cannot be fed directly to the classification algorithm because of its 
 qualitative nature. In result no baseline can be obtained. The basic feature
 of the path it's size - the number of processes contained in it. The distribution
 of the path lengths is presented in the graph \ref{fig:pathLenHist}. Those values
@@ -1219,9 +1216,9 @@ extracted can be scaled and used to detect anomalies.
 	\label{fig:pathLenHist}
  \end{figure}
 
-After normalisation the count values were used in the one class SVM and the performance
+After normalization the count values were used in the one class SVM and the performance
 of this approach is depicted in the table \ref{id:tab:pathLenOcSVM} and the graph \ref{fig:pathLenROC}. 
-Obtained values show that outliers can be detected with a managable false positive ratio. This 
+Obtained values show that outliers can be detected with a manageable false positive ratio. This 
 behaviour is visible for wide range of 'nu' values. 
 
 \begin{figure}
@@ -1231,37 +1228,35 @@ behaviour is visible for wide range of 'nu' values.
 	\label{fig:pathLenROC}
  \end{figure}
 
-
-
 In order to attempt identification of more complex patterns in the path data the feature was encoded with
-the use of a Similarity Encoder which assignes values to the input based on its similarity 
+the use of a Similarity Encoder which assigns values to the input based on its similarity 
 to the known char strings obtained in the training process. The outputs are calculated with 
 one the available algorithms like "N-gram", "Levenshtein-ratio" and other. This encoder is
 capable of handling previously unknown values which is a big factor when processing 
-qualitative features like paths. In a cases where new values occur in the data preprocessing,
+qualitative features like paths. In a case where new values occur in the data preprocessing,
 classic encoders like "OneHot" fail. 
 
 In the initial approach the paths were normalized to start with the same initial 'msedge' 
 process and split on the separators to obtain a matrix of their components. Each entry in the
 matrix corresponds to a single path and the columns represent segments in the path. The matrix
 width is equal to the maximum path length in the data where path length is equal to the number
-of components from which it is build. Paths shorter than matrix width were paded in the splitting
+of components from which it is build. Paths shorter than matrix width were padded in the splitting
 process with empty strings. The result of this process is presented in the table \ref{id:tab:splitPaths} 
 located in the appendix. 
 
 The encoder trained with the inlier split data assigned known entries to each column and this 
-information was used to encode all samples which subsequentialy were analysed with the One Class
-SVM. The results presented in the table \ref{id:tab:ocsvmOnDirtyCatBad} show that this approach is 
+information was used to encode all samples which subsequentially were analysed with the One Class
+SVM. Results presented in the table \ref{id:tab:ocsvmOnDirtyCatBad} show that this approach is 
 very ineffective. 
 
-The results of the anomaly detection performed with the 'nu' value equal to 0.075 were inspected 
-to establish the root causes of the low performance. The first noticable problem with the data
+Data generated from the anomaly detection performed with the 'nu' value equal to 0.075 was inspected 
+to establish the root causes of the low performance. The first noticeable problem with the data
 is the handling of the empty string values. The similarities for each input column are 
 calculated to the corresponding set of know values which result in multiple encoded values per
 column. Because of that the returned output is flattened to the vector form in which entries
-correspond to both the input dimention and it's specific categories. 
+correspond to both the input dimension and its specific categories. 
 
-An example of this can be shown with the folowing categories based on the ones computed 
+An example of this can be shown with the following categories based on the ones computed 
 for the used data:
 \begin{itemize}
 	\item Column 1 contains unique entries: '', 'cpu-z\_1.96-en', 'msedge', 'notepad'.
@@ -1279,7 +1274,7 @@ Those result in the output vector with following entries:
 	\item Similarity of the second column entry to the 'msedge'.
 \end{itemize}
 
-Manual analysis showd that in our encoded data the similaritiy to empty strings ('') is 
+Manual analysis showed that in our encoded data the similaritiy to empty strings ('') is 
 always equal to zero, even if the input is identical. This is most probably due to the limitations 
 in the utilized string comparison algorithms. Because of that our calculated categories:
 \begin{lstlisting}
@@ -1304,18 +1299,18 @@ are in reality:
 ]
 \end{lstlisting}
 
-Additionally it is possible that because the encoder was designed to be more robust in the face 
+Additionally, it is possible that because the encoder was designed to be more robust in the face 
 data variance, in other words smooth out anomalies, it is not fit for the purposes of the thesis. 
 Even though this process allows for the handling of new values it might significantly disrupt anomaly detection.
 
 An example of this is the process '/msedge/msedge/powershell' which is a clear outlier
 but in the encoded form it is equal [1., 0., 1., 0., 0., 0., 0., 0., 0.]. This is equal
-to the 'center of gravity' of the encoded data because the by far most numerous process
+to the 'centre of gravity' of the encoded data because the by far most numerous process
 '/msedge/msedge' obtains the same value. This is due to the third element of the outlier process  
 path having no similarity of the known previous values.
 
 On the other side of the spectrum is the inlier '/msedge/notepad' value which encoded is equal to
-[1., 1., 0., 0., 0., 0., 0., 0., 0.] which is distant from the 'center of gravity' by 1 (maximum 
+[1., 1., 0., 0., 0., 0., 0., 0., 0.] which is distant from the 'centre of gravity' by 1 (maximum 
 value) in the two of the nine dimensions. 
 
 The encoder in this configuration is skewered in its performance to detect low count values that
@@ -1324,11 +1319,11 @@ are present in the training process and overlook new values that are very differ
 This problem might however be solved by fixing encoding of the empty string values. The
 initial analysis showed also that the paths should be normalized to start with the first 
 subprocess of the msedge because it is always identical and does not introduce any information
-to the classification process. The values coresponfing to the empty strings were manualy adjusted
-to be equal 1 in the cases of exact match. Corected data was once again used to in anomaly detection
+to the classification process. The values corresponding to the empty strings were manually adjusted
+to be equal 1 in the cases of exact match. Corrected data was once again used to in anomaly detection
 and the results can be found in the table \ref{id:tab:ocsvmOnDirtyCatGood} and the chart \ref{fig:ocsvmOnDirtyCatGood}. 
 A look at the performance for the low 'nu' values suggests that this approach may be successful but 
-the results on the entre spectrum show that it is most probably equal to the random classification.
+the results on the entire spectrum show that it is most probably equal to the random classification.
 % Those values show  improvement in the performance which is especially visible in the entry number 1 for the 'nu' 
 % value equal 0.05.
 
@@ -1340,11 +1335,11 @@ the results on the entre spectrum show that it is most probably equal to the ran
  \end{figure}
 
 The similarity encoder was also tested with the training on normalized paths without splitting 
-them into components as well as only the value '/msedge' and an empty stirng. The idea behind this approach
-is to let the encoder to perform its job without any additional complication of the data. The performance obtained in
+them into components as well as only the value '/msedge' and an empty string. The idea behind this approach
+is to let the encoder to perform its job without any additional complication of the data. Performance obtained in
 experiments quite similar. The results are presented in the tables \ref{id:tab:ocsvmOnDirtyCatFullPaths} 
 and \ref{id:tab:ocsvmOnDirtyCatMsEdge} as well as the chart \ref{fig:ocsvmNoSplitComp}. Both of those approaches
-are capable of detecting outliers with higher success trate than the split path approach. It does
+are capable of detecting outliers with higher success rate than the split path approach. It does
 however come with the cost in form of strange characteristics for the low nu values. In the future research 
 additional work can be done to test how those approaches perform with a better sample size and to
 establish if the DirtyCat encoding can be further adjusted to the anomaly detection task.
@@ -1358,8 +1353,8 @@ establish if the DirtyCat encoding can be further adjusted to the anomaly detect
  
 All analysed approaches to path analysis are compared in the graph \ref{fig:pathcomp}. Those results show the
 superiority of the anomaly detection based on the relative path length. In this case it is capable of detecting 
-76.9\% of outliers with around 6.8\% false negative rate. The moethods based on dirty cat encoding of the paths also managed 
-achieve significant results. This is especially ture for the encoding based only on the value 'msedge' where 
+76.9\% of outliers with around 6.8\% false negative rate. The methods based on dirty cat encoding of the paths also managed 
+achieve significant results. This is especially true for the encoding based only on the value 'msedge' where 
 the detection results has been achieved with the false negative ratio of 9.1\%. The anomalous behaviour however for now
 greatly reduces the usefulness of this approach.
 
@@ -1373,7 +1368,7 @@ greatly reduces the usefulness of this approach.
 \subsection{Average processor utilization}
 
 This feature is the easiest to analyse due to its quantitative nature and the fact that it is
-already normalized to the range between 0 and 1. Because of that it does not require virtually 
+already normalized to the range between 0 and 1. Because of that, it does not require virtually 
 any preprocessing. The distribution of the values is presented on the 
 histogram \ref{fig:histavgproc} with the bins containing anomaly values marked with red. 
 
@@ -1387,7 +1382,7 @@ histogram \ref{fig:histavgproc} with the bins containing anomaly values marked w
 Obtained values show that anomaly detection with this feature may be feasible. It was attempted with 
 the One Class SVM and the resulting receiver operating characteristic is presented in the figure
 \ref{fig:procroc} and proves the value of the feature. Its ease of utilization may increase its value.
-Additional tests were performed to ruleout the need of preprocessing. Those did not lead to identification
+Additional tests were performed to rule out the need of preprocessing. Those did not lead to identification
 of any methods capable of improving the data.
 
 \begin{figure}
@@ -1402,7 +1397,7 @@ appendix.
 
 \subsection{Process lifespan and CPUMsec}
 The analysis of the available data was started with the review of the histogram graph which can be found in the 
-figure \ref{fig:lifespanHist}. The 'y' axis has been represented in a logarithmic scale to improve reareadability.
+figure \ref{fig:lifespanHist}. The 'y' axis has been represented in a logarithmic scale to improve readability.
 This image however indicates that the possibility of detecting of the outliers by means of statistical
 analysis is low. This is due to the fact that all outlier samples between the most frequent values. 
 
@@ -1423,7 +1418,7 @@ Because of that the data was preprocessed to fit the range from 0 to 1.
 The performed attempt of anomaly detection shows however that this feature may have some value. The results visible in the graph
 \ref{fig:lifespanROC} and the raw data from the table \ref{id:tab:OCSVNlifespans} located in the appendix show that achieved accuracy 
 is above average. As stated in the initial analysis of this feature, it might benefit significantly from the increased sample size.
-This idea shuld undergo additional testing in the future on a bigger and more versatile dataset.
+This idea should undergo additional testing in the future on a bigger and more versatile dataset.
 
 \begin{figure}
 	\centering
@@ -1432,7 +1427,7 @@ This idea shuld undergo additional testing in the future on a bigger and more ve
 	\label{fig:lifespanROC}
  \end{figure}
 
- Symilar analysis and anomaly detection attempt was performed for the CPUMsec data. As shown in the graph \ref{fig:CPUMsecROC} this 
+ Similar analysis and anomaly detection attempt was performed for the CPUMsec data. As shown in the graph \ref{fig:CPUMsecROC}, this 
  feature is not as useful for the stated purposes as the process lifespan. Obtained performance is close to random and therefore might
  not provide any utility. Raw values resulting from anomaly detection can be accessed in the table \ref{id:tab:OCSVMCPUMsec}.
 
@@ -1458,11 +1453,11 @@ do not correlate to any gathered outlier. This conclusion should however be furt
 The missing values were filled in based on the other identical processes.
 
 After the performed preprocessing of the data there are four main values remaining which are showed in the table \ref{id:tab:exitCodeCounts}
-along with the counts off occurance for each. The most common value returned by the process is '0' with a significant majority. A different 
-value was observed only 5 times which from a statistical point indicates annomalous behaviour. The values '0x1' and '0xc000013a' were
+along with the counts off occurrence for each. The most common value returned by the process is '0' with a significant majority. A different 
+value was observed only 5 times which from a statistical point indicates anomalous behaviour. The values '0x1' and '0xc000013a' were
 returned for the processes 'ipconfig.exe' and 'powershell.exe' respectively and were normal execution outcomes. The remaining 
 entries with value '0xc0000005' show however a more interesting story. Those exit codes were obtained for the 'msedge.exe' program
-and a overview of the data shows that the specific instances responsible for the outlier values were in fact the ones on which the 
+and an overview of the data shows that the specific instances responsible for the outlier values were in fact the ones on which the 
 exploitation was performed. 
 
 \begin{table}
@@ -1481,11 +1476,11 @@ exploitation was performed.
 	\end{tabular}		
 \end{table}
 
-Before anomaly detection the available values were casted to integers and normalized.
+Before anomaly detection the available values were cast to integers and normalized.
 As shown in the figure \ref{fig:exitCodeROC} and the raw data from table \ref{id:tab:OCSVMexitCode},  
-the One Class Support Vector Machine is capable of easily identifying some of the outlier 
+the One Class Support Vector Machine is capable of easily identifying some outlier 
 samples with a very low cost in a form of false negative results. This performance may help to
-significantly boost the performanced of the developed solution. 
+significantly boost the performance of the developed solution. 
 
 \begin{figure}
 	\centering
@@ -1494,8 +1489,8 @@ significantly boost the performanced of the developed solution.
 	\label{fig:exitCodeROC}
  \end{figure}
 
-Unfortunetely because of the way the data is constructed the information about the outlier return code of the 
-process does not move down the chain to its children. This is especally complicated due to the fact that the parent process
+Unfortunately because of the way the data is constructed the information about the outlier return code of the 
+process does not move down the chain to its children. This is especially complicated due to the fact that the parent process
 can but does not have to terminated during its child lifetime. In the future research the topic of anomalous exit
 code correlation with spawned child processes can be further elaborated.
 
@@ -1503,32 +1498,32 @@ code correlation with spawned child processes can be further elaborated.
 
 To further analyse the potential of the Event Trace for Windows data in the identification of
 anomalous processes spawned with zero day exploitation, all identified valuable features were
-combined in a single experiment and their parameters were adjusted based on the prevoiusly drawn 
+combined in a single experiment and their parameters were adjusted based on the previously drawn 
 conclusions. The developed approach was tested with the 10-fold cross validation.
 
 The final test utilized following features:
 \begin{itemize}
-	\item Encoded DLL's - The encoder utilized on the DLL's was trained on all of the collected samples. The MCA 
+	\item Encoded DLL's - The encoder utilized on the DLL's was trained on all the collected samples. The MCA 
 	threshold was limited to obtain only two dimensions of multiple component analysis and number of clusters was set 
 	to two. In this case where the entire available data set was utilized in the training process the 'New DLL'
 	coefficient has no impact on the result.  
 	\item Path lengths - In the previous tests the number of processes in the path proved to be the most robust feature
-	based on the path variable. Because of this it was choosen for the final experiment. All paths were normalized to start
+	based on the path variable. Because of this it was chosenfor the final experiment. All paths were normalized to start
 	after the first '/msedge' program. The resulting lengths were consequently normalized to the range between 0 and 1.
-	\item Average processor utilization - Those values due to their percentage based nature require no normalisation. They 
+	\item Average processor utilization - Those values due to their percentage based nature require no normalization. They 
 	were fed directly to the anomaly detection algorithm. 
 	\item Process lifespan - As in the initial lifespan experiment the available data was normalized to fit the range from 0 to 1.
 \end{itemize}
 
 The outlier detection was performed by the One Class SVM for a wide range of 'nu' values. The results of 
 this process are displayed in the graph \ref{fig:combinedFinalROC} and the raw data can be accessed in the table 
-\ref{id:tab:OCSVMonCombined} located in the appendix. The graph \ref{fig:combinedCompFinalROC} shows those results compared to 
-the performance of anomaly detection applied to the individual component features. As shown in the comparison image all of the 
+\ref{id:tab:OCSVMonCombined} located in the appendix. Graph \ref{fig:combinedCompFinalROC} shows those results compared to 
+the performance of anomaly detection applied to the individual component features. As shown in the comparison image, all the 
 developed approaches have different characteristics which might make the better in different conditions. The anomaly detection
 performed only on the process exit codes is capable of detecting anomalies with zero false negative ratio. This is probably
 due to a very low variance present in the collected samples. Monitoring of those values only might be the best solution when
 the manpower available for investigating anomalies is limited. The combined approach has the second best performance when
-the priority is put on the false negative minimisation. At the same time it is capable of 100\% anomaly detection with the lowest
+the priority is put on the false negative minimization. At the same time it is capable of 100\% anomaly detection with the lowest
 (17.8\%) FN ratio.
 
 
@@ -1561,22 +1556,20 @@ graph \ref{fig:combinedCompFinalROCDroping}. This image shows that overall impro
 
 In general best performing combined features (path lengths, encoded DLL's, exit codes) allow for detection of 38\% of the 
 outliers with around 1.7\% false positive ratio. Those results show that the developed approach may provide value for some 
-security related puropses. This is especially promising since the detection of a single process in the attack chain may 
+security related purposes. This is especially promising since the detection of a single process in the attack chain may 
 prevent the entire exploitation process.
 
 \chapter{Summary}
-
- %TODO ostatnio czytane
 
 There can be multiple conclusions drawn from the performed work. This chapter describes them in 
 detail and highlights possible future areas of research.
 
 \section{Security anomaly detection}
 
-The results obtained in the experiments show that with all of the selected features allow 
+The results obtained in the experiments show that with all the selected features allow 
 to perform a security anomaly detection with the above average success ratio. For the tested
 data it was possible to obtain a 38\% detection rate with a 1.7\% false negative ratio while
-utilising all of the best performing features at once. This obtained score may be significantly 
+utilizing all the best performing features at once. This obtained score may be significantly 
 improved by the increase in the dataset size. This approach to the monitoring of the programs 
 running on the operating systems may be utilized in a honeypot traps which are "a sacrificial 
 computer systems that are intended to attract cyberattacks, like a decoy" \cite{bib:Honeypot}. 
@@ -1588,9 +1581,9 @@ attempts.
 
 The dataset used in the experiments and analysis performed in the thesis can be significantly 
 improved. Its main drawback is the available sample size. Gathering additional data would have
-positive impact on the reliability of the drawn conclusions. Additionally an improvement 
+positive impact on the reliability of the drawn conclusions. Additionally, an improvement 
 can be performed in the data gathering process. Simulated utilization of the monitored system
-is a subpar system when compared to a deployment of the datagathering agents on the hosts of 
+is a subpar system when compared to a deployment of the data gathering agents on the hosts of 
 multiple real users. Obtaining the data from multiple sources would also allow for the cross
 analysis of the algorithm's performance. 
 
@@ -1608,7 +1601,7 @@ complicates the anomaly detection process. This also suggests that methods and a
 for the application with the browsers may be highly effective when utilized with other outward 
 facing programs like databases, web servers etc.
 
-Since the start of the work on this thesis there has been reports of new 0-day vulnerabilities that were
+Since the start of the work on this thesis, there has been reports of new 0-day vulnerabilities that were
 utilized by the advanced persistent threat groups to target security researchers. Exploitation of the
 software flaws in some versions of the Adobe Acrobat and Reader can lead to arbitrary code execution\cite{bib:AdobeExploit}.
 This developed framework could be further researched and tested on this latest attack vector. This 
@@ -1620,7 +1613,7 @@ Due to the limitations imposed in the data gathering process by the restricted m
 design multiple promising data features available in the Event Trace for Windows framework had to be
 left out of scope. Those include the information about the memory utilization, hard drive input/output 
 operations, system registry access, network send/receive and others. All those types of information
-may indicate ongoing exploitation or postexploitation actions like scanning of the available resources
+may indicate ongoing exploitation or post exploitation actions like scanning of the available resources
 and data exfiltration. In the further research additional 
 data should be gathered and analysed. This may require a design and implementation of the custom  
 gathering framework.
@@ -1629,7 +1622,7 @@ Additional research can also be performed to incorporate in to the developed fra
 information included in the 'CommandLine' feature which can be found in the dataset gathered for the purposes
 of this thesis.
 
-Currently the developed framework focuses on the detection of the spawning of new outlier processes.
+Currently, the developed framework focuses on the detection of the spawning of new outlier processes.
 Additional low level data could be utilized to attempt the detection of the normal processes that behave
 in a suspicious manner due to the ongoing exploitation.
 
@@ -1637,7 +1630,7 @@ in a suspicious manner due to the ongoing exploitation.
 
 DLL hijacking is a technique of privilege escalation on Windows operating systems by hijacking the 
 search order of the DLL loading. This allows for the execution of arbitrary code with the same rights 
-as the exploited program. It can also be used as a persistance technique \cite{bib:DLLhijacking}.
+as the exploited program. It can also be used as a persistence technique \cite{bib:DLLhijacking}.
 Some aspects of the gathered information were not used in the anomaly detection process but may be
 used to detect this specific type of attack. 
 
@@ -1646,7 +1639,7 @@ Example of this data is presented in the figure x.
 
 \section{Software classification via multiple correspondence analysis}
 
-The correlation of software by the loaded DLL's is a interesting idea that has not been
+The correlation of software by the loaded DLL's is an interesting idea that has not been
 found in the known literature. This idea may be worth further research. It maybe worth
 the effort to perform the multiple correspondence analysis on the DLL's loaded by a wide range 
 of programs and to analyse how the obtained results correspond to their functionalities. It may also
@@ -1656,11 +1649,11 @@ allow to further assess the real value of the custom DLL encoder designed in the
 \section{Performance of different algorithms}
 
 The work done in this thesis focused on establishing whether the anomaly detection performed on the
-data obtained from the Event Trace for Windows framework is possible and whether a significant results
+data obtained from the Event Trace for Windows framework is possible and whether a significant result
 can be obtained. For this purpose a single classification algorithm was utilized. In the future work 
 additional tests can be performed with multiple anomaly detection methods to establish how well each 
-of them performs on the available data. This may include the utilization of the latest state of the 
-art algorithms based on the artificial neural networks like autoencoders.
+of them performs on the available data. This may include the utilization of the latest state-of-the-art 
+algorithms based on the artificial neural networks like auto encoders.
 
 %jak się robi rsvm w scikit
 
@@ -3287,7 +3280,7 @@ art algorithms based on the artificial neural networks like autoencoders.
 
 \begin{table}
 	\centering
-	\caption{OCSVM classification on choosen features combined.}
+	\caption{OCSVM classification on chosenfeatures combined.}
 	\label{id:tab:OCSVMonProc}
 	\begin{tabular}{lrrrrr}
 		\toprule
