@@ -397,14 +397,14 @@ performance of Robust Support Vector Machines (RSVM), Support Vector Machines an
 on the data from 1998 DARPA Intrusion Detection System Evaluation program. Obtained results
 prove the superiority of RSVM's in the tested use cases. 
 
-SVM is a kernel-based method for binary classification problem which "aims at constructing 
+SVM is a kernel-based method for binary classification problem which "\textit{aims at constructing 
 the optimal middle hyperplane which induces the largest margin. It is proven that in a linearly 
-separable case, this middle hyperplane offers the high accuracy on universal datasets". This 
-approach however has reduced performance due to the fact that " real world datasets often contain 
+separable case, this middle hyperplane offers the high accuracy on universal datasets}". This 
+approach however has reduced performance due to the fact that "\textit{real world datasets often contain 
 overlapping regions and therefore, the decision hyperplane should be adjusted according to the 
-profiles of the datasets". This problem is addressed in the improved version of the algorithm
-where "by setting the value of the adjustment factor properly, RSVM can handle well the datasets 
-with any possible profiles"\cite{bib:svmandrsvm}.
+profiles of the datasets}". This problem is addressed in the improved version of the algorithm
+where "\textit{by setting the value of the adjustment factor properly, RSVM can handle well the datasets 
+with any possible profiles}"\cite{bib:svmandrsvm}.
 
 Some researchers try to perform security
 data classification with novel anomaly detection methods like autoencoders. This approach was
@@ -673,11 +673,11 @@ research in wider domain.
 
 \section{Logging}
 
-The initial data was gathered by the PerfView.exe tool which is "a free performance analysis 
+The initial data was gathered by the PerfView.exe tool which is "\textit{a free performance analysis 
 tool that helps isolate CPU and memory-related performance issues. It is a Windows tool, 
 but it also has some support for analysing data collected on Linux machines. It works for 
 a wide variety of scenarios, but has a number of special features for investigating 
-performance issues in code written for the .NET runtime"\cite{bib:PerfView}. This tool is also capable of 
+performance issues in code written for the .NET runtime}"\cite{bib:PerfView}. This tool is also capable of 
 tapping into many ETW logging sessions and storing the gathered data into output files. It also 
 has functionality that helps in working with the saved information. Main purpose of PerfView 
 in the thesis was data gathering and preprocessing. The software is open source.
@@ -804,16 +804,16 @@ description of the taken actions and presentation as well as analysis of the obt
 
 Experiments performed to achieve the goals of the thesis were executed with the use of 
 the Python 3.8.3rc1 programming language. It was executed via the Jupyter framework which is
-a is "an open-source web application that allows you to create and share documents that 
+a is "\textit{an open-source web application that allows you to create and share documents that 
 contain live code, equations, visualizations and narrative text. Uses include: data cleaning 
 and transformation, numerical simulation, statistical modelling, data visualization, machine 
-learning, and much more" \cite{bib:jupyter}. Each experiment was performed in a separate
+learning, and much more}" \cite{bib:jupyter}. Each experiment was performed in a separate
 Jupyter notebook and obtained results were analysed in the same framework. 
 
-Gathered data was also analysed in the Windows Performance Analyzer (WPA) which "is a tool that 
+Gathered data was also analysed in the Windows Performance Analyzer (WPA) which "\textit{is a tool that 
 creates graphs and data tables of Event Tracing for Windows (ETW) events that are recorded 
 by Windows Performance Recorder (WPR) or Xperf. WPA can open any event trace log (ETL) file 
-for analysis" \cite{bib:wpa}. This software was used to perform initial analysis of the 0-day 
+for analysis}" \cite{bib:wpa}. This software was used to perform initial analysis of the 0-day 
 exploitation of the chromium based browsers and to formulate areas of focus in the gathered data. 
 The tool can be easily installed on Microsoft Windows operating systems from the Microsoft Store.
 
@@ -1574,8 +1574,8 @@ to perform a security anomaly detection with the above average success ratio. Fo
 data it was possible to obtain a 38\% detection rate with a 1.7\% false negative ratio while
 utilizing all the best performing features at once. This obtained score may be significantly 
 improved by the increase in the dataset size. This approach to the monitoring of the programs 
-running on the operating systems may be utilized in a honeypot traps which are "a sacrificial 
-computer systems that are intended to attract cyberattacks, like a decoy" \cite{bib:Honeypot}. 
+running on the operating systems may be utilized in a honeypot traps which are "\textit{a sacrificial 
+computer systems that are intended to attract cyberattacks, like a decoy}" \cite{bib:Honeypot}. 
 The best use case for the system would be a deployment of the detector system on the servers and 
 computers for the individual users to learn their specific patterns and identify the exploitation
 attempts.
