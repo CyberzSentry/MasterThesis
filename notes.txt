@@ -5,7 +5,7 @@ Wykrywanie anomalii bezpieczeństwa w oparciu o Windows Event Trace
 #TODO 
 https://www.youtube.com/watch?v=b4kRAt4mkB8
 Poszukać monitorowania podprocessów
-Multipage table
+Multipage table - done.
 Plot encoded paths with validation
 Wymiary zbioru danych. Ile czasu były zbierane.
 it's -> its w całym dokumencie sprawidzić

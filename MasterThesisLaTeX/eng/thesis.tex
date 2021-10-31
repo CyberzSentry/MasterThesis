@@ -833,8 +833,8 @@ Each entry in the file is separated by the new line character and its features a
 by commas. This simple, non-proprietary format is very accessible and supported by most 
 known data handling programs and frameworks. 
 
-The dataset was acquired in 4 user sessions. In two of those a simulated 0-day attack was 
-performed. The attacked processes and the ones spawned in result have been marked as anomalies. 
+The dataset was acquired in 4 user sessions lasting 0.59, 4.85, 10.09 and 9.27 hours. In two of those 
+a simulated 0-day attack was performed. The attacked processes and the ones spawned in result have been marked as anomalies. 
 
 After preprocessing of the data following features are stored in the output file:
 \begin{itemize}
@@ -864,8 +864,10 @@ After preprocessing of the data following features are stored in the output file
 	\item The remaining columns contain OneHot encoded information about the dynamically linked 
 	libraries. When a column contains value 1, the process has loaded the DLL specified in the 
 	column name. Otherwise, the column contains 0. Full list of the captured modules can be 
-	found in the appendix % TODO dodać listę dll
+	found in the listing \ref{lst:dlls} located in the appendix and contains 1454 entries.
 \end{itemize}
+
+In general the gathered information is stored in a tabular form with 1404 rows and 1468 columns. 
 
 The dataset utilized in the thesis can be found in a public repository under the URL 
 \url{https://github.com/maxDoesHacking/MasterThesis/blob/master/data/combined_ETW_data.csv}
@@ -878,6 +880,7 @@ The dataset was filtered with the use of 'ProcessPath' feature. Any string value
 substring indicated that the corresponding process is either Microsoft Edge browser or was spawned by it. 
 
 \subsection{Dynamic link libraries}
+\subsubsection{Baseline}
 To obtain baseline results to which any developed frameworks can be compared a one class SVM anomaly 
 detection was performed on the raw one hot encoded DLL data. The results of this process can be found
 in the figure \ref{fig:DLLBaselineROC} and show that singling out of the outliers is possible with this type 
@@ -891,7 +894,8 @@ Raw results can be found in the table \ref{id:tab:rawDlls} located in the append
 	\caption{The receiver operating characteristic of the baseline anomaly detection. Source: own elaboration.}
 	\label{fig:DLLBaselineROC}
  \end{figure}
-	
+
+\subsubsection{DLL counts}
 In the initial analysis of the data we can look at the counts of DLL's loaded by specific 
 processes. The distribution of those values can be found in the histogram \ref{fig:dllCounts}. 
 From this depiction we can clearly see that some outlier samples lie distant from other 
@@ -917,6 +921,8 @@ detection rate requires however a significant false negative ratio.
 	\caption{The receiver operating characteristic anomaly detection performed on DLL counts. Source: own elaboration.}
 	\label{fig:DLLcountsROC}
 \end{figure}
+
+\subsubsection{Multiple component analysis}
 
 There are over 1400 different DLL's gathered in the data set created. A single process loads 
 even up to 287 modules. This extremely high dimensionality of the information might be too complex 
@@ -1040,13 +1046,14 @@ production environment due to the full dataset required prior to classification.
 utilized to develop and train a custom encoder capable of positioning the new input data in the previously 
 analysed DLL space.  
 
-
  \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/MCAROCbothKFandNot.PNG}
 	\caption{ROC curve of OCSVM directly on MCA data with and without cross validation. Source: own elaboration.}
 	\label{fig:mcaroc}
  \end{figure}
+
+\subsubsection{Custom multiple component analysis encoder}
 
 The idea behind the custom encoder is to group DLL's by their common occurrence and therefore
 conclude common functionality of the programs that share them. This task can be performed
@@ -1127,6 +1134,8 @@ fully makeup for the lack of new DLL detection. The data sample is not sufficien
 tests on how the encoder trained on the data containing outliers performs on previously unseen
 outlier samples.
 
+\subsubsection{Approach comparison}
+
 The ROC curves for all tested encoding approaches are presented in the graph \ref{fig:GraphComp}.
 Those results show that the classification performed on the encoded data can be more effective
 than the one performed directly on the MCA data. It can also outperform it in the number of 
@@ -1145,9 +1154,7 @@ dirty data.
 	\label{fig:GraphComp}
  \end{figure}
 
-The performance of the developed methods was tested with 10 - fold cross validation. In the case of
-the anomaly detection performed on the raw MCA data the ROC was presenting an anomalous characteristics 
-and the attempts of identifying their sources did not bring any results.
+The performance of the developed methods was tested with 10 - fold cross validation. 
 
 \subsection{Process paths}
 
@@ -1205,6 +1212,8 @@ All paths corresponding to the researched process consist of elements presented 
 	\end{tabular}
 \end{table}
 
+\subsubsection{Path lengths}
+
 This data cannot be fed directly to the classification algorithm because of its 
 qualitative nature. In result no baseline can be obtained. The basic feature
 of the path it's size - the number of processes contained in it. The distribution
@@ -1229,6 +1238,8 @@ behaviour is visible for wide range of 'nu' values.
 	\caption{ROC of the anomaly detection on path lengths. Source: own elaboration.}
 	\label{fig:pathLenROC}
  \end{figure}
+
+\subsubsection{Similarity encoding}
 
 In order to attempt identification of more complex patterns in the path data the feature was encoded with
 the use of a Similarity Encoder which assigns values to the input based on its similarity 
@@ -1258,7 +1269,7 @@ calculated to the corresponding set of known values which result in multiple enc
 column. Because of that the returned output is flattened to the vector form in which entries
 correspond to both the input dimension and its specific categories. 
 
-An example of this can be shown with the following categories based on the ones computed 
+To better understand how the encoder works let's consider following hypothetical categories based on the ones computed 
 for the used data:
 \begin{itemize}
 	\item Column 1 contains unique entries: '', 'cpu-z\_1.96-en', 'msedge', 'notepad'.
@@ -1267,7 +1278,7 @@ for the used data:
 
 Those result in the output vector with following entries:
 \begin{itemize}
-	\item Similarity of the first column entry to the empty string.
+	\item Similarity of the first column entry to the ''.
 	\item Similarity of the first column entry to the 'cpu-z\_1.96-en'.
 	\item Similarity of the first column entry to the 'msedge'.
 	\item Similarity of the first column entry to the 'notepad'.
@@ -1354,6 +1365,8 @@ establish if the DirtyCat encoding can be further adjusted to the anomaly detect
 	\label{fig:ocsvmNoSplitComp}
  \end{figure}
  
+\subsubsection{Approach comparison}
+
 All analysed approaches to path analysis are compared in the graph \ref{fig:pathcomp}. Those results show the
 superiority of the anomaly detection based on the relative path length. In this case it is capable of detecting 
 76.9\% of outliers with around 6.8\% false negative rate. The methods based on dirty cat encoding of the paths also managed 
@@ -1865,6 +1878,397 @@ algorithms based on the artificial neural networks like auto encoders.
 	</script>
 \end{lstlisting}
 
+\begin{lstlisting}[label={lst:dlls},caption={All gathered DLL's},escapeinside=``,basicstyle=\tiny,breaklines=true]
+rpcrt4, ucrtbase, msvcrt, combase, sechost, ntdll, 
+kernelbase, kernel32, msvcp_win, bcryptprimitives, shcore, win32u, 
+user32, gdi32, gdi32full, advapi32, oleaut32, 
+kernel.appcore, wldp, bcrypt, profapi, crypt32, msasn1, ws2_32, cryptsp, 
+clbcatq, iphlpapi, msvcp110_win, imm32, userenv, 
+cryptbase, sspicli, wintrust, ntmarta, ole32, umpdc, winhttp, propsys, 
+powrprof, cfgmgr32, windows.storage, shlwapi, wtsapi32,
+ wintypes, netapi32, ntasn1, ncrypt, netutils, uxtheme, 
+policymanager, dsreg, dbghelp, dhcpcsvc, logoncli, nsi, 
+ondemandconnroutehelper, twinapi.appcore, winsta, coremessaging, 
+dpapi, iertutil, onecoreuapcommonproxystub, windows.web, 
+mrmcorer, sppc, devobj, coreuicomponents, secur32, dwrite, 
+rsaenh, dnsapi, slc, wbemprox, appxdeploymentclient, 
+setupapi, uiautomationcore, textinputframework, wbemcomn, 
+winspool.drv, winmm, wbemsvc, shell32, fastprox, bcp47langs,
+ msedge_elf, xmllite, inputhost, mswsock, windowmanagementapi, 
+rmclient, windows.applicationmodel, srvcli, windows.globalization, 
+onecorecommonproxystub, npmproxy, windows.ui, 
+windows.security.authentication.onlineid, taskschd, 
+rdpendp, winnsi, cabinet, biwinrt, windows.staterepositoryps, 
+utcutil, flightsettings, windows.staterepositorycore, 
+wdscore, bcp47mrm, windows.storage.applicationdata, fwbase, 
+version, fwpuclnt, firewallapi, urlmon, schannel, 
+fltlib, rasadhlp, dcntel, mmdevapi, ncryptsslp, mskeyprotect, 
+windows.cortana.proxystub, aepic, windows.networking.connectivity, 
+dxgi, wininet, wkscli, audioses, cryptnet, msctf, 
+daxexec, container, tdh, cbsapi, winmmbase, samcli, 
+system.runtime.interopservices.windowsruntime, apphelp, 
+system.runtime.windowsruntime, myoffice.managedbackgroundtasks.winmd, 
+windows.staterepositoryclient, system.runtime, 
+system.threading.tasks, windows.winmd, wevtapi, 
+wldap32, dwmapi, profext, dhcpcsvc6, wer, wups, dsparse, dbgcore, gpapi, 
+usermgrcli, wincorlib, staterepository.core, 
+languageoverlayutil, mlang, appraiser, dmcmnutils, windows.ui.immersive, 
+certca, certenroll, windows.web.http, tbs, usoapi, 
+msi, waasmedicps, windowsudk.shellcommon, updatepolicy, 
+dictationmanager, netprofm, capabilityaccessmanagerclient, 
+mpr, usocoreps, psapi, mrmdeploy, wlidprov, imagehlp, 
+sapi_onecore, d3d10warp, searchapi, search.core,
+appxdeploymentserver, cscapi, bingconfigurationclient, wwapi, d3d11, 
+comctl32, sxs, ucrtbase_clr0400, wuapi, shellcommoncommonproxystub, 
+windows.system.profile.platformdiagnosticsandusagedatasettings, 
+clr, dusmapi, mscoree, dxcore, clrjit, mscorlib.ni, 
+vcruntime140_clr0400, mscoreei, icu, winsqlite3, dcomp, webio, 
+dmiso8601utils, rtworkq, vsstrace, mfplat, windowscodecs, 
+esent, idstore, clrhost, vssapi, threadpoolwinrt, mf, 
+d2d1, cdprt, waasmedicsvc, upshared, coml2, 
+windows.networking.hostname, avrt, appresolver, msxml6, 
+samlib, msacm32, ksuser, wmiclnt, resourcepolicyclient, 
+enrollmentapi, textshaping, normaliz, amsi, mfcore, 
+vaultcli, dsrole, edputil, rometadata, 
+windows.security.authentication.web.core, wcp, dpx, 
+srclient, mpoav, drupdate, cbscore, spp, wmi, msgsm32.acm, 
+imaadp32.acm, efswrt, structuredquery, mfaacenc, 
+usermgrproxy, iri, msadp32.acm, l3codeca.acm, mdmregistration, 
+omadmapi, msg711.acm, windows.ui.xaml, execmodelproxy, 
+audioeng, cdp, wow64win, ncobjapi, wow64cpu, 
+windows.shell.servicehostbuilder, icuuc, mssprxy, 
+wlanapi, windows.cloudstore, cellulardatacapabilityhandler, 
+wmiutils, dataexchange, wups2, wifidatacapabilityhandler, 
+nlaapi, security, languagecomponentsinstaller, wow64, 
+twinapi, drvstore, vcruntime140_app, msvcp140_app, wosc, 
+vccorlib140_app, winrttracing, wpc, vcruntime140_1_app, 
+winbrand, hid, appextension, systemeventsbrokerclient, 
+authz, starttiledata, es, familysafetyext, linkinfo, icuin, 
+windows.staterepository, cryptdll, directmanipulation,
+ windows.graphics, wuuhext, mswb7, execmodelclient, windows.media, 
+ntshrui, dmenrollengine, onesettingsclient, 
+ninput, uiamanager, fwpolicyiomgr, 
+windows.system.diagnostics.telemetry.platformtelemetryclient, 
+wshbth, windows.energy, framedynos, eventaggregation, 
+webservices, schedcli, d3dcompiler_47, 
+windows.services.targetedcontent, phoneutil, vmbuspipe, 
+userdataplatformhelperutil, 
+goopdate, cimwin32, coloradapterclient, userdatalanguageutil, 
+microsoft_apis, cryptowinrt, windows.ui.xaml.controls, 
+smartscreenps, userdatatypehelperutil, mscms, ncryptprov, 
+windows.storage.search, feclient, windows.ui.core.textinput, 
+msimg32, appointmentactivation, tiledatarepository,
+ windows.foundation.winmd, gdiplus, windows.applicationmodel.winmd, 
+ieframe, mobilenetworking, mpclient, thumbcache, 
+atlthunk, actxprxy, windows.system.winmd, tquery, wscapi, 
+productenumerator, uianimation, clipc, taskapis, 
+storageusage, notificationcontrollerps, bitsproxy, 
+windows.internal.shell.broker, sfc_os, brokerlib, 
+contactapis, windows.devices.enumeration, sfc, wmipcima, 
+emailapis, appointmentapis, contactactivation, 
+wuuhosdeployment, wuaueng, hxcomm, hxoutlookbackground, bi, 
+userdataaccountapis, microsoft.applications.telemetry.windows, 
+pdh, comppkgsup, srpapi, chakra, 
+windows.fileexplorer.common, devdispitemprovider, 
+msimtf, pcacli, capauthz, virtdisk, msdelta, pcasvc, dolbydecmft, 
+apisampling, wdi, sxssrv, devrtl, rtutils, mfperfhelper, 
+fveapi, dispbroker.desktop, csrsrv, mfh264enc, 
+photometadatahandler, timebrokerclient, windows.cloudstore.schema.shell, 
+windows.applicationmodel.background.systemeventsbroker, 
+windows.devices.radios, winsrv, windows.ui.winmd, pcadm, 
+winsrvext, httpprxc, msmpeg2vdec, appcontracts, networkuxbroker, 
+basesrv, vss_ps, webplatstorageserver, wshhyperv, 
+contentdeliverymanager.utilities, mssrch, securitycenterbrokerps, 
+windows.applicationmodel.background.timebroker, 
+ssdpapi, oleacc, wsdapi, icsvc, ethernetmediamanager, 
+bluetoothapis, msvproc, windows.media.mediacontrol, dxva2, 
+gamestreamingext, mi, ncsi, concrt140_app, system.numerics, 
+windows.networking, windows.storage.winmd, 
+systemsettings.datamodel, dwmcore, ondemandbrokerclient, 
+libegl, bthradiomedia, d3d12, dciman32, domgmt, 
+joinutil, cldapi, kerberos, runtimeconfiguration, msiso, 
+edgeiso, cscui, radardt, batmeter, fontgroupsoverride, 
+microsoft.ui.xaml, spinf, pcwum, userdeviceregistration, 
+windows.gaming.input, twinui.appcore, icsvcext, opcservices, 
+umb, rpcss, msvcp140, udwm, winbio, cryptngc, appxalluserstore, 
+wuceffects, sharehost, uxinit, system.core.ni, 
+bthavctpsvc, cortana.internal.search.winmd, bcd, 
+wpnapps, diagnosticdataquery, workfoldersshell, 
+windows.globalization.fontgroups, cscobj, lsmproxy, 
+constraintindex.search, updatedeploymentprovider, 
+dlnashext, dabapi, vcruntime140, libglesv2, 
+windows.devices.bluetooth, sysntfy, libsmartscreen, twinui, 
+contentmanagementsdk, miutils, system.configuration.ni, 
+system.ni, generaltel, portabledeviceapi, regapi, 
+windows.devices.sensors, filesyncshell64, 
+windows.system.userprofile.diagnosticssettings, wpdshext, explorerframe, 
+securityhealthproxystub, wpnclient, dmoleaututils, 
+wpprecorderum, ism, wdag, mrt100_app, ehstorshell, dispbroker, 
+taskflowdataengine, scecli, tpmcoreprovisioning, 
+iconcodecservice, mpengine, wudfplatform, deviceupdatecentercsp, 
+eppmanifest, dwmredir, httpapi, rasapi32, wpncore, 
+mshtml, windows.management.workplace, ddraw, winscard, dwminit, 
+ntlmshared, sharedlibrary, gameinput, rasman, 
+dwmghost, mrt100, newdev, system.xml.ni, 
+contentdeliverymanager.background, msutb, 
+embeddedmodesvcapi, devinv, psmachine, taskschdps, wcmapi, 
+enterpriseresourcemanager, configmanager2, windows.web.winmd, 
+shacctprofile, edgehtml, msctfmonitor, msv1_0, 
+provsvc, d3d12core, dssenh, edgemanager, dxgkrnl.sys, 
+pcw.sys, system.management.automation.ni, playsndsrv, 
+posyncservices, qt5winextras, classpnp.sys, pcpksp, 
+wmilib.sys, cryptsvc, proximityservicepal, fdwsd, upnp, 
+volmgrx.sys, prntvpt, dosvc, clipsp.sys, filesyncclient, 
+appsettingscppcx, csc.sys, etwrundown, wbemess, 
+libssl-1_1-x64, midimap, wmiperfclass, tabsvc, wpfgfx_v0400, 
+mup.sys, scesrv, wdigest, netbt.sys, httpprxm, 
+appmon, wwanradiomanager, hvsocket.sys, layoutdata, netjoin, 
+wmidcom, volsnap.sys, qt5qml, win32kfull.sys, 
+fs_rec.sys, uiautomationtypes, mpcommu, dps, 
+microsoft.richmedia.ink.controls, notificationplatformcomponent, 
+wpnuserservice, inputlocalemanager, usbhub.sys, computenetwork, 
+wevtsvc, filesyncviews, pacer.sys, profsvc, 
+tcpipreg.sys, wdmaud.drv, npsm, lltdio.sys, pwrshsip, 
+umrdp, dxgmms2.sys, spaceport.sys, pimstore, vmrdvcore, 
+actioncenter, netbios.sys, hidclass.sys, 
+windows.immersiveshell.serviceprovider, wpprecorder.sys, vfuprov, 
+wpnservice, storqosflt.sys, devicesoftwareinstallationclient, 
+wfplwfs.sys, fdphost, resourcepolicyserver, 
+photosapp.windows, winusb, 
+windows.networking.backgroundtransfer.backgroundmanagerpolicy, 
+rpcrtremote, kerbclientshared, keyiso, urscx01000.sys, 
+nfcradiomedia, windows.applicationmodel.store.preview.dosettings, 
+sgrmenclave, credprovslegacy, yourphone.notifications,
+ rdpdr.sys, sppcext, wof.sys, vccorlib140, 
+keepaliveprovider, windows.data.activities, npsmdesktopprovider, 
+shsvcs, mrxsmb.sys, wdfldr.sys, bidispl, 
+tspkg, pimindexmaintenanceclient, psmserviceexthost, 
+usbstor.sys, lfsvc, messagingdatamodel2, peauth.sys, 
+skypecontext, cmimcext.sys, playtodevice, trkwks, bam.sys, 
+hyperkbd.sys, windows.cortana.desktop, ncuprov, 
+basicdisplay.sys, tlscsp, usbxhci.sys, rastapi, 
+diagtrack, samsrv, windows.security.winmd, mdmcommon, 
+pkeyhelper, usbccgp.sys, tilecontrol, davclnt, win32_tpm, 
+sysmain, agilevpn.sys, ksecpkg.sys, nduprov, 
+umpnpmgr, winhv.sys, printisolationproxy, 
+rpcepmap, dab, mcupdate_genuineintel, dhcpcore, 
+windows.media.devices, npfs.sys, windows.shell.bluelightreduction,
+ tdi.sys, system.transactions.ni, 
+wkssvc, d3dscache, ehstorclass.sys, libcrypto-1_1-x64, 
+fltmgr.sys, yourphone.connectivity.rome, prnfldr, 
+uiribbon, ncbservice, wsmsvc, clusapi, qt5qmlmodels, 
+sppobjs, fntcache, aadcloudap, sspisrv, bisrv, 
+wsmauto, imapi2, rdyboost.sys, activationmanager, 
+wscproxystub, shellext, mtffuzzyds, locationwinpalmisc, 
+wdnisdrv.sys, storewuauth, proximityservice, 
+networkicon, storport.sys, onedrivetelemetrystable, 
+microsoft.diagnostics.tracing.eventsource, wmisvc, 
+umbus.sys, esscli, msquic.sys, textinputmethodformatter, 
+websocket, rspndr.sys, sbservicetrigger, 
+xboxgipradiomanager, acmigration, hal, udfs.sys, dsclient, 
+npsvctrig.sys, wlanradiomanager, dmcfgutils, aadwamextension, 
+tsprint, fileinfo.sys, ntfs.sys, adal, 
+msprivs, rmapi, devpropmgr, cxcredprov, 
+windowstrustedrtproxy.sys, yourphone.messaging, reinfo, shutdownux, 
+snmpapi, netsetupapi, appinfo, energyprov, startui, 
+mfcsubs, vmgid.sys, msrpc.sys, wininitext, cdpsvc, rassstp.sys, 
+eamprogresshandler, pshed, oneds, faultrep, 
+windows.networking.sockets.pushenabledapplication, accountaccessor, 
+wcmsvc, qt5quick, microsoft.diagnostics.fastserialization, 
+ssdpsrv, presentationframework.ni, msacm32.drv, 
+telclient, capabilityaccesshandlers, wptaskscheduler, 
+presentationcore.ni, sppwmi, clipboardserver, netio.sys, 
+mmcss.sys, elscore, usosvc, windowmanagement, werkernel.sys, 
+yourphone.calling.cx, vertdll, hcproviders, 
+modernexecserver, ntosext.sys, ngccredprov, 
+acpbackgroundmanagerpolicy, energy, cng.sys, dxilconv, 
+clrcompression, rasppp, vdrvroot.sys, qt5widgets, dui70, 
+licensemanagersvc, raspptp.sys, printconfig, 
+crypttpmeksvc, devicedriverretrievalclient, securitycenterbroker, 
+uaspstor.sys, ndproxy.sys, umpoext, 
+applicationframe, cryptxml, dmxmlhelputils, system.directoryservices.ni, 
+hypervideo.sys, msauserext, iphlpsvc, 
+windows.system.launcher, rasmans, lmhsvc, dump_diskdump.sys, 
+windows.internal.ui.shell.windowtabmanager, 
+rasplap, shacct, sapi, srumsvc, abovelockapphost, slwga, 
+raspppoe.sys, hrtfapo, fontprovider, syncengine, 
+windows.cortana.onecore, ntlanman, rilproxy, virtualmonitormanager, 
+winsync, devicemetadataretrievalclient, 
+mssmbios.sys, condrv.sys, coreaudiopolicymanagerext, 
+system.transactions, usbehci.sys, coreshellextframework, 
+ndisvirtualbus.sys, intelta.sys, ahcache.sys, filesyncfalwb, 
+textinput, swprv, bthprops.cpl, iddcx, 
+credprovs, dfsc.sys, cdpusersvc, wbemcore, audioendpointbuilder, 
+aeinv, mtfserver, yourphone.screenmirroring, 
+nrpsrv, ddores, unityenginedelegates, logoncontroller, 
+duser, partmgr.sys, wfapigp, wmiprvsd, certprop, 
+winrnr, accessibility, dusmsvc, ktmw32, storsvc, system.data, 
+windows.perception.stub, cldflt.sys, ci, 
+spfileq, mprtp, windowsperformancerecordercontrol, 
+deviceassociation, sstpsvc, microsoft.powershell.security.ni, 
+dpapisrv, assignedaccessmanager, sppwinob, srvsvc, 
+securetimeaggregator, syncreg, systemeventsbrokerserver, 
+loggingplatform, indirectkmd.sys, cbdhsvc, themeui, pdc.sys, 
+rdpidd, unistore, wscsvc, vid.sys, aad.core, 
+rdpserverbase, msls31, usbport.sys, srchadmin, ubpm, 
+ehstorapi, imagelib, locationframework, wpnprv, 
+cryptcatsvc, syncutil, gmsaclient, system.data.ni, 
+mslldp.sys, inputapp, sessenv, sscoreext, wudfrd.sys, 
+fdssdp, monitor.sys, termsrv, win32_deviceguard, 
+windows.applicationmodel.datatransfer, trie, winprint, 
+sdbus.sys, audiosrv, windows.ui.input.inking, synccenter, 
+ngckeyenum, eappcfg, pnpts, windows.media.speech, 
+sens, disk.sys, profsvcext, localspl, 
+windows.ui.shell.sharedutilities, xinput1_4, mediaenginecswrapper, 
+umpo-overrides, rdvvmtransport, ngcpopkeysrv, 
+vwififlt.sys, clfs.sys, windowsbase.ni, filesync.resources, 
+updateringsettings, timebrokerserver, settingsynccore, 
+taskflowui, srvnet.sys, msspellcheckingfacility, bitsigd, 
+appinfoext, tbs.sys, schedsvc, netvsc.sys, devicesetupmanager, 
+mpsvc, offreg, msfs.sys, adhapi, mccspal, 
+webview2loader, nlasvc, kd, rdpbus.sys, beep.sys, wofutil, 
+cdrom.sys, dmprocessxmlfiltered, cmbatt.sys, 
+dnsrslvr, napinsp, tm.sys, loguploader, inputswitch, 
+volmgr.sys, jscript9, sleepstudyhelper.sys, 
+windows.ui.logon, adhsvc, vpnike, wmitomi, audiosrvpolicymanager, 
+credprovdatamodel, ipsplugin, sdstor.sys, 
+microsoft.powershell.consolehost.ni, lsm, efslsaext, 
+windowsinternal.composableshell.experiences.switcher, 
+windowstrustedrt.sys, dssvc, qt5network, 
+telemetry, acpi.sys, pnrpnsp, bfe, netlogon, 
+smartcardbackgroundpolicy, mxdwdrv, crashdmp.sys, 
+appxsip, wscisvif, mssecflt.sys, csystemeventsbrokerclient, 
+msisip, kbdclass.sys, system.management.ni, raschap, 
+sebbackgroundmanagerpolicy, http.sys, fundisc, 
+dump_vmbkmcl.sys, userdataservice, onesettingsclientforwarder, 
+rdpbase, negoexts, yourphonecontrols, wmsgapi, 
+ntoskrnl, msxml3, sendmail, lightbox, usbhub3.sys, 
+xpsservices, winhvr.sys, perftrack, dismapi, inproclogger, 
+atl, ucx01000.sys, ndiscap.sys, globinputhost, proximitycommonpal, 
+dxp, volume.sys, networkhelper, filecrypt.sys, 
+tdx.sys, rdpvideominiport.sys, settingsenvironment.desktop, 
+cortana.search.winmd, intelpep.sys, wanarp.sys, 
+kerneltracecontrol, microsoftaccountcloudap, battc.sys, 
+aphostclient, fwpkclnt.sys, yourphone.fre, srumapi, 
+dhcpcore6, wdfilter.sys, facecredentialprovider, qt5gui, 
+sgrmagent.sys, bowser.sys, languageoverlayserver, 
+tcpip.sys, eeprov, microsoft.powershell.commands.utility.ni, 
+ndiswan.sys, mccsengineshared, usermgr, 
+hidparse.sys, windows.internal.signals, srv2.sys, bindflt.sys, 
+twinui.pcshell, fvevol.sys, rascustom, netprovfw, 
+psmsrv, desktopshellext, umpo, aphostservice, fdrespub, 
+win32k.sys, uiautomationprovider, win32kbase.sys, 
+pku2u, backgroundmediapolicy, searchapi.proxystub, settingmonitor, 
+cemapi, wpnsruprov, bootvid, appcore.windows, 
+rtmediaframe, wcmcsp, windows.ui.shell, ndis.sys, 
+msftedit, drprov, mssvp, windows.ui.fileexplorer, 
+presentationframework-systemxml, stobject, inputservice, 
+rdpcorets, system.configuration.install.ni, 
+vmgencounter.sys, wdf01000.sys, afunix.sys, printui, 
+catsrvut, webruntimemanager, 
+vmapplicationhealthmonitorproxy, acppage, davhlpr, 
+credprovhost, windows.ui.xamlhost, authbroker, 
+smartcardcredentialprovider, adsldpc, webauthn, 
+vmbushid.sys, nsiproxy.sys, appcoreframework.windows, 
+mstask, credprovhelper, cloudap, themeservice, rasl2tp.sys, 
+vbsapi, securityhealthsso, basicrender.sys, 
+portabledevicetypes, swenum.sys, cea.sys, 
+urschipidea.sys, filesyncsessions, ndu.sys, qt5core, 
+phonecommunicationappservice, pcshellcommonproxystub, 
+puiapi, tsusbhub.sys, pci.sys, msvcp140_clr0400, 
+shdocvw, gpsvc, usbmon, null.sys, resutils, 
+vcruntime140_1, mrxsmb20.sys, cmintegrator, fastfat.sys, 
+packagestatechangehandler, storvsc.sys, wshext, spoolss, 
+wudfx02000, quiethours, taskcomp, compositebus.sys, 
+msctfui, rdbss.sys, fxsmon, vmbus.sys, ks.sys, 
+eappprxy, sndvolsso, apmon, mtf, tcpmon, gpuenergydrv.sys, 
+cad.sys, repdrvfs, dmvsc.sys, wcifs.sys, wscinterop,
+ yourphone.contacts, netprofmsvc, 
+microsoftaccounttokenprovider, winsatapi, acpiex.sys,
+ win32spl, ndistapi.sys, licensemanagerapi, 
+wscui.cpl, kbdpl1, werconcpl, usbd.sys, iorate.sys, 
+kdcpw, amsiproxy, intelppm.sys, holographicextensions, 
+pnidui, yourphone.settings, notificationcontroller, 
+synccontroller, luafv.sys, mouclass.sys, qwindows, 
+networkexplorer, presentationnative_v0400, 
+terminpt.sys, credprov2fahelper, yourphone.appcore.winrt, 
+appsruprov, d3d9, dump_dumpfve.sys, cflapi, mydocs, 
+credui, bitsperf, cdd, ncprov, ksecdd.sys, nsisvc, 
+onlinemediacomponent, twext, watchdog.sys, lsasrv, 
+inetpp, afd.sys, msdmo, installservice, wnsclientapi, 
+settingsync, mountmgr.sys, elslad, renderingplugin, 
+cellularapi, licensemanager, searchfolder, 
+tokenbinding, wpdshserviceobj, qmgr, 
+microsoft.diagnostics.tracing.traceevent, capabilityaccessmanager, 
+fxsresm, mouhid.sys, mpssvc, sscore, activeds, 
+cimfs.sys, filesync.localizedresources, wsnmp32, 
+presentationframework.aero2.ni, vaultsvc, wlidcredprov, 
+microsoft.management.infrastructure.ni, 
+system.xaml.ni, mpsdrv.sys, waasassessment, 
+authext, tokenbroker, mpksldrv.sys, pimindexmaintenance, 
+biocredprov, kdnic.sys, zipfldr, proximitycommon, 
+vmbkmcl.sys, dump_storvsc.sys, ParentID, system.runtime.ni, 
+system.threading.tasks.ni,
+ system.runtime.interopservices.windowsruntime.ni, securityhealthagent, 
+windows.staterepositorybroker, windows.ui.appdefaults, 
+pautoenr, sechealthuidatamodel, dimsjob, 
+sechealthuiviewmodels, windows.ui.xaml.phone, 
+quickactionsdatamodel, microsoft.csharp, 
+microsoft.powershell.psreadline, sechealthuitelemetry, 
+corelib, mssph, comdlg32, 
+windows.applicationmodel.lockscreen, mfmediaengine, 
+wordbreakers, scdeviceenum, winbioext, 
+yourphone.connectivity.ypp, ddccomimplementationsdesktop, 
+windows.system.profile.retailinfo, 
+userdatatimeutil, settingshandlers_display, widevinecdm, 
+settingshandlers_notifications, mtcuvc, 
+windows.system.profile.systemid, damediamanager, ngcctnrsvc, 
+nuivoicewbsadapters, devicedirectoryclient, 
+ngcctnr, microsoft.powershell.commands.management.ni, 
+networkmobilesettings, facebootstrapadapter, 
+ngcctnrgidshandler, rstrtmgr, wbiosrvc, wersvc, quickactions, settingshandlers_capabilityaccess, 
+yourphone.calling.winrt, weretw, ngcsvc, fontglyphanimator, 
+rasmediamanager, winbiostorageadapter, 
+windows.cloudstore.schema.desktopshell, ncaapi, 
+settingshandlers_onecore_batterysaver, 
+windows.ui.actioncenter, windows.media.protection.playready, 
+fusion, mscorsvc, dllhost, 
+system.management, wlidsvc, elstrans, system.security,
+ wmploc, uiautomationtypes.ni, ssshim, 
+ngentasklauncher, audiodg, wminet_utils, windowsbase, 
+system.numerics.ni, system.dynamic, 
+dismprov, dismcoreps, logprovider, winlogon, efsutil, 
+wimgapi, dismcore, wlidres, clipsvc, 
+fhsvcctl, occache, explorer, wmp, osprovider, scavengeui, 
+windows.applicationmodel.store, searchapp, 
+d3d10_1core, reservemanager, wimprovider, vhdprovider,
+ d3d10, clockflyoutexperience, folderprovider, 
+profprov, mfmp4srcsnk, wmvcore, fhcleanup, shellexperiencehost, 
+setupcln, d3d10core, peerdistcleaner, 
+pnpclean, languagepackdiskcleanup, ffuprovider, dataclen, 
+imagingprovider, d3d10_1, wmasf, fhcfg, 
+invagent, settingshandlers_nt, windows.payments, 
+system.runtime.windowsruntime.ni, wmiprov, wpdbusenum, 
+windows.media.audio, accessibility.ni, colorcnv, 
+wsclient, smipi, windows.internal.shellcommon.broker, 
+microsoft.csharp.ni, appxdeploymentextensions.desktop, 
+tempsignedlicenseexchangetask, pstask, ieproxy, 
+edgecontent, installservicetasks, winstoretaskswrapper, 
+geolocation, winstore.preview, 
+appxdeploymentextensions.onecore, microsoft.wallet, 
+vmictimeprovider, msauddecmft, radarrs, 
+locationframeworkps, energytask, cbsprovider, winstore.app, 
+uiautomationprovider.ni, speechpal, 
+appxpackaging, mpuxagent, smiengine, jscript, w32time, 
+audiokse, memorydiagnostic, 
+windows.ui.creddialogcontroller, wincredui, windows.internal.ui.logon.proxystub, 
+cpuz150_x64.sys, 
+cpu-z_1.96-en.tmp, windows.ui.cred, sqmapi, diagperf, winlangdb, dsound, 
+windowsinternal.composableshell.desktophosting, shfolder, printplatformconfig, 
+semgrsvc, perfos, 
+chartv, dxdiagn, windows.graphics.printing, usp10, tiptsf, riched20, 
+portabledeviceconnectapi
+\end{lstlisting}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%DLL
 
 \begin{table}
