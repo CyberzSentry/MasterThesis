@@ -289,22 +289,22 @@ transmit it between many computers around the globe. Any disruption to the work 
 systems or unauthorized access to the stored information may result in significant losses.
 Those may include financial and geopolitical repercussions but also direct losses of human
 lives in situations where the target of an attack is for example a hospital. Since the inception
-and propagation of IT the security of the systems in question is growing concern of corporations, 
-countries and even individuals. Because of the constant arms race between adversaries attacking 
-and defending IT systems, anyone who is not proactively handling matters concerning cyber security 
+and propagation of IT the security of the systems in question is a growing concern of corporations, 
+countries and even individuals. Because of the constant arms race between malicious actors attacking 
+and security professionals defending IT systems, anyone who is not proactively handling matters concerning cyber security 
 is instantly falling behind. \cite{bib:articleImportanceOfCybersecurity} 
 
 A typical attack on an IT system may include exploitation of a design 
 flaw to gain increased access. The offensive actions can target many layers of 
 abstraction present in current IT systems. Such situations are extremely hard to discover 
 and guard against due to the fact that they were not foreseen in the design process. How to guard 
-against something that is not known to be possible. There are many approaches that aim to 
-increase the security of IT systems. Some popular ones include fingerprinting malware, 
+against something that is not known to be possible? There are many approaches that aim to 
+increase the security of IT systems. Some popular ones include malware fingerprinting, 
 monitoring software for specific suspicious actions or for know 
 malicious values. Those approaches can be very effective but in some cases their 
 failures are inevitable.
 
-To mitigate this problem multiple studies has been done that attempt to utilise the methods of
+To mitigate this problem multiple studies has been done that attempt to utilize the methods of
 anomaly detection known from the data science fields in order to identify the misbehaviours of 
 the monitored IT systems which could allow for an early detection of novel 0-day based intrusions.
 The past investigations of the problem has focused on analysis of the information obtained from 
@@ -313,7 +313,7 @@ multiple sources like system commands sequences \cite{bib:lane1997application} o
 that gather significant quantities of information about inner workings of the processes that remain
 untapped. 
 
-The objective of this thesis is to utilise the Event Trace for Windows (ETW) mechanism and it's 
+The objective of this thesis is to utilize the Event Trace for Windows (ETW) mechanism and it's 
 capability to access low level debugging data on the Microsoft operating systems to attempt
 security anomaly detection. The main focus is placed on identification of 0-day binary process 
 exploitation leading directly to arbitrary code execution and malicious program spawning. While 
@@ -327,13 +327,13 @@ the data generated in the process via the Event Trace for Windows mechanism. Thi
 required establishing of the information gathering framework. The acquired 
 information was processed to identify and extract features that could be utilized in an anomaly detection
 methods. This procedure included analysis of the available information from a statistical point of view
-as well as a development of some novel data encoding approaches. Gathered 
+as well as development of some novel data encoding approaches. Gathered 
 features were tested with known classification algorithms and the results of the experiments were thoroughly analysed.
 
-Based on the performed actions a conclusion were formed about the usefulness of specific tested features 
-and of the ETW data
-in potential anomaly detection based security system. Additionally further research directions
-had been established and specified.
+Each stage of the entire process was performed with introspective approach in order to gather as much information 
+as possible and to find potential improvement points. As a result conclusions were formed and stated about
+the ETW framework, processed data in general and its specific features, possible applications of the developed
+solution in the security anomaly detection system. Additionally further research directions had been established and specified.
 
 \section{Chapters description}
 
@@ -359,9 +359,9 @@ This thesis is constructed with following chapters.
 
 \chapter{Problem analysis}
 
-This chapter is an in depth overview of the problem related information available in the public 
-literature and resources. Additionally, it contains analysis of complications possibly encountered
-during the realization the required work.  
+This chapter contains research of the stated thesis problem in the publicly available  
+literature and other resources. Additionally, it contains analysis of complications possibly encountered
+during the realization of the required work.  
 
 \section{Known problems}
 There are multiple problems that need to be solved to form conclusions to the questions stated in the
@@ -374,13 +374,13 @@ An analysis has to be done in order to identify the features that can prove usef
 anomaly detection scenarios. 
 
 Gathered data might require preprocessing that will adjust its form to the formats accepted in the
-current classification methods and algorithms. Some types of information present in the computer 
+classification methods and algorithms. Some types of information present in the computer 
 generated data set might require utilization of novel processing and encoding frameworks or 
 development of new specific approaches to allow for their utilization.  
 
 \section{Literature research}
 
-The previous attempts of implementing a security anomaly detection frameworks depicted in the 
+The existing attempts attempts of implementing a security anomaly detection frameworks depicted in the 
 literature take many approaches. Some of those include analysis of specific sequences
 present in terminal commands \cite{bib:lane1997application} or system calls \cite{bib:forest}. 
 
@@ -410,7 +410,7 @@ Some researchers try to perform security
 data classification with novel anomaly detection methods like autoencoders. This approach was
 attempted for example in "Anomaly Detection on the Edge" by Joseph Schneible and Alex Lu
 \cite{bib:autoencoderDist}. This method learns to compress and decompress the available feature 
-vectors with the use of artificial neural vectors. Anomaly is detected when the distance 
+vectors with the use of artificial neural networks. Anomaly is detected when the distance 
 between the input and output of the neural net is higher than the specified threshold.
 Neural network based approaches require large amounts of high quality training data.  
 
@@ -434,7 +434,7 @@ programming languages like C/C++\cite{bib:etwcpp} or C\#\cite{bib:etwcsharp}. Th
 data gathering process should however be performed with known and tested solutions to
 minimize the chance of data corruption. Default file format used by ETW for storing 
 information is an Event Trace Log (ETL). This archive type is not very well documented in 
-the resources available on the internet. An additional tool might be required in order to 
+the resources available on the Internet. An additional tool might be required in order to 
 transform gathered information to commonly known data storing formats.
 
 Event Trace for Windows handles very granular process and operating system events.
@@ -447,12 +447,12 @@ in the thesis.
 \section{Analysed data}
 
 Because of the present limitations all the available information has been narrowed down and 
-initial analysis has been performed. The resulting anomaly detection leads and initial 
-results are presented in this section.
+initial analysis has been performed. The resulting conclusions about possible anomaly detection 
+and initial results are presented in this section.
 
 \subsection{Dynamic link libraries}
 
-When attempting to detect misbehaviour of a specific program or its subprocesses a ability to 
+When attempting to detect misbehaviour of a specific program or its subprocesses an ability to 
 classify binaries by their general purposes could prove very useful. Most methodologies used to 
 compare executable files focus on their binary structures and attempt to find similarities to 
 existing malware samples \cite{bib:malwclass}. This approach, while very useful in detection of 
@@ -478,7 +478,7 @@ sub process is spawned from the main browser program as shown in the picture \re
 \begin{figure}
 	\centering
 	\includegraphics{images/wpa_normal}
-	\caption{Example process tree of Microsoft Edge}
+	\caption{Example process tree of Microsoft Edge. Source: own elaboration.}
 	\label{fig:WPAnormal}
  \end{figure}
 
@@ -488,7 +488,7 @@ in which the exploit was executed like in the picture \ref{fig:WPAexploit}.
 \begin{figure}
 	\centering
 	\includegraphics{images/wpa_exploit}
-	\caption{Process tree of exploited Microsoft Edge}
+	\caption{Process tree of exploited Microsoft Edge. Source: own elaboration.}
 	\label{fig:WPAexploit}
  \end{figure}
 
@@ -558,7 +558,8 @@ the following:
 	in all the available samples which makes it useless for the purposes of this thesis. Additionally, the performed
 	work focuses on the detection of a software misbehaviour but not the identification of anomalous software 
 	for which this data may be more well suited. Additional research should be performed on the likelihood of the
-	parameter change in case of the attack. This would allow finf out if the data should be monitored despite
+	parameter change in case of the attack. Especially since attackers are known to utilize legacy architectures, mechanisms and 
+	programming languages to bypass security mechanisms. This would allow find out if the data should be monitored despite
 	the lack of variance detected in the simulated attacks.
 	\item Command Line -  This feature contains multitude of data in a very fuzzy form. Its correct utilization
 	requires advanced analysis and possibly development of a custom handling and encoding approach. Due 
@@ -567,7 +568,7 @@ the following:
 	\item Id, Id Path and Parent Id - Those values by definition are randomly assigned to each process from the available
 	pool. This means that they have no value beyond the identification of the relations between specific programs. 
 	\item Start and End time - Such information could be used to identify behaviour patterns of specific users that could possibly help
-	in detection of some post exploitation actions. An example scenario would be attempting to detect a anomalous
+	in detection of some post exploitation actions. An example scenario would be attempting to detect an anomalous
 	working hours like the middle of a night in a given users time zone. This approach however is outside the 
 	scope for this thesis and therefore the start and end time for processes as been omitted.
 	\item Name - Those values were rejected because their analysis and blocking is a well known topic. Execution 
@@ -585,7 +586,7 @@ usage. It is also known to be effective in high dimensional spaces and when
 the number of features is greater than the number of samples \cite{bib:svms}. The training process 
 does not require significant computational and memory resources when compared to the latest
 approaches based on artificial neural networks like autoencoders \cite{bib:autoencoder}. There are
-some approaches to training process that can reduce the hardware requirements like for example the distributed architecture
+some methods of training that can reduce the hardware requirements like for example the distributed architecture
 \cite{bib:autoencoderDist}. Their complexity might however shift the focus from the core idea 
 of the thesis which is to prove that data from Windows Event Trace can be utilized to detect security
 anomalies. Additionally, the neural network based approaches require large quantities of well labelled
@@ -639,8 +640,9 @@ system, version 20H2, build 19042.1052. The Microsoft Edge web browser used to s
 the 0-day exploit attack was artificially halted in the version 84.0.522.52 (64-bit). 
 Automatic updates were interrupted by changing the name of the binary responsible for 
 keeping the software up to date. It is commonly located under 
-"C:\textbackslash Program Files (x86)\textbackslash Microsoft\textbackslash 
-EdgeUpdate\textbackslash MicrosoftEdgeUpdate.exe". 
+"C:\textbackslash Program Files (x86)\textbackslash Microsoft\textbackslash
+EdgeUpdate\textbackslash MicrosoftEdge\newline
+Update.exe". 
 The attack simulated in the data set takes advantage of the vulnerability CVE-2021-21224. It 
 targets a type confusion flaw in the V8 JavaScript engine. This allows the attacker to 
 execute arbitrary code inside a sandbox via a specially crafted HTML page \cite{bib:CVE21224}. 
@@ -671,7 +673,7 @@ research in wider domain.
 
 \section{Logging}
 
-The initial data was gathered by the PerfView.exe tool which is "a free performance-analysis 
+The initial data was gathered by the PerfView.exe tool which is "a free performance analysis 
 tool that helps isolate CPU and memory-related performance issues. It is a Windows tool, 
 but it also has some support for analysing data collected on Linux machines. It works for 
 a wide variety of scenarios, but has a number of special features for investigating 
@@ -687,7 +689,7 @@ available for the processing. Example PerfView configuration can be found in fig
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.55]{images/perf_config}
-	\caption{Example PerfView logging configuration}
+	\caption{Example PerfView logging configuration. Source: own elaboration.}
 	\label{fig:PerfViewConfig}
  \end{figure}
 
@@ -705,7 +707,7 @@ presented in figure \ref{fig:PerfViewexport}.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.55]{images/perf_export}
-	\caption{PerfView data export}
+	\caption{PerfView data export. Source: own elaboration.}
 	\label{fig:PerfViewexport}
  \end{figure}
 
@@ -827,7 +829,7 @@ unless stated otherwise.
 
 Main dataset utilized in the thesis is called "combined\_ETW\_data.csv".
 Data is stored in a CSV format which is a text based file for tabular information.  
-Each entry in the file is separated by the new line character and it's features are divided 
+Each entry in the file is separated by the new line character and its features are divided 
 by commas. This simple, non-proprietary format is very accessible and supported by most 
 known data handling programs and frameworks. 
 
@@ -871,7 +873,7 @@ The dataset utilized in the thesis can be found in a public repository under the
 
 \section{Results}
 
-In all the experiments performed the focus was placed on 'msedge' binary and it's child processes.
+In all the performed experiments the focus was placed on 'msedge' binary and its child processes.
 The dataset was filtered with the use of 'ProcessPath' feature. Any string value containing the 'msedge'
 substring indicated that the corresponding process is either Microsoft Edge browser or was spawned by it. 
 
@@ -886,7 +888,7 @@ Raw results can be found in the table \ref{id:tab:rawDlls} located in the append
 \begin{figure}
 	\centering
 	\includegraphics{images/DLLBaselineROCKF}
-	\caption{The receiver operating characteristic of the baseline anomaly detection.}
+	\caption{The receiver operating characteristic of the baseline anomaly detection. Source: own elaboration.}
 	\label{fig:DLLBaselineROC}
  \end{figure}
 	
@@ -899,7 +901,7 @@ samples with high count. This pattern may be detectable.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/DLLcounts}
-	\caption{Histogram of the counts of DLL's loaded by processes.}
+	\caption{Histogram of the counts of DLL's loaded by processes. Source: own elaboration.}
 	\label{fig:dllCounts}
  \end{figure}
 
@@ -912,7 +914,7 @@ detection rate requires however a significant false negative ratio.
 \begin{figure}
 	\centering
 	\includegraphics{images/DLLCountsROCKF}
-	\caption{The receiver operating characteristic anomaly detection performed on DLL counts.}
+	\caption{The receiver operating characteristic anomaly detection performed on DLL counts. Source: own elaboration.}
 	\label{fig:DLLcountsROC}
 \end{figure}
 
@@ -933,17 +935,17 @@ The values calculated were normalized and can be found in the figure \ref{fig:mc
 the table \ref{id:tab:MCAEigenvalues} located in the appendix. Those results suggest that the 
 usefulness of the dimensions in the data analysis significantly drops after the first one. The two
 following values are however very similar which indicates that it might be good to adjust the 
-dimension cut-off to utilise only the first one or all three.
+dimension cut-off to utilize only the first one or all three.
 
 
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/MCAEigenvalues}
-	\caption{Multiple correspondence analysis inertias.}
+	\caption{Multiple correspondence analysis inertias. Source: own elaboration.}
 	\label{fig:mcaInertias}
  \end{figure}
 
-To validate that the MCA can extract valuable information from the available data, it's results for all
+To validate that the MCA can extract valuable information from the available data, its results for all
 the processes were compared to the actual purpose for each 'msedge' related process. The location of the
 binaries in the obtained multidimensional space can be found in the figures \ref{fig:mca01} which 
 depicts dimensions 0 and 1 as well as figure \ref{fig:mca12} for dimensions 1 and 2. The raw numerical 
@@ -954,14 +956,14 @@ in the appendix of this document.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/MCA01}
-	\caption{Multiple correspondence analysis distribution in the first and second dimension.}
+	\caption{Multiple correspondence analysis distribution in the first and second dimension. Source: own elaboration.}
 	\label{fig:mca01}
  \end{figure}
 
  \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/MCA12}
-	\caption{Multiple correspondence analysis distribution in the second and third dimension.}
+	\caption{Multiple correspondence analysis distribution in the second and third dimension. Source: own elaboration.}
 	\label{fig:mca12}
  \end{figure}
 
@@ -1042,7 +1044,7 @@ analysed DLL space.
  \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/MCAROCbothKFandNot.PNG}
-	\caption{ROC curve of OCSVM directly on MCA data with and without cross validation}
+	\caption{ROC curve of OCSVM directly on MCA data with and without cross validation. Source: own elaboration.}
 	\label{fig:mcaroc}
  \end{figure}
 
@@ -1084,7 +1086,7 @@ assign specific DLL's to groups by their location in the MCA space.
  \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/KmeanMCA}
-	\caption{Unsupervised classification of MCA results}
+	\caption{Unsupervised classification of MCA results. Source: own elaboration.}
 	\label{fig:kmeanmca}
  \end{figure}
 
@@ -1104,14 +1106,14 @@ appendix. Weight p for the unique DLL's was set to 0.1.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/EncROCwLabKF.PNG}
-	\caption{Unsupervised classification of encoded inlier MCA results}
+	\caption{Unsupervised classification of encoded inlier MCA results. Source: own elaboration.}
 	\label{fig:EncROCwLab}
  \end{figure}
 
  \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/EncROCwoLabKF.PNG}
-	\caption{Unsupervised classification of encoded all MCA results}
+	\caption{Unsupervised classification of encoded all MCA results. Source: own elaboration.}
 	\label{fig:EncROCwoLab}
  \end{figure}
 
@@ -1139,7 +1141,7 @@ dirty data.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/DLLCompGraphKF.PNG}
-	\caption{Comparison of the anomaly detection results for all tested preprocessing approaches.}
+	\caption{Comparison of the anomaly detection results for all tested preprocessing approaches. Source: own elaboration.}
 	\label{fig:GraphComp}
  \end{figure}
 
@@ -1212,7 +1214,7 @@ extracted can be scaled and used to detect anomalies.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/pathLenHist}
-	\caption{Histogram of the path lengths.}
+	\caption{Histogram of the path lengths. Source: own elaboration.}
 	\label{fig:pathLenHist}
  \end{figure}
 
@@ -1224,7 +1226,7 @@ behaviour is visible for wide range of 'nu' values.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/PathLenROC}
-	\caption{ROC of the anomaly detection on path lengths.}
+	\caption{ROC of the anomaly detection on path lengths. Source: own elaboration.}
 	\label{fig:pathLenROC}
  \end{figure}
 
@@ -1252,7 +1254,7 @@ very ineffective.
 Data generated from the anomaly detection performed with the 'nu' value equal to 0.075 was inspected 
 to establish the root causes of the low performance. The first noticeable problem with the data
 is the handling of the empty string values. The similarities for each input column are 
-calculated to the corresponding set of know values which result in multiple encoded values per
+calculated to the corresponding set of known values which result in multiple encoded values per
 column. Because of that the returned output is flattened to the vector form in which entries
 correspond to both the input dimension and its specific categories. 
 
@@ -1276,7 +1278,8 @@ Those result in the output vector with following entries:
 
 Manual analysis showed that in our encoded data the similaritiy to empty strings ('') is 
 always equal to zero, even if the input is identical. This is most probably due to the limitations 
-in the utilized string comparison algorithms. Because of that our calculated categories:
+in the utilized string comparison algorithms. They are not designed to handle text with length equal to zero.
+Because of that our calculated categories:
 \begin{lstlisting}
 [
 	['msedge'],
@@ -1330,7 +1333,7 @@ the results on the entire spectrum show that it is most probably equal to the ra
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/OcsvmOnDirtyCatGood}
-	\caption{Anomaly detection on improved encoded paths.}
+	\caption{Anomaly detection on improved encoded paths. Source: own elaboration.}
 	\label{fig:ocsvmOnDirtyCatGood}
  \end{figure}
 
@@ -1347,7 +1350,7 @@ establish if the DirtyCat encoding can be further adjusted to the anomaly detect
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/OcsvmNoSplitComp}
-	\caption{Anomaly detection on improved encoded paths.}
+	\caption{Anomaly detection on improved encoded paths. Source: own elaboration.}
 	\label{fig:ocsvmNoSplitComp}
  \end{figure}
  
@@ -1361,7 +1364,7 @@ greatly reduces the usefulness of this approach.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/PathCompGraph2}
-	\caption{Comparison of the path based anomaly detection methods.}
+	\caption{Comparison of the path based anomaly detection methods. Source: own elaboration.}
 	\label{fig:pathcomp}
  \end{figure}
 
@@ -1375,7 +1378,7 @@ histogram \ref{fig:histavgproc} with the bins containing anomaly values marked w
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/HistAvgProcs}
-	\caption{Distribution of the average processor utilization.}
+	\caption{Distribution of the average processor utilization. Source: own elaboration.}
 	\label{fig:histavgproc}
  \end{figure}
 
@@ -1388,7 +1391,7 @@ of any methods capable of improving the data.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/ProcROCKF}
-	\caption{The ROC curve of anomaly detection on average processor utilization.}
+	\caption{The ROC curve of anomaly detection on average processor utilization. Source: own elaboration.}
 	\label{fig:procroc}
  \end{figure}
 
@@ -1399,12 +1402,12 @@ appendix.
 The analysis of the available data was started with the review of the histogram graph which can be found in the 
 figure \ref{fig:lifespanHist}. The 'y' axis has been represented in a logarithmic scale to improve readability.
 This image however indicates that the possibility of detecting of the outliers by means of statistical
-analysis is low. This is due to the fact that all outlier samples between the most frequent values. 
+analysis is low. This is due to the fact that all outlier samples are located in the neighbourhood the most frequent values. 
 
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/LifespanHist}
-	\caption{Histogram of the process lifespans.}
+	\caption{Histogram of the process lifespans. Source: own elaboration.}
 	\label{fig:lifespanHist}
  \end{figure}
 
@@ -1423,7 +1426,7 @@ This idea should undergo additional testing in the future on a bigger and more v
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/ROClifespan}
-	\caption{ROC of the process lifespan anomaly detection.}
+	\caption{ROC of the process lifespan anomaly detection. Source: own elaboration.}
 	\label{fig:lifespanROC}
  \end{figure}
 
@@ -1434,14 +1437,14 @@ This idea should undergo additional testing in the future on a bigger and more v
  \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/CPUMsecHist}
-	\caption{Histogram of the process CPUMsec values.}
+	\caption{Histogram of the process CPUMsec values. Source: own elaboration.}
 	\label{fig:cpumsecHist}
  \end{figure}
  
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/ROCCPUMsec}
-	\caption{ROC of the process lifespan anomaly detection.}
+	\caption{ROC of the process lifespan anomaly detection. Source: own elaboration.}
 	\label{fig:CPUMsecROC}
  \end{figure}
 
@@ -1485,7 +1488,7 @@ significantly boost the performance of the developed solution.
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/ExitCodeROC}
-	\caption{ROC of the exit code anomaly detection.}
+	\caption{ROC of the exit code anomaly detection. Source: own elaboration.}
 	\label{fig:exitCodeROC}
  \end{figure}
 
@@ -1530,7 +1533,7 @@ the priority is put on the false negative minimization. At the same time it is c
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/CombinedFinalROC}
-	\caption{The ROC of anomaly detection performed on combined best features.}
+	\caption{The ROC of anomaly detection performed on combined best features. Source: own elaboration.}
 	\label{fig:combinedFinalROC}
  \end{figure}
 
@@ -1538,7 +1541,7 @@ the priority is put on the false negative minimization. At the same time it is c
  \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/CombinedCompFinalROC}
-	\caption{The ROC of anomaly detection performed on combined best features.}
+	\caption{The ROC of anomaly detection performed on combined best features. Source: own elaboration.}
 	\label{fig:combinedCompFinalROC}
  \end{figure}
 
@@ -1550,7 +1553,7 @@ graph \ref{fig:combinedCompFinalROCDroping}. This image shows that overall impro
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.9]{images/CombinedFinalROCDroping2}
-	\caption{The ROC of anomaly detection performed on selective best features.}
+	\caption{The ROC of anomaly detection performed on selective best features. Source: own elaboration.}
 	\label{fig:combinedCompFinalROCDroping}
  \end{figure}
 
@@ -1588,7 +1591,7 @@ multiple real users. Obtaining the data from multiple sources would also allow f
 analysis of the algorithm's performance. 
 
 A very interesting aspect would be also how the developed methods perform on the samples from 
-different exploit. Exploit CVE-2021-40444 allows for arbitrary code execution in the same 'msedge'
+different exploit eg. CVE-2021-40444 which allows for arbitrary code execution in the same 'msedge'
 process and could be utilized to gain deeper insight into the problem \cite{bib:newEdgeExploit}.
 
 \section{Browser intricacies}

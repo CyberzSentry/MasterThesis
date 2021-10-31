@@ -1,35 +1,15 @@
 Security anomaly detection based on Windows Event Trace
 Wykrywanie anomalii bezpieczeństwa w oparciu o Windows Event Trace
 
-Plan pracy:
-1. Literature review
-2. Implementation of algorithms
-3. Application of algorithms and their comparison
-4. Writing the thesis
-
-Opis:
-Host based anomaly detection with use of machine learning is a previously researched topic.
-This approach will be based on the data obtained from the Event Trace for Windows framework.
-Additionally research will go into testing how the algorithms behave when trained on data from multiple hosts.
-
-Hastie T., Tibshirani R., Friedman J. - The elements of statistical learning, Springer, 2009
-
-Mark Russinovich, David A. Solomon, Alex Ionescu - Windows Internals, Microsoft Press, 2009
 
 #TODO 
 https://www.youtube.com/watch?v=b4kRAt4mkB8
-W podsumowaniu możliwość użycia autoencoderów
 Poszukać monitorowania podprocessów
-Dodanie odrzuconych cech i przyczyn z perfview
 Multipage table
 Plot encoded paths with validation
+Wymiary zbioru danych. Ile czasu były zbierane.
+it's -> its w całym dokumencie sprawidzić
 
-
-Zamienić wszystkie ROC na takie z przekątną.
-
-#Terminy:
-18.08 (obrona 1-8.09)
-10.09 (obrona 24-30.09)
 
 https://link.springer.com/article/10.1007/s10994-018-5724-2
 
