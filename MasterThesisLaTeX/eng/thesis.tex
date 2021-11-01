@@ -21,6 +21,7 @@
 \usepackage{pgfplots}
 \usepackage{mathtools}
 \usepackage{geometry}
+\usepackage{multirow}
 \usepackage[page]{appendix} 
 
 \usepackage{setspace}
@@ -1586,11 +1587,35 @@ graph \ref{fig:combinedCompFinalROCDroping}. This image shows that overall impro
  \end{figure}
 
 In general best performing combined features (path lengths, encoded DLL's, exit codes) allow for detection of 38\% of the 
-outliers with with minimal false positive ratio around 1.7\%. The peak performance 
+outliers with with minimal false positive ratio around 1.8\%. The peak performance 
 classifies correctly 100\% of anomalies but it comes with the cost in form of FP ratio equal to 15.6\%.
 Those results show that the developed approach may provide value for some 
 security related purposes. This is especially promising since the detection of a single process in the attack chain may 
-prevent the entire exploitation process.
+prevent the entire exploitation process. Performance indicators for specific approaches can be found in the table \ref{id:tab:performanceComparisonTable}.
+
+%https://www.tablesgenerator.com/
+\begin{table}
+	\centering
+	\caption{Ratio performance of selected anomaly detection approaches. Optimal represents the results obtained for the lowest false negative ratio
+	without classifing all samples as inliers. 
+	Peak performance represents the highest available anomaly detection ratio without classifing all samples as outliers.}
+	
+	\label{id:tab:performanceComparisonTable}
+	\begin{tabular}{l|ll|ll|}
+		\cline{2-5}
+		\multirow{2}{*}{}                               & \multicolumn{2}{l|}{Optimal}         & \multicolumn{2}{l|}{Peak}            \\ \cline{2-5} 
+														& \multicolumn{1}{l|}{F}      & FN     & \multicolumn{1}{l|}{F}      & FN     \\ \cline{2-5} 
+		All features combined                           & \multicolumn{1}{l|}{30.8\%} & 1.8\%  & \multicolumn{1}{l|}{100\%}  & 17.9\% \\ \cline{2-5} 
+		Path lengths                                    & \multicolumn{1}{l|}{38.5\%} & 5\%    & \multicolumn{1}{l|}{76.9\%} & 64.2\% \\ \cline{2-5} 
+		Processor utilisation                           & \multicolumn{1}{l|}{15.4\%} & 11.3\% & \multicolumn{1}{l|}{100\%}  & 78.4\% \\ \cline{2-5} 
+		Encoded DLL's                                   & \multicolumn{1}{l|}{15.4\%} & 1.8\%  & \multicolumn{1}{l|}{100\%}  & 81.2\% \\ \cline{2-5} 
+		Proc lifespan                                   & \multicolumn{1}{l|}{7.7\%}  & 4.1\%  & \multicolumn{1}{l|}{92.3\%} & 75.7\% \\ \cline{2-5} 
+		Exit code                                       & \multicolumn{1}{l|}{30.8\%} & 0\%    & \multicolumn{1}{l|}{30.8\%} & 0\%    \\ \cline{2-5} 
+		Combined without proc utilisation               & \multicolumn{1}{l|}{30.8\%} & 1.8\%  & \multicolumn{1}{l|}{100\%}  & 17.4\% \\ \cline{2-5} 
+		Combined without proc lifespan                  & \multicolumn{1}{l|}{30.8\%} & 1.4\%  & \multicolumn{1}{l|}{100\%}  & 22.5\% \\ \cline{2-5} 
+		Combined  without proc lifespan and utilisation & \multicolumn{1}{l|}{38.5\%} & 1.8\%  & \multicolumn{1}{l|}{100\%}  & 15.6\% \\ \cline{2-5} 
+		\end{tabular}
+\end{table}
 
 \chapter{Summary}
 
