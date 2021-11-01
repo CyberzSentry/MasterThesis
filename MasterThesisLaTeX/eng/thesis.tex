@@ -1270,13 +1270,14 @@ column. Because of that the returned output is flattened to the vector form in w
 correspond to both the input dimension and its specific categories. 
 
 To better understand how the encoder works let's consider following hypothetical categories based on the ones computed 
-for the used data:
+in the training stage from the used data:
 \begin{itemize}
-	\item Column 1 contains unique entries: '', 'cpu-z\_1.96-en', 'msedge', 'notepad'.
-	\item Column 2 contains unique entries: '', 'cpu-z\_1.96-en', 'msedge'.
+	\item Column 1 contains unique entries (categories): '', 'cpu-z\_1.96-en', 'msedge', 'notepad'.
+	\item Column 2 contains unique entries (categories): '', 'cpu-z\_1.96-en', 'msedge'.
 \end{itemize}
 
-Those result in the output vector with following entries:
+Those should result in the output vector with following entries calculated for each encoded row:
+
 \begin{itemize}
 	\item Similarity of the first column entry to the ''.
 	\item Similarity of the first column entry to the 'cpu-z\_1.96-en'.
@@ -1287,10 +1288,23 @@ Those result in the output vector with following entries:
 	\item Similarity of the second column entry to the 'msedge'.
 \end{itemize}
 
-Manual analysis showed that in our encoded data the similaritiy to empty strings ('') is 
+Manual analysis showed however that in our encoded data the similaritiy to empty strings ('') is 
 always equal to zero, even if the input is identical. This is most probably due to the limitations 
 in the utilized string comparison algorithms. They are not designed to handle text with length equal to zero.
-Because of that our calculated categories:
+As a result for our hypothetical categories the encoding process in reality returns an output vector with 
+following entries:
+\begin{itemize}
+	\item Always equal to zero.
+	\item Similarity of the first column entry to the 'cpu-z\_1.96-en'.
+	\item Similarity of the first column entry to the 'msedge'.
+	\item Similarity of the first column entry to the 'notepad'.
+	\item Always equal to zero.
+	\item Similarity of the second column entry to the 'cpu-z\_1.96-en'.
+	\item Similarity of the second column entry to the 'msedge'.
+\end{itemize}
+
+Because of lack of variance in the entries corresponding to empty strings our categories extracted 
+from real data in the training phase:
 \begin{lstlisting}
 [
 	['msedge'],
@@ -1301,7 +1315,7 @@ Because of that our calculated categories:
 ]
 \end{lstlisting}
 
-are in reality:
+are in practice beeing treated during the encoding phase as:
 
 \begin{lstlisting}
 [
@@ -1350,12 +1364,13 @@ the results on the entire spectrum show that it is most probably equal to the ra
 
 The similarity encoder was also tested with the training on normalized paths without splitting 
 them into components as well as only the value '/msedge' and an empty string. The idea behind this approach
-is to let the encoder to perform its job without any additional complication of the data. Performance obtained in
-experiments quite similar. The results are presented in the tables \ref{id:tab:ocsvmOnDirtyCatFullPaths} 
+is to allow the encoder to perform its job without any additional complication of the data. The peak performance obtained in
+boath approaches is identical. The results are presented in the tables \ref{id:tab:ocsvmOnDirtyCatFullPaths} 
 and \ref{id:tab:ocsvmOnDirtyCatMsEdge} as well as the chart \ref{fig:ocsvmNoSplitComp}. Both of those approaches
 are capable of detecting outliers with higher success rate than the split path approach. It does
-however come with the cost in form of strange characteristics for the low nu values. In the future research 
-additional work can be done to test how those approaches perform with a better sample size and to
+however come with the cost in form of strange characteristics for the low nu values which is visible in the graph \ref{fig:ocsvmNoSplitComp}
+as the false negative ratio starting high and droping before the number of outliers samples detected starts to increase.
+In the future research additional work can be done to test how those approaches perform with a better sample size and to
 establish if the DirtyCat encoding can be further adjusted to the anomaly detection task.
 
 \begin{figure}
@@ -1571,7 +1586,9 @@ graph \ref{fig:combinedCompFinalROCDroping}. This image shows that overall impro
  \end{figure}
 
 In general best performing combined features (path lengths, encoded DLL's, exit codes) allow for detection of 38\% of the 
-outliers with around 1.7\% false positive ratio. Those results show that the developed approach may provide value for some 
+outliers with with minimal false positive ratio around 1.7\%. The peak performance 
+classifies correctly 100\% of anomalies but it comes with the cost in form of FP ratio equal to 15.6\%.
+Those results show that the developed approach may provide value for some 
 security related purposes. This is especially promising since the detection of a single process in the attack chain may 
 prevent the entire exploitation process.
 
@@ -1650,8 +1667,16 @@ as the exploited program. It can also be used as a persistence technique \cite{b
 Some aspects of the gathered information were not used in the anomaly detection process but may be
 used to detect this specific type of attack. 
 
-Those include the "build time" and the "File version" of the loaded modules as well as their paths.
-Example of this data is presented in the figure x.
+Those include the "build time" and the "File version" of the loaded modules as well as their paths. 
+Example of this data is presented in the figure \ref{fig:exampleDLLData}. Any additional research
+in this area should however take under consideration possible fabrication of those values.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.75]{images/DLLsDataExample}
+	\caption{Unutilized DLL data. Source: own elaboration.}
+	\label{fig:exampleDLLData}
+ \end{figure}
 
 \section{Software classification via multiple correspondence analysis}
 

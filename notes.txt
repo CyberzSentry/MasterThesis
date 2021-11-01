@@ -7,7 +7,7 @@ https://www.youtube.com/watch?v=b4kRAt4mkB8
 Poszukać monitorowania podprocessów
 Multipage table - done.
 Plot encoded paths with validation
-Wymiary zbioru danych. Ile czasu były zbierane.
+Wymiary zbioru danych. Ile czasu były zbierane. - done
 it's -> its w całym dokumencie sprawidzić
 
 
