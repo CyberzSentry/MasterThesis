@@ -9,6 +9,7 @@ Multipage table - done.
 Plot encoded paths with validation
 Wymiary zbioru danych. Ile czasu były zbierane. - done
 it's -> its w całym dokumencie sprawidzić
+wymagania magisterki - done
 
 
 https://link.springer.com/article/10.1007/s10994-018-5724-2
