@@ -314,7 +314,7 @@ multiple sources like system commands sequences \cite{bib:lane1997application} o
 that gather significant quantities of information about inner workings of the processes that remain
 untapped. 
 
-The objective of this thesis is to utilize the Event Trace for Windows (ETW) mechanism and it's 
+The objective of this thesis is to utilize the Event Trace for Windows (ETW) mechanism and its 
 capability to access low level debugging data on the Microsoft operating systems to attempt
 security anomaly detection. The main focus is placed on identification of 0-day binary process 
 exploitation leading directly to arbitrary code execution and malicious program spawning. While 
@@ -381,7 +381,7 @@ development of new specific approaches to allow for their utilization.
 
 \section{Literature research}
 
-The existing attempts attempts of implementing a security anomaly detection frameworks depicted in the 
+The existing attempts of implementing a security anomaly detection frameworks depicted in the 
 literature take many approaches. Some of those include analysis of specific sequences
 present in terminal commands \cite{bib:lane1997application} or system calls \cite{bib:forest}. 
 
@@ -440,9 +440,9 @@ transform gathered information to commonly known data storing formats.
 
 Event Trace for Windows handles very granular process and operating system events.
 Because of that when configured to gather all possible types of information ETW can generate
-large quantities of information. All known tools gather data in rotating memory buffer 
+large quantities of details. All known tools gather data in rotating memory buffer 
 before saving it to hard drive. Those two factors combined with limited memory resources 
-available while performing the data gathering process limit the types of information analysed 
+available while performing the data gathering process restrict the types of information analysed 
 in the thesis. 
 
 \section{Analysed data}
@@ -560,7 +560,7 @@ the following:
 	work focuses on the detection of a software misbehaviour but not the identification of anomalous software 
 	for which this data may be more well suited. Additional research should be performed on the likelihood of the
 	parameter change in case of the attack. Especially since attackers are known to utilize legacy architectures, mechanisms and 
-	programming languages to bypass security mechanisms. This would allow find out if the data should be monitored despite
+	programming languages to bypass security mechanisms. This would allow to find out if the data should be monitored despite
 	the lack of variance detected in the simulated attacks.
 	\item Command Line -  This feature contains multitude of data in a very fuzzy form. Its correct utilization
 	requires advanced analysis and possibly development of a custom handling and encoding approach. Due 
@@ -582,7 +582,7 @@ the following:
 In the thesis the main anomaly detection algorithm utilized is the One Class Support 
 Vector Machine which is a variation on support vector machines. It attempts to minimize 
 the radius of the multidimensional hypersphere with the use of Kernel Method \cite{bib:ocsvm}. 
-This algorithm is the main anomaly detection utilized in the thesis due to it's ease of
+This algorithm is the main anomaly detection utilized in the thesis due to its ease of
 usage. It is also known to be effective in high dimensional spaces and when 
 the number of features is greater than the number of samples \cite{bib:svms}. The training process 
 does not require significant computational and memory resources when compared to the latest
@@ -980,7 +980,7 @@ This pattern can be spotted in both figure \ref{fig:mca01} and \ref{fig:mca12}. 
 promising and indicate that at least partial detection of anomalies should be possible with the obtained MCA results.
 
 Additionally, to this strategy a simple anomaly detector based on the detection of any previously not loaded
-DLL can be utilized. This method could be a solid intrusion detection system on its own and it's performance
+DLL can be utilized. This method could be a solid intrusion detection system on its own and the performance
 would not be dependent on the proper adjustment of parameters as in the more sophisticated approaches. The 
 DLL's present only in the outliers can be found in table \ref{id:tab:outlierDLLs}.
 
@@ -1217,7 +1217,7 @@ All paths corresponding to the researched process consist of elements presented 
 
 This data cannot be fed directly to the classification algorithm because of its 
 qualitative nature. In result no baseline can be obtained. The basic feature
-of the path it's size - the number of processes contained in it. The distribution
+of the path is its size - the number of processes contained in it. The distribution
 of the path lengths is presented in the graph \ref{fig:pathLenHist}. Those values
 extracted can be scaled and used to detect anomalies.
 
@@ -1258,7 +1258,8 @@ of components from which it is build. Paths shorter than matrix width were padde
 process with empty strings. The result of this process is presented in the table \ref{id:tab:splitPaths} 
 located in the appendix. 
 
-The encoder trained with the inlier split data assigned known entries to each column and this 
+The encoder trained with the inlier split data has assigned unique entries from each column to their 
+corresponding categories set and this 
 information was used to encode all samples which subsequentially were analysed with the One Class
 SVM. Results presented in the table \ref{id:tab:ocsvmOnDirtyCatBad} show that this approach is 
 very ineffective. 
@@ -1266,7 +1267,7 @@ very ineffective.
 Data generated from the anomaly detection performed with the 'nu' value equal to 0.075 was inspected 
 to establish the root causes of the low performance. The first noticeable problem with the data
 is the handling of the empty string values. The similarities for each input column are 
-calculated to the corresponding set of known values which result in multiple encoded values per
+calculated to the corresponding set of unique known values which result in multiple encoded values per
 column. Because of that the returned output is flattened to the vector form in which entries
 correspond to both the input dimension and its specific categories. 
 
@@ -1289,6 +1290,8 @@ Those should result in the output vector with following entries calculated for e
 	\item Similarity of the second column entry to the 'msedge'.
 \end{itemize}
 
+This process is described in depth in article \cite{bib:dirtycat}.
+
 Manual analysis showed however that in our encoded data the similaritiy to empty strings ('') is 
 always equal to zero, even if the input is identical. This is most probably due to the limitations 
 in the utilized string comparison algorithms. They are not designed to handle text with length equal to zero.
@@ -1305,8 +1308,10 @@ following entries:
 \end{itemize}
 
 Because of lack of variance in the entries corresponding to empty strings our categories extracted 
-from real data in the training phase:
-\begin{lstlisting}
+from real data in the training phase shown in listing \ref{lst:categories} are in practice beeing treated 
+during the encoding phase as the ones from listing \ref{lst:realCategories}.
+
+\begin{lstlisting}[label={lst:categories},caption={Categories calculated from real split path data.}]
 [
 	['msedge'],
 	['', 'cpu-z_1.96-en', 'msedge', 'notepad'],
@@ -1316,9 +1321,8 @@ from real data in the training phase:
 ]
 \end{lstlisting}
 
-are in practice beeing treated during the encoding phase as:
 
-\begin{lstlisting}
+\begin{lstlisting}[label={lst:realCategories},caption={Practical categories resulting from encoder mishandling empty strings.}]
 [
 	['msedge'],
 	['cpu-z_1.96-en', 'msedge', 'notepad'],
@@ -1328,15 +1332,21 @@ are in practice beeing treated during the encoding phase as:
 ]
 \end{lstlisting}
 
-Additionally, it is possible that because the encoder was designed to be more robust in the face 
+Additionally, it is possible that because the encoder was designed to be more robust in the face of
 data variance, in other words smooth out anomalies, it is not fit for the purposes of the thesis. 
 Even though this process allows for the handling of new values it might significantly disrupt anomaly detection.
 
 An example of this is the process '/msedge/msedge/powershell' which is a clear outlier
-but in the encoded form it is equal [1., 0., 1., 0., 0., 0., 0., 0., 0.]. This is equal
-to the 'centre of gravity' of the encoded data because the by far most numerous process
-'/msedge/msedge' obtains the same value. This is due to the third element of the outlier process  
-path having no similarity of the known previous values.
+but in the encoded form it is equal [1., 0., 1., 0., 0., 0., 0., 0., 0.] when calculated for 
+categories from listing \ref{lst:realCategories} as described in the hypothetical encoding description.
+% The first value corresponds to the similarity of the first path segment to the only entry in the first category set. Values on entries 2 to 4 are 
+% calculated from the second 'msedge' entry and the second category set (['cpu-z_1.96-en', 'msedge', 'notepad']). The last path segment ('powershell')
+% is compared to the entries from the third category set (['cpu-z_1.96-en', 'msedge']) and the resulting values are stored in 
+% entries 5 and 6. Remaining encoding output entries (from 7 to 9) are equal to zero because input path has only three segments. 
+This is equal to the 'centre of gravity' of the encoded data because the by far most numerous process
+'/msedge/msedge' obtains the exact same value. This is due to the third element of the outlier process  
+path having no similarity of the known previous values and therefore resulting in entries number 5 and 6
+of the output vector equal to zero.
 
 On the other side of the spectrum is the inlier '/msedge/notepad' value which encoded is equal to
 [1., 1., 0., 0., 0., 0., 0., 0., 0.] which is distant from the 'centre of gravity' by 1 (maximum 
@@ -1626,7 +1636,7 @@ detail and highlights possible future areas of research.
 
 The results obtained in the experiments show that with all the selected features allow 
 to perform a security anomaly detection with the above average success ratio. For the tested
-data it was possible to obtain a 38\% detection rate with a 1.7\% false negative ratio while
+data it was possible to obtain a 38\% detection rate with a 1.8\% false negative ratio while
 utilizing all the best performing features at once. This obtained score may be significantly 
 improved by the increase in the dataset size. This approach to the monitoring of the programs 
 running on the operating systems may be utilized in a honeypot traps which are "\textit{a sacrificial 
