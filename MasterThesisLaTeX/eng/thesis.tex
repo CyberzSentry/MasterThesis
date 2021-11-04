@@ -22,6 +22,7 @@
 \usepackage{mathtools}
 \usepackage{geometry}
 \usepackage{multirow}
+\usepackage{makecell}
 \usepackage[page]{appendix} 
 
 \usepackage{setspace}
@@ -158,8 +159,8 @@
 		\hbox{\otherfont author: \Author}
 		\vspace{12pt}
 		\hbox{\otherfont supervisor: \Supervisor}
-		\vspace{12pt}
-		\hbox{\otherfont consultant: \Consultant}
+		% \vspace{12pt}
+		% \hbox{\otherfont consultant: \Consultant}
 	}
 	\vfill 
  
@@ -1271,23 +1272,38 @@ calculated to the corresponding set of unique known values which result in multi
 column. Because of that the returned output is flattened to the vector form in which entries
 correspond to both the input dimension and its specific categories. 
 
-To better understand how the encoder works let's consider following hypothetical categories based on the ones computed 
-in the training stage from the used data:
+\begin{table}
+	\centering
+	\caption{Hypothetical split paths data where columns correspond to path segments and each row represents a single path.}
+	\label{id:tab:hypSplitPaths}
+	\begin{tabular}{|l|l|}
+		\hline
+		\textit{\textbf{Column 1}} & \textit{\textbf{Column 2}} \\ \hline
+		msedge                     &                            \\ \hline
+		msedge                     &                            \\ \hline
+		msedge                     & msedge                     \\ \hline
+		cpu-z\_1.96-en             & cpu-z\_1.96-en             \\ \hline
+		msedge                     & msedge                     \\ \hline
+		msedge                     & notepad                    \\ \hline
+		\end{tabular}
+\end{table}
+
+To better understand how the encoder works let's consider hypothetical split paths from table \ref{id:tab:hypSplitPaths}.
+The calculations performed in training stage should output following categories:
 \begin{itemize}
-	\item Column 1 contains unique entries (categories): '', 'cpu-z\_1.96-en', 'msedge', 'notepad'.
-	\item Column 2 contains unique entries (categories): '', 'cpu-z\_1.96-en', 'msedge'.
+	\item Column 1 contains categories (unique entries): 'cpu-z\_1.96-en', 'msedge'.
+	\item Column 2 contains categories (unique entries): '', 'cpu-z\_1.96-en', 'msedge', 'notepad'.
 \end{itemize}
 
-Those should result in the output vector with following entries calculated for each encoded row:
+Those should result in the encoding output vector with following entries calculated for each encoded row:
 
 \begin{itemize}
-	\item Similarity of the first column entry to the ''.
 	\item Similarity of the first column entry to the 'cpu-z\_1.96-en'.
 	\item Similarity of the first column entry to the 'msedge'.
-	\item Similarity of the first column entry to the 'notepad'.
 	\item Similarity of the second column entry to the ''.
 	\item Similarity of the second column entry to the 'cpu-z\_1.96-en'.
 	\item Similarity of the second column entry to the 'msedge'.
+	\item Similarity of the second column entry to the 'notepad'.
 \end{itemize}
 
 This process is described in depth in article \cite{bib:dirtycat}.
@@ -1298,13 +1314,12 @@ in the utilized string comparison algorithms. They are not designed to handle te
 As a result for our hypothetical categories the encoding process in reality returns an output vector with 
 following entries:
 \begin{itemize}
-	\item Always equal to zero.
 	\item Similarity of the first column entry to the 'cpu-z\_1.96-en'.
 	\item Similarity of the first column entry to the 'msedge'.
-	\item Similarity of the first column entry to the 'notepad'.
 	\item Always equal to zero.
 	\item Similarity of the second column entry to the 'cpu-z\_1.96-en'.
 	\item Similarity of the second column entry to the 'msedge'.
+	\item Similarity of the second column entry to the 'notepad'.
 \end{itemize}
 
 Because of lack of variance in the entries corresponding to empty strings our categories extracted 
@@ -1603,7 +1618,7 @@ Those results show that the developed approach may provide value for some
 security related purposes. This is especially promising since the detection of a single process in the attack chain may 
 prevent the entire exploitation process. Performance indicators for specific approaches can be found in the table \ref{id:tab:performanceComparisonTable}.
 
-%https://www.tablesgenerator.com/
+%%https://www.tablesgenerator.com/
 \begin{table}
 	\centering
 	\caption{Ratio performance of selected anomaly detection approaches. Optimal represents the results obtained for the lowest false negative ratio
@@ -1614,16 +1629,16 @@ prevent the entire exploitation process. Performance indicators for specific app
 	\begin{tabular}{l|ll|ll|}
 		\cline{2-5}
 		\multirow{2}{*}{}                               & \multicolumn{2}{l|}{Optimal}         & \multicolumn{2}{l|}{Peak}            \\ \cline{2-5} 
-														& \multicolumn{1}{l|}{F}      & FN     & \multicolumn{1}{l|}{F}      & FN     \\ \cline{2-5} 
-		All features combined                           & \multicolumn{1}{l|}{30.8\%} & 1.8\%  & \multicolumn{1}{l|}{100\%}  & 17.9\% \\ \cline{2-5} 
-		Path lengths                                    & \multicolumn{1}{l|}{38.5\%} & 5\%    & \multicolumn{1}{l|}{76.9\%} & 64.2\% \\ \cline{2-5} 
-		Processor utilisation                           & \multicolumn{1}{l|}{15.4\%} & 11.3\% & \multicolumn{1}{l|}{100\%}  & 78.4\% \\ \cline{2-5} 
-		Encoded DLL's                                   & \multicolumn{1}{l|}{15.4\%} & 1.8\%  & \multicolumn{1}{l|}{100\%}  & 81.2\% \\ \cline{2-5} 
-		Proc lifespan                                   & \multicolumn{1}{l|}{7.7\%}  & 4.1\%  & \multicolumn{1}{l|}{92.3\%} & 75.7\% \\ \cline{2-5} 
-		Exit code                                       & \multicolumn{1}{l|}{30.8\%} & 0\%    & \multicolumn{1}{l|}{30.8\%} & 0\%    \\ \cline{2-5} 
-		Combined without proc utilisation               & \multicolumn{1}{l|}{30.8\%} & 1.8\%  & \multicolumn{1}{l|}{100\%}  & 17.4\% \\ \cline{2-5} 
-		Combined without proc lifespan                  & \multicolumn{1}{l|}{30.8\%} & 1.4\%  & \multicolumn{1}{l|}{100\%}  & 22.5\% \\ \cline{2-5} 
-		Combined  without proc lifespan and utilisation & \multicolumn{1}{l|}{38.5\%} & 1.8\%  & \multicolumn{1}{l|}{100\%}  & 15.6\% \\ \cline{2-5} 
+														& \multicolumn{1}{l|}{Negative}      & False Negatice     & \multicolumn{1}{l|}{Negative}      & False Negative     \\ \cline{1-5} 
+		\multicolumn{1}{|l|}{\makecell{All features combined}}                & \multicolumn{1}{l|}{30.8\%} & 1.8\%  & \multicolumn{1}{l|}{100\%}  & 17.9\% \\ \cline{1-5} 
+		\multicolumn{1}{|l|}{\makecell{Path lengths}}                         & \multicolumn{1}{l|}{38.5\%} & 5\%    & \multicolumn{1}{l|}{76.9\%} & 64.2\% \\ \cline{1-5} 
+		\multicolumn{1}{|l|}{\makecell{Processor utilisation}}                & \multicolumn{1}{l|}{15.4\%} & 11.3\% & \multicolumn{1}{l|}{100\%}  & 78.4\% \\ \cline{1-5} 
+		\multicolumn{1}{|l|}{\makecell{Encoded DLL's}}                        & \multicolumn{1}{l|}{15.4\%} & 1.8\%  & \multicolumn{1}{l|}{100\%}  & 81.2\% \\ \cline{1-5} 
+		\multicolumn{1}{|l|}{\makecell{Proc lifespan}}                        & \multicolumn{1}{l|}{7.7\%}  & 4.1\%  & \multicolumn{1}{l|}{92.3\%} & 75.7\% \\ \cline{1-5} 
+		\multicolumn{1}{|l|}{\makecell{Exit code}}                            & \multicolumn{1}{l|}{30.8\%} & 0\%    & \multicolumn{1}{l|}{30.8\%} & 0\%    \\ \cline{1-5} 
+		\multicolumn{1}{|l|}{\makecell{Combined without \\ proc utilisation}} & \multicolumn{1}{l|}{30.8\%} & 1.8\%  & \multicolumn{1}{l|}{100\%}  & 17.4\% \\ \cline{1-5} 
+		\multicolumn{1}{|l|}{\makecell{Combined without \\ proc lifespan}}   & \multicolumn{1}{l|}{30.8\%} & 1.4\%  & \multicolumn{1}{l|}{100\%}  & 22.5\% \\ \cline{1-5} 
+		\multicolumn{1}{|l|}{\makecell{Combined  without \\ proc lifespan and\\ utilisation}} & \multicolumn{1}{l|}{38.5\%} & 1.8\%  & \multicolumn{1}{l|}{100\%}  & 15.6\% \\ \cline{1-5} 
 		\end{tabular}
 \end{table}
 
